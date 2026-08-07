@@ -19,9 +19,17 @@
   box-sizing: border-box;
 }
 
+/*
+ * The original's only mobile override for this card is
+ * `.framer-1eg7l57 { flex: none; order: 0; width: 100% }` — it keeps the
+ * 348px height at every breakpoint and simply stops the card stretching in
+ * ContactSection's column-reverse row. Without `flex: none` the `flex: 1 1 0`
+ * above wins over the height and the card grows (449px at 375w).
+ */
 @media (max-width: 809px) {
   .card {
-    height: 280px;
+    flex: none;
+    width: 100%;
   }
 }
 
@@ -34,16 +42,37 @@
   color: var(--text-muted);
 }
 
+/*
+ * The strip is sized by a flex chain rather than a `height: 100%` chain.
+ * That is deliberate: this card's height comes from flex layout, and a
+ * percentage-height chain hung off it resolves for painting but stops being
+ * *definite*, so the slide could resolve neither `height: 100%` nor
+ * `align-items: stretch` and collapsed to the photo's intrinsic aspect ratio
+ * (a ~192px band floating in a 384px frame). Sizing each level with
+ * `flex: 1 1 auto; min-height: 0` keeps the height definite the whole way
+ * down, so the slide fills the frame and the photo can cover it.
+ */
 .stripWrap {
   position: relative;
+  display: flex;
   flex: 1 1 0;
   min-height: 0;
   border-radius: 8px;
   overflow: hidden;
 }
 
-.carousel,
-.frame,
+.carousel {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.frame {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
 .slide {
   height: 100%;
 }
