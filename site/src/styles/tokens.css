@@ -1,0 +1,19 @@
+/*
+ * Design tokens — measured from the original (see BUILD_SPEC.md "Design tokens").
+ * Do not add, rename, or "improve" these. If a new token is needed, note it in
+ * your report instead of inventing one here.
+ */
+:root {
+  --bg-0: #18161e;
+  --bg-1: #1c1924;
+  --bg-2: #1e1b27;
+  --bg-3: #201d2a;
+  --bg-4: #231f2d;
+  --surface: #2a2537;
+  --border: #413857;
+  --text-primary: #f4f4f6;
+  --text-secondary: #adaab5;
+  --text-muted: #767282;
+  --accent-blue: #0659c3;
+  --accent-navy: #020843;
+}

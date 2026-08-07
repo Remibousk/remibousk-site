@@ -1,0 +1,810 @@
+/*
+ * Shared layout/typography for the four case-study pages
+ * (/ctc, /onboardingtoctc, /mobileweb, /summ-design-system).
+ *
+ * Every value is measured from reference/mirror/{page}.html (Framer SSR CSS).
+ * Framer preset mapping:
+ *   .eyebrow / .body   -> framer-styles-preset-p87mie  (h5, GT Walsheim Regular 20/18/16, #adaab5)
+ *   .title             -> framer-styles-preset-7xlkj0  (h2, GT Walsheim Bold 42, #e5e5e6)
+ *   .sectionHeading    -> framer-styles-preset-1f1relj (h3, GT Walsheim Bold 28, #ccc)
+ *   .cardTitle         -> framer-styles-preset-1sh44vc (h4, GT Walsheim Medium 24/19/15, #dfdee3)
+ *   .metaLabel         -> framer-styles-preset-irt79h  (h6, GT Walsheim Medium 13, #767282)
+ *   .metaValue         -> framer-styles-preset-yxftsu  (p, Figtree 500 16, #bebec1)
+ * Breakpoints (BUILD_SPEC): phone <=809px, tablet 810-1199px, desktop >=1200px.
+ */
+
+/* ---------------------------------------------------------------- scaffold */
+
+.page {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--bg-0);
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+}
+
+/* Main content column. Original: flex 1 0 0, max-width 1200px, column,
+   centered, gap 200px, padding 4px (framer-hw1vpu / framer-4afd2k /
+   framer-1atdwv0). */
+.main {
+  flex: 1 0 0;
+  min-width: 0;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 200px;
+  padding: 4px;
+}
+
+/* /ctc variant (framer-1ju56dc): gap 16, sections stacked tight. Original
+   root is 1200px total (nav 144 + main 1056) -> cap main at 1056 so the
+   >=1200px appearance matches ctc-desktop.png; below that it is fluid
+   (deliberate fix #2 - no horizontal overflow at any viewport >=320px). */
+.mainCtc {
+  flex: 1 0 0;
+  min-width: 0;
+  max-width: 1056px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 4px;
+}
+
+@media (max-width: 809px) {
+  .row {
+    flex-direction: column;
+  }
+  .main,
+  .mainCtc {
+    flex: none;
+    width: 100%;
+    padding: 4px 8px;
+  }
+}
+
+/* ------------------------------------------------------------------- nav */
+
+/* Sticky wrapper (framer-1u9s21b-container etc.) */
+.navSticky {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  flex: none;
+  width: auto;
+}
+
+/* framer-9ToJg.framer-1ixgpzb: width 144, padding 4 */
+.navOuter {
+  width: 144px;
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* NavContent (framer-tpi2j1) */
+.navCard {
+  background-color: rgb(30, 27, 39);
+  border: 1px solid rgb(38, 33, 48);
+  border-radius: 8px;
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.25);
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  overflow: hidden;
+}
+
+/* Remi Purprledot logo (framer-j8zjea): 106x28, aspect 3.82353 */
+.navLogo {
+  display: block;
+  width: 106px;
+  height: 28px;
+  flex: none;
+}
+
+.navLogo svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Divider (framer-1eitj8x): 124x1 */
+.navDivider {
+  width: 124px;
+  height: 1px;
+  background-color: rgb(33, 29, 42);
+  flex: none;
+}
+
+/* "Go back" link (framer-lHcQo "Text link" Variant 2): 13px GT Walsheim
+   Regular, rgb(118,114,130); the `HMGw5Przn-hover` variant lifts both the
+   label and the chevron to rgb(223,222,227). Variants 2 and 3 of that
+   component override the transition to `{type:'tween', duration:0}`, so the
+   change is instant — no CSS transition here. */
+.backLink {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-gt-walsheim-regular);
+  font-weight: 400;
+  font-size: 13px;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  color: var(--text-muted);
+  white-space: pre;
+}
+
+.backLink:hover,
+.backLink:focus-visible {
+  color: rgb(223, 222, 227);
+}
+
+.backIcon {
+  width: 13px;
+  height: 13px;
+  flex: none;
+  display: block;
+}
+
+/* ------------------------------------------------------------------ hero */
+
+/* Hero card (framer-pl99xe / framer-c854gc ...): bg #1c1924, border
+   #231f2d, radius 8, padding 32, column gap 16. */
+.hero {
+  width: 100%;
+  background-color: var(--bg-1);
+  border: 1px solid var(--bg-4);
+  border-radius: 8px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.heroTitles {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  width: 100%;
+}
+
+/* preset p87mie (h5): 20px desktop / 18px tablet / 16px phone */
+.eyebrow {
+  font-family: var(--font-gt-walsheim-regular);
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.1;
+  color: var(--text-secondary);
+}
+
+/* preset 7xlkj0 (h2): GT Walsheim Bold 42px / 1.2, #e5e5e6 */
+.title {
+  font-family: var(--font-gt-walsheim-bold);
+  font-weight: 400;
+  font-size: 42px;
+  line-height: 1.2;
+  color: #e5e5e6;
+}
+
+/* Tag chip row (framer-15fmybq / framer-yu58sa): fixed 33px tall, single
+   row, overflow hidden — the original clips chips that don't fit. */
+.tags {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  height: 33px;
+  overflow: hidden;
+}
+
+/* /summ-design-system variant (framer-13384pf): wraps instead of clipping */
+.tagsWrap {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Chip (framer-ejhun): bg #201d2a, border rgb(37,33,48), radius 8, pad 8.
+   Its `leWIfn_rt` variant declares `{hover: true}`: the chip lifts on a
+   `0px 1px 5px 0px rgba(0,0,0,0.25)` shadow (from `boxShadow: none`) and the
+   label goes rgb(118,114,130) -> rgb(223,222,227), on the component's own
+   `{type:'spring', bounce:0.2, duration:0.4}` transition. */
+.tagChip {
+  background-color: var(--bg-3);
+  border: 1px solid rgb(37, 33, 48);
+  border-radius: 8px;
+  padding: 8px;
+  flex: none;
+  box-shadow: none;
+  transition: box-shadow 0.4s cubic-bezier(0.22, 1.1, 0.36, 1);
+}
+
+.tagChip:hover {
+  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.25);
+}
+
+.tagChip h4 {
+  font-family: var(--font-gt-walsheim-regular);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.2;
+  color: var(--text-muted);
+  white-space: pre;
+  transition: color 0.4s cubic-bezier(0.22, 1.1, 0.36, 1);
+}
+
+.tagChip:hover h4 {
+  color: rgb(223, 222, 227);
+}
+
+/* Meta grid (framer-skaojp / framer-lbl6hx): row, gap 32 */
+.metaRow {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 32px;
+  width: 100%;
+}
+
+/* Left column: Role / When (framer-1aqm7ak gap 20; ctc framer-1pzbl7j gap 10) */
+.metaLeft {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  flex: none;
+}
+
+.metaLeftTight {
+  gap: 10px;
+}
+
+/* Right column: What / Outcome / Overview (framer-1ydl38f / framer-1p0f90u) */
+.metaRight {
+  flex: 1 0 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.metaGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  max-width: 620px;
+}
+
+/* preset irt79h (h6): GT Walsheim Medium 13px, -0.01em, #767282 */
+.metaLabel {
+  font-family: var(--font-gt-walsheim-medium);
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--text-muted);
+}
+
+/* preset yxftsu (p): Figtree 500 16px / 1.1, #bebec1, paragraph gap 20px */
+.metaValue {
+  font-family: var(--font-figtree);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.1;
+  color: #bebec1;
+}
+
+.metaValue strong {
+  font-weight: 700;
+}
+
+.metaValue:not(:first-child) {
+  margin-top: 20px;
+}
+
+/* Wide value blocks (What/Outcome/Overview text, framer-m9ips9: 418px) */
+.metaTextWide {
+  width: 418px;
+  max-width: 100%;
+}
+
+/* "View live" link on /ctc (framer-lHcQo Variant 3) */
+.viewLive {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-gt-walsheim-regular);
+  font-weight: 400;
+  font-size: 13px;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  color: var(--text-muted);
+  white-space: pre;
+}
+
+/* `VziN9FW1F-hover`: label + arrow icon go to rgb(223,222,227), instantly. */
+.viewLive:hover,
+.viewLive:focus-visible {
+  color: rgb(223, 222, 227);
+}
+
+.viewLiveIcon {
+  width: 14px;
+  height: 14px;
+  flex: none;
+  display: block;
+}
+
+/* ----------------------------------------------------------- typography */
+
+/* preset 1f1relj (h3): GT Walsheim Bold 28px / 1.2, #ccc (all breakpoints) */
+.sectionHeading {
+  font-family: var(--font-gt-walsheim-bold);
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1.2;
+  color: #ccc;
+}
+
+/* preset p87mie body copy (h5): 20/18/16, #adaab5, paragraph spacing 25px */
+.body {
+  font-family: var(--font-gt-walsheim-regular);
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.1;
+  color: var(--text-secondary);
+}
+
+.body strong {
+  font-family: var(--font-gt-walsheim-medium);
+  font-weight: 500;
+}
+
+.body em {
+  font-family: var(--font-gt-walsheim-regular-oblique);
+  font-style: italic;
+}
+
+/* Paragraph spacing (25px) applies only between elements of one rich-text
+   block — mark those wrappers with .bodyStack (e.g. the /mobileweb audit
+   list, /summ-design-system "02" copy). */
+.bodyStack > *:not(:first-child) {
+  margin-top: 25px;
+}
+
+/* Framer rich-text lists (ol/ul.framer-text): marker via list-item counter */
+.bodyList {
+  composes: body;
+  list-style: none;
+  padding: 0;
+  position: relative;
+}
+
+.bodyList li {
+  counter-increment: list-item;
+  padding-inline-start: 2ch;
+  list-style: none;
+  position: relative;
+}
+
+ol.bodyList > li::before {
+  content: counter(list-item) ".";
+  font-variant-numeric: tabular-nums;
+  position: absolute;
+  inset-inline-start: 0;
+}
+
+ul.bodyList > li::before {
+  content: "•";
+  position: absolute;
+  inset-inline-start: 0;
+}
+
+/* Pull-quote (inline style on onboardingtoctc): GT Walsheim Medium Oblique
+   20px italic, #767282 */
+.quote {
+  font-family: var(--font-gt-walsheim-medium-oblique);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 1.1;
+  color: var(--text-muted);
+}
+
+/* preset 1sh44vc card titles (h4/ol): GT Walsheim Medium 24/19/15, #dfdee3 */
+.cardTitle {
+  font-family: var(--font-gt-walsheim-medium);
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 1.2;
+  color: #dfdee3;
+}
+
+.cardTitleList {
+  composes: cardTitle;
+  list-style: none;
+  padding: 0;
+  position: relative;
+}
+
+.cardTitleList li {
+  counter-increment: list-item;
+  padding-inline-start: 2ch;
+  list-style: none;
+  position: relative;
+}
+
+.cardTitleList > li::before {
+  content: counter(list-item) ".";
+  font-variant-numeric: tabular-nums;
+  position: absolute;
+  inset-inline-start: 0;
+}
+
+@media (max-width: 1199px) and (min-width: 810px) {
+  .eyebrow,
+  .body,
+  .bodyList {
+    font-size: 18px;
+  }
+  .cardTitle,
+  .cardTitleList {
+    font-size: 19px;
+  }
+}
+
+@media (max-width: 809px) {
+  .eyebrow,
+  .body,
+  .bodyList {
+    font-size: 16px;
+  }
+  .cardTitle,
+  .cardTitleList {
+    font-size: 15px;
+  }
+}
+
+/* --------------------------------------------------------- content groups */
+
+/* Small rounded text group (framer-dp0fws etc.): radius 12, padding 8,
+   column gap 8. Text blocks inside are 400px wide on desktop. */
+.textGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 8px;
+  border-radius: 12px;
+  max-width: 100%;
+}
+
+.textBlock {
+  width: 400px;
+  max-width: 100%;
+}
+
+@media (max-width: 809px) {
+  .textGroup {
+    width: 100%;
+  }
+  .textBlock {
+    width: 100%;
+  }
+}
+
+/* Wide centered section (framer-rk2gq1 / framer-1xk7iva): full width,
+   centered children */
+.sectionWide {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 50px;
+  padding: 8px;
+  border-radius: 12px;
+}
+
+.sectionCenter {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.sectionCenterTight {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Titled card (framer-rbvlj2 / framer-1wfdb6d ...): bg #231f2d, border
+   #231f2d, radius 10, padding 20, column gap 20. */
+.card {
+  background-color: var(--bg-4);
+  border: 1px solid var(--bg-4);
+  border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.cardText {
+  width: 100%;
+}
+
+/* Card grids (framer-1e09iho: 3 cols / framer-dglga6: 2 cols, gap 10) */
+.grid3 {
+  display: grid;
+  grid-template-rows: repeat(1, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(50px, 1fr));
+  grid-auto-rows: minmax(0, 1fr);
+  gap: 10px;
+  width: 100%;
+}
+
+.grid2 {
+  display: grid;
+  grid-template-rows: repeat(1, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(50px, 1fr));
+  grid-auto-rows: minmax(0, 1fr);
+  gap: 10px;
+  width: 100%;
+}
+
+/*
+ * Same 2-up grid, but for the onboarding "screenshot pair" section
+ * specifically (the two full-bleed question screenshots, not the
+ * stat/media "impact card" pairs that reuse .grid2 elsewhere). Confirmed
+ * against the live original (old.remibousk.com/onboardingtoctc): this one
+ * stays single-column all the way up to ~1422px viewport width — much
+ * further than the .grid2 instances on /mobileweb, which are still 2-up at
+ * 834px tablet and only stack at the normal 809px phone breakpoint. Our
+ * breakpoint scale only goes up to the 1199/1200 tablet/desktop split, so
+ * we collapse this variant there — matches the reference screenshots at
+ * both 834 and 1440 without disturbing the other .grid2 usages.
+ */
+.grid2ScreensPair {
+  display: grid;
+  grid-template-rows: repeat(1, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(50px, 1fr));
+  grid-auto-rows: minmax(0, 1fr);
+  gap: 10px;
+  width: 100%;
+}
+
+@media (max-width: 1199px) {
+  .grid3 {
+    grid-template-columns: repeat(1, minmax(50px, 1fr));
+  }
+
+  .grid2ScreensPair {
+    grid-template-columns: repeat(1, minmax(50px, 1fr));
+  }
+}
+
+@media (max-width: 809px) {
+  .grid2 {
+    grid-template-columns: repeat(1, minmax(50px, 1fr));
+  }
+}
+
+/* ------------------------------------------------------------------- CTA */
+
+/* Closing panel (framer-9x9jme / framer-1a8ygbn / framer-1tqq8sa):
+   bg #1e1b27, border #2a2537, radius 10, padding 60, column gap 24. */
+.cta {
+  width: 100%;
+  background-color: var(--bg-2);
+  border: 1px solid var(--surface);
+  border-radius: 10px;
+  padding: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+  overflow: hidden;
+}
+
+.ctaRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.ctaSpacer {
+  min-width: 136px;
+  min-height: 22px;
+  flex: none;
+}
+
+/* "Get in touch" button (framer-XvJuZ Variant 1): 205x50, radius 16,
+   subtle gradient + inset shadow, h3 text rgb(171,168,179). */
+.ctaButton {
+  width: 205px;
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 18px;
+  border-radius: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  background: linear-gradient(
+    180deg,
+    rgba(122, 122, 122, 0.05) 0%,
+    rgba(38, 38, 38, 0.3) 100%
+  );
+  box-shadow: inset 0px 1px 2px 0px rgb(51, 51, 51);
+  /* CardButton transition: tween 0.1s, ease [1, -0.13, 0.3, 1.35]. */
+  transition:
+    background 0.1s cubic-bezier(1, -0.13, 0.3, 1.35),
+    box-shadow 0.1s cubic-bezier(1, -0.13, 0.3, 1.35);
+}
+
+/* `nGGgBL3Ka-hover`: gradient stop 0% -> 5% with the bottom alpha 0.3 -> 0.6,
+   inset shadow -> `inset 0 0 2px 0 rgb(31,31,31)`, label -> rgb(223,222,227). */
+.ctaButton:hover,
+.ctaButton:focus-visible {
+  background: linear-gradient(
+    180deg,
+    rgba(122, 122, 122, 0.05) 5%,
+    rgba(38, 38, 38, 0.6) 100%
+  );
+  box-shadow: inset 0px 0px 2px 0px rgb(31, 31, 31);
+}
+
+.ctaButton h3 {
+  font-family: var(--font-gt-walsheim-bold);
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1.2;
+  color: rgb(171, 168, 179);
+  white-space: pre;
+  transition: color 0.1s cubic-bezier(1, -0.13, 0.3, 1.35);
+}
+
+.ctaButton:hover h3,
+.ctaButton:focus-visible h3 {
+  color: rgb(223, 222, 227);
+}
+
+/* "Back to top" (framer-xws2j): body-styled h5 + 24px arrow at 15deg */
+.backToTop {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  height: 22px;
+  color: var(--text-secondary);
+}
+
+.backToTop h5 {
+  font-family: var(--font-gt-walsheim-regular);
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.1;
+  color: currentcolor;
+  white-space: pre;
+}
+
+/* `LzsLkfEdn-hover`: the label and the arrow both go rgb(173,170,181) ->
+   rgb(223,222,227) AND the arrow untilts, `rotate: 15` -> `rotate: 0`. The
+   component's transition is `{type:'spring', damping:30, mass:1,
+   stiffness:400}` (zeta 0.75 — slightly underdamped, settles in ~0.35s),
+   approximated below with a mild overshoot curve. */
+.backToTop:hover,
+.backToTop:focus-visible {
+  color: rgb(223, 222, 227);
+}
+
+.backToTop {
+  transition: color 0.35s cubic-bezier(0.22, 1.2, 0.36, 1);
+}
+
+.backToTopIcon {
+  width: 24px;
+  height: 24px;
+  flex: none;
+  display: block;
+  transform: rotate(15deg);
+  transition: transform 0.35s cubic-bezier(0.22, 1.2, 0.36, 1);
+}
+
+.backToTop:hover .backToTopIcon,
+.backToTop:focus-visible .backToTopIcon {
+  transform: rotate(0deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .backToTop,
+  .backToTopIcon,
+  .tagChip,
+  .tagChip h4 {
+    transition: none;
+  }
+}
+
+@media (max-width: 1199px) and (min-width: 810px) {
+  .ctaRow {
+    flex-direction: column;
+  }
+  .ctaHeadingRow h3 {
+    order: 1;
+    width: 100%;
+  }
+  .ctaHeadingRow .ctaSpacer {
+    order: 0;
+  }
+  .ctaLinksRow {
+    flex-wrap: wrap;
+  }
+  .backToTop h5 {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 809px) {
+  /*
+   * Confirmed via live computed styles at 390px (old.remibousk.com/mobileweb):
+   * the heading row drops the spacer entirely (only child left is the h3)
+   * and stacks to a plain full-width column — without this, the base
+   * .ctaRow's row + space-between squeezes the h3 down to ~137px against
+   * the spacer's 136px min-width, wrapping "Interested in getting into the
+   * detaills?" into 4 cramped lines instead of the original's 254px-wide
+   * ~2-line wrap.
+   */
+  .ctaHeadingRow {
+    flex-direction: column;
+  }
+  .ctaHeadingRow h3 {
+    width: 100%;
+  }
+  .ctaHeadingRow .ctaSpacer {
+    display: none;
+  }
+
+  .ctaLinksRow {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 20px;
+  }
+  .backToTop h5 {
+    font-size: 16px;
+  }
+}

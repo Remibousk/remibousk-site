@@ -1,0 +1,231 @@
+/*
+ * Measurements from reference/mirror/home.html:
+ *  - .framer-112zge8 (outer section, gap 40px)
+ *  - .framer-1a9z7v2 (heading block, gap 6px) with h1.framer-styles-preset-1lpn1m7
+ *    (SUMM: 72px / 58px below 1200px, "GT Walsheim Pro Bold", #e5e5e6) and
+ *    .framer-ckueqd + h5.framer-styles-preset-p87mie (subheads: 20/18/16px
+ *    across desktop/tablet/mobile, "GT Walsheim Pro Regular", color token
+ *    54f0ef0c which resolves to #adaab5 == --text-secondary)
+ *  - .framer-egf8h6 (portfolio block, gap 10px) with
+ *    h3.framer-styles-preset-1f1relj ("Case studies": 28px, "GT Walsheim Pro
+ *    Bold", #ccc — same preset reused for card titles) and .framer-1el2c5m
+ *    (card grid: row/gap 20px desktop, column below 1200px)
+ *  - .framer-3wisfe / .framer-wr1jrb / .framer-f3hsqs (card: bg + border both
+ *    #2a2537 == --surface, radius 16px, padding 12px, gap 10px)
+ *  - .framer-13u4zbs / .framer-zf5qgt (media frame: ~1.5-1.65 aspect ratio,
+ *    radius 6-8px)
+ *  - .framer-jgl5ow / .framer-1pn12uy (card text block: gap 4px, padding-left 3px)
+ * Cross-checked against home-desktop/tablet/mobile.png.
+ */
+
+.section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 40px;
+  width: 100%;
+}
+
+/* ---------- SUMM heading block ---------- */
+
+.heading {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.title {
+  font-family: var(--font-gt-walsheim-bold);
+  font-weight: 700;
+  font-size: 72px;
+  line-height: 1.2em;
+  color: #e5e5e6;
+}
+
+.subheadRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.subhead {
+  font-family: var(--font-gt-walsheim-regular);
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.1em;
+  color: var(--text-secondary);
+}
+
+/* ---------- Case studies + card grid ---------- */
+
+.portfolio {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.caseStudiesHeading {
+  font-family: var(--font-gt-walsheim-bold);
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1.2em;
+  color: #ccc;
+}
+
+.grid {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+  width: 100%;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex: 1 0 0;
+  width: 1px; /* flex-basis trick so the three cards stay equal width */
+  padding: 12px;
+  background-color: var(--surface);
+  border: 1px solid var(--surface);
+  border-radius: 16px;
+  text-decoration: none;
+  /* Original's hover variant `ha` is a plain background swap on a
+     `{type:'spring', bounce:0.25, duration:0.45}` transition — no scale, no
+     shadow. The cubic-bezier below is the closest CSS approximation of that
+     spring's settle for a single non-transform property. */
+  transition: background-color 0.45s cubic-bezier(0.22, 1.2, 0.36, 1);
+}
+
+.card:hover,
+.card:focus-visible {
+  background-color: var(--bg-1); /* rgb(28, 25, 36) */
+}
+
+.mediaFrame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1.6 / 1;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: var(--bg-1);
+  flex: none;
+}
+
+.media {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  border-radius: inherit;
+}
+
+.mediaDesktopOnly {
+  display: block;
+}
+
+.mediaTabletMobileOnly {
+  display: none;
+}
+
+.cardText {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  width: 100%;
+  padding-left: 3px;
+}
+
+.cardTitle {
+  font-family: var(--font-gt-walsheim-bold);
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1.2em;
+  color: #ccc;
+}
+
+.cardSubtitle {
+  font-family: var(--font-gt-walsheim-regular);
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.1em;
+  color: var(--text-secondary);
+}
+
+/* ---------- Tablet (810px - 1199px): stack cards, keep subhead row ---------- */
+@media (max-width: 1199px) and (min-width: 810px) {
+  .title {
+    font-size: 58px;
+  }
+
+  .subhead,
+  .cardSubtitle {
+    font-size: 18px;
+  }
+
+  .grid {
+    flex-direction: column;
+  }
+
+  .card {
+    width: 100%;
+  }
+
+  .mediaDesktopOnly {
+    display: none;
+  }
+
+  .mediaTabletMobileOnly {
+    display: block;
+  }
+}
+
+/* ---------- Mobile (<=809px) ---------- */
+@media (max-width: 809px) {
+  .title {
+    font-size: 58px;
+  }
+
+  .subheadRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .subhead,
+  .cardSubtitle {
+    font-size: 16px;
+  }
+
+  .grid {
+    flex-direction: column;
+  }
+
+  .card {
+    width: 100%;
+  }
+
+  .mediaDesktopOnly {
+    display: none;
+  }
+
+  .mediaTabletMobileOnly {
+    display: block;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: none;
+  }
+}

@@ -1,0 +1,215 @@
+/*
+ * Measurements sourced from reference/mirror/home.html (data-framer-name
+ * "NavContent" / "RemiLogo" / "Text link") and cross-checked against
+ * reference/screenshots/hero-desktop.png (top-left) + home-tablet.png +
+ * home-mobile.png. See component report for the full breakdown.
+ *
+ * Colors are the original's *measured* computed values, not the closest
+ * design token — some (card background) happen to equal a token exactly,
+ * others (border, divider, dot) are close-but-not-identical to --border /
+ * --surface, so they're kept as their own literal values here rather than
+ * silently snapped to --border / --surface.
+ *
+ * Positioning matches the original exactly (integration-phase change): the
+ * nav is NOT viewport-fixed. In the mirror (.framer-4cct6m-container) it is
+ * a `position: sticky; top: 0` flex item inside the page's "Content" row
+ * (.framer-1lxwdiy), so it sticks near the top while scrolling and leaves
+ * the viewport with its container before the footer. Here the <nav> element
+ * itself is that sticky flex item (~144px wide incl. 4px top / 2px left
+ * inset, measured from hero-desktop.png: card border at x=50, y=4 with the
+ * container at x=48; on tablet the container sits at x=0, card at x=2).
+ */
+
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  flex: none;
+  width: 144px;
+  padding: 4px 0 0 2px;
+}
+
+/* ---------- Desktop / tablet (>809px) ---------- */
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 140px;
+  padding: 8px;
+  background-color: rgb(30, 27, 39); /* == --bg-2, measured */
+  border: 1px solid rgb(38, 33, 48);
+  border-radius: 8px;
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.25);
+}
+
+.logoLink {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0;
+}
+
+.logo {
+  width: 105px;
+  height: 28px;
+  display: block;
+}
+
+.divider {
+  flex: none;
+  width: 100%;
+  height: 1px;
+  background-color: rgb(33, 29, 42);
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/*
+ * The original's nav buttons have NO hover gesture (neither NavButton nor
+ * NavButton 3 declares `enabledGestures`, and there is no `:hover` CSS rule
+ * for framer-rGfuZ / framer-prE4U), so nothing here reacts to hover beyond
+ * the pointer cursor. `overflow: hidden` + radius 8 come from the original;
+ * gap 8px, padding 4px.
+ */
+.navLink {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: min-content;
+  padding: 4px;
+  cursor: pointer;
+  font-family: var(--font-gt-walsheim-black-oblique);
+  font-style: italic;
+  font-weight: 800;
+  font-size: 16px;
+  line-height: 1.2em;
+  white-space: pre;
+  color: rgb(222, 222, 222);
+  border-radius: 8px;
+  overflow: hidden;
+  /* Experience only: scale 1.1 while #experience is on screen, spring
+     bounce 0.2 / duration 0.4. */
+  transition: transform 0.4s cubic-bezier(0.22, 1.1, 0.36, 1);
+}
+
+.navLink[data-inview] {
+  transform: scale(1.1);
+}
+
+.dot {
+  flex: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 6px;
+  background-color: rgb(42, 39, 53);
+  transition: background-color 0.4s cubic-bezier(0.22, 1.1, 0.36, 1);
+}
+
+/* NavButton Variant 2 dot colour. */
+.navLink[data-inview] .dot {
+  background-color: rgb(59, 91, 255);
+}
+
+.smallLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  width: 100%;
+}
+
+.smallLink {
+  display: block;
+  width: 100%;
+  font-family: var(--font-gt-walsheim-regular);
+  font-size: 13px;
+  letter-spacing: -0.01em;
+  line-height: 20px;
+  color: var(--text-muted);
+}
+
+.smallLink:hover,
+.smallLink:focus-visible {
+  color: var(--text-primary);
+}
+
+.mobileBar {
+  display: none;
+}
+
+/* ---------- Mobile (<=809px): collapse to a top bar ---------- */
+
+@media (max-width: 809px) {
+  /* Original mobile variant: the sticky container is order 0 in the page
+     column with top:2px, the hamburger sits ~6px from the top / ~11px from
+     the left (measured from hero-mobile.png), and stays sticky while the
+     page scrolls. The expanded menu overlays content (absolute) rather than
+     pushing it down. */
+  .nav {
+    width: 100%;
+    top: 2px;
+    padding: 6px 0 0 11px;
+  }
+
+  .card {
+    display: none;
+  }
+
+  .mobileBar {
+    display: block;
+    position: relative;
+    z-index: 100;
+    /* Don't let the full-width sticky strip swallow taps meant for content
+       beneath it — only the toggle/menu themselves are interactive. */
+    width: fit-content;
+  }
+
+  .mobileToggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 8px;
+    background-color: rgb(30, 27, 39);
+    border: 1px solid rgb(38, 33, 48);
+    border-radius: 8px;
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.25);
+    color: var(--text-secondary);
+  }
+
+  .hamburgerIcon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .mobileMenu {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 160px;
+    padding: 8px;
+    background-color: rgb(30, 27, 39);
+    border: 1px solid rgb(38, 33, 48);
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.35);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .navLink,
+  .dot {
+    transition: none;
+  }
+
+  .navLink[data-inview] {
+    transform: none;
+  }
+}

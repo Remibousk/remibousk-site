@@ -1,0 +1,151 @@
+/*
+ * /mobileweb page-specific layout. Measured from
+ * reference/mirror/mobileweb.html (scope .framer-OFZxc).
+ */
+
+/* Intro row (framer-hher7n): phone screenshot card + 01/02 text, gap 60.
+   Column below 1200px (original tablet variant stacks it). */
+.introRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 60px;
+  width: 100%;
+}
+
+/* Phone screenshot card (framer-11n35j5): bg #1e1b27, border #2a2537,
+   radius 16, padding 8; image 486px wide, radius 12 */
+.phoneCard {
+  background-color: var(--bg-2);
+  border: 1px solid var(--surface);
+  border-radius: 16px;
+  padding: 8px;
+  flex: none;
+  max-width: 100%;
+}
+
+.phoneCard img {
+  display: block;
+  width: 486px;
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+
+/* Right text column (framer-tisb8l): gap 116 */
+.introText {
+  flex: 1 0 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 116px;
+}
+
+/* Media strip cards (framer-1xbaqa3 / framer-17am5wq): bg #1e1b27, border
+   #2a2537, radius 16, padding 8, row gap 10; three flex-1 columns of
+   image/video + caption (gap 10). */
+.mediaStrip {
+  width: 100%;
+  background-color: var(--bg-2);
+  border: 1px solid var(--surface);
+  border-radius: 16px;
+  padding: 8px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.mediaCol {
+  flex: 1 0 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.mediaCol img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+
+/* Screen-recording columns (framer-8is9z5-container...): aspect .45922 */
+.mediaVideo {
+  width: 100%;
+  aspect-ratio: 0.45922;
+}
+
+.mediaVideo video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+  border-radius: 12px;
+}
+
+/* Caption (preset irt79h) */
+.caption {
+  font-family: var(--font-gt-walsheim-medium);
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--text-muted);
+  white-space: pre;
+}
+
+/* Impact cards (framer-zz9x0n / framer-16r4te9): bg #231f2d, radius 10,
+   padding 20 (14 on tablet), gap 20 */
+.impactCard {
+  background-color: var(--bg-4);
+  border: 1px solid var(--bg-4);
+  border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  min-width: 0;
+}
+
+.impactCard > * {
+  width: 100%;
+}
+
+@media (max-width: 1199px) {
+  .introRow {
+    flex-direction: column;
+    align-items: center;
+  }
+  .introText {
+    flex: none;
+    width: min-content;
+  }
+  .impactCard {
+    padding: 14px;
+  }
+}
+
+@media (max-width: 809px) {
+  .introText {
+    width: 100%;
+  }
+  .mediaStripVideos {
+    flex-direction: column;
+  }
+  .mediaStripVideos .mediaCol {
+    flex: none;
+    width: 100%;
+  }
+  .impactCard {
+    padding: 20px;
+  }
+}

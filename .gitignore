@@ -1,0 +1,9 @@
+# Local build inputs — already copied into site/public, not needed to deploy.
+# reference/ is an 83M frozen mirror of the original Framer site (computed-style
+# ground truth); assets/ is the 31M raw media library they were sourced from.
+/reference/
+/assets/
+
+node_modules/
+.DS_Store
+.vercel

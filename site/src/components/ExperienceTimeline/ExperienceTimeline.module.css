@@ -1,0 +1,170 @@
+/*
+ * Experience section — see ExperienceTimeline.tsx for measurement notes.
+ * Sits inside the homepage's shared Section column (max-width 1200px,
+ * padding 4/16px — src/app/page.module.css), so like the original's
+ * .framer-1rnx8v4 it only adds `padding: 32px 0` of its own at every
+ * breakpoint (the column's 200/120px gap provides section spacing).
+ */
+
+.section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 32px 0;
+}
+
+.heading {
+  font-family: var(--font-gt-walsheim-bold);
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1.2;
+  color: var(--text-primary);
+  padding: 4px 0;
+  margin: 0 0 16px;
+}
+
+@media (max-width: 809px) {
+  .heading {
+    font-size: 24px;
+  }
+}
+
+.rows {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1064px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.row {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding: 40px 8px;
+  border-top: 1px solid var(--bg-4);
+  /* Original row hover is spring(bounce .2, duration .4) on the padding and
+     on all three text colours. */
+  transition: padding-left 0.4s cubic-bezier(0.22, 1.1, 0.36, 1);
+  list-style: none;
+  cursor: pointer;
+}
+
+.row:first-child {
+  border-top: none;
+}
+
+.row:hover,
+.row:focus-within {
+  padding-left: 16px;
+}
+
+/* rgb(118,114,130) -> rgb(223,222,227) on hover. */
+.row:hover .role,
+.row:hover .title,
+.row:hover .dates,
+.row:focus-within .role,
+.row:focus-within .title,
+.row:focus-within .dates {
+  color: rgb(223, 222, 227);
+}
+
+@media (min-width: 810px) {
+  .row {
+    padding: 56px 8px;
+  }
+
+  .row:hover,
+  .row:focus-within {
+    padding-left: 16px;
+  }
+}
+
+/*
+ * Row hover popover — Framer `<Overlay placement="bottom" alignment="center"
+ * offsetX={0} offsetY={10}>`, i.e. horizontally centred on the row and 10px
+ * below its bottom edge. Widths are set per-entry from the component.
+ */
+.popover {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 11;
+  pointer-events: none;
+  line-height: 0;
+}
+
+.popover img,
+.popover video {
+  display: block;
+  height: auto;
+  max-width: min(90vw, 100%);
+  border-radius: 8px;
+}
+
+.roleGroup {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  flex: 1 1 240px;
+  min-width: 0;
+}
+
+.role {
+  flex: 1 1 200px;
+  max-width: 450px;
+  min-width: 0;
+}
+
+.title {
+  flex: 1 1 200px;
+  min-width: 0;
+}
+
+.role,
+.title,
+.dates {
+  font-family: var(--font-gt-walsheim-medium);
+  font-weight: 500;
+  font-size: 19px;
+  line-height: 1.2;
+  color: var(--text-muted);
+  margin: 0;
+  transition: color 0.4s cubic-bezier(0.22, 1.1, 0.36, 1);
+}
+
+@media (max-width: 809px) {
+  .role,
+  .title,
+  .dates {
+    font-size: 15px;
+  }
+}
+
+.dates {
+  flex: none;
+  white-space: nowrap;
+}
+
+.hiddenNote {
+  height: 0;
+  width: 100%;
+  overflow: hidden;
+  margin: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .row,
+  .role,
+  .title,
+  .dates {
+    transition: none;
+  }
+}

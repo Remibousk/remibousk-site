@@ -1,0 +1,153 @@
+/*
+ * Measurements sourced from reference/mirror/home.html:
+ *  - Heading text presets "kwkq3EFa5" (h1) / data-styles-preset "p87mie" (h5),
+ *    shared with the Hero H1 and the IBM section (identical values there too):
+ *    h1 = GT Walsheim Pro Bold 700, 72px desktop (>=1200 in our breakpoint
+ *    scheme) / 58px tablet+mobile, line-height 1.2em, color #e5e5e6.
+ *    h5 role = GT Walsheim Pro Regular 400, 18px desktop+tablet / 16px
+ *    mobile, line-height 1.1em, color #adaab5 (== --text-secondary).
+ *  - Section wrapper (.framer-j6r605 / .framer-1rwjkkj): flex column,
+ *    gap 40px, align-items flex-start (unscoped by media — constant).
+ *  - Heading row (.framer-1pet6bc): flex row, justify space-between,
+ *    align-items flex-end on desktop/tablet; column + align-items flex-start
+ *    on mobile (<=809.98px).
+ *  - Tile (.framer-h9c3pn, data-framer-name "Summ Tile"): border 1px solid
+ *    #2a2537 (== --surface), border-radius 12px, overflow hidden,
+ *    padding 80px (desktop) / 40px 40px 70px (tablet) / 20px 20px 40px
+ *    (mobile). Background is a full-bleed cover photo
+ *    (pEl1VC6AbN9dXY2KkeyEsp5ihQ.png) sitting behind the carousel.
+ *
+ * Carousel behaviour lives in src/components/Carousel; this file only owns
+ * the arrow geometry, which the original sets per breakpoint:
+ *   desktop/tablet: arrowSize 40, arrowRadius 8, arrowGap 10,
+ *                   arrowPaddingBottom -60
+ *   phone:          arrowSize 30, arrowPaddingBottom -36
+ * fill rgba(0,0,0,0.2) at every breakpoint.
+ */
+
+.section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 40px;
+  width: 100%;
+}
+
+/* ---------- Heading row ---------- */
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 100%;
+  gap: 16px;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-gt-walsheim-bold);
+  font-size: 72px;
+  font-weight: 700;
+  line-height: 1.2em;
+  letter-spacing: 0em;
+  color: #e5e5e6;
+}
+
+.role {
+  margin: 0;
+  font-family: var(--font-gt-walsheim-regular);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.1em;
+  color: var(--text-secondary);
+}
+
+/* ---------- Tile ---------- */
+
+.tile {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 80px;
+  border: 1px solid var(--surface);
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: var(--bg-1);
+}
+
+.tileBg {
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+}
+
+.carousel {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+.slideImg {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1.4222222222222223;
+  object-fit: cover;
+}
+
+/* arrowPosition "bottom-mid" + arrowPaddingBottom -60: the buttons hang
+   below the carousel frame, inside the tile's own bottom padding. */
+.arrows {
+  bottom: -60px;
+  gap: 10px;
+}
+
+.arrow {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+/* ---------- Tablet: 810px - 1199px ---------- */
+
+@media (max-width: 1199px) {
+  .title {
+    font-size: 58px;
+  }
+
+  .tile {
+    padding: 40px 40px 70px;
+  }
+}
+
+/* ---------- Mobile: <=809px ---------- */
+
+@media (max-width: 809px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .role {
+    font-size: 16px;
+  }
+
+  .tile {
+    padding: 20px 20px 40px;
+  }
+
+  /* Phone override in the original: arrowSize 30, arrowPaddingBottom -36. */
+  .arrows {
+    bottom: -36px;
+  }
+
+  .arrow {
+    width: 30px;
+    height: 30px;
+  }
+}

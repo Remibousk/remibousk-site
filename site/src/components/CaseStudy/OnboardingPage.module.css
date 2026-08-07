@@ -1,0 +1,130 @@
+/*
+ * /onboardingtoctc page-specific layout. Measured from
+ * reference/mirror/onboardingtoctc.html (scope .framer-B5rsH).
+ */
+
+/* "02 - Business impact" / "03 - Our hypothesis" inner stacks (framer-pn6uyu
+   / framer-1g9r9bx): column gap 20 */
+.stack20 {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  width: 100%;
+}
+
+/* Approach section (framer-rk2gq1): full width, centered, gap 50 */
+.approachHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  width: 400px;
+  max-width: 100%;
+}
+
+/* UX principle card (framer-1wfdb6d ...): 400px wide card */
+.principleCard {
+  width: 400px;
+}
+
+/* Stepper video (framer-11rzgo4-container): full width, 200px tall,
+   object-fit cover (height auto below 810px per the original) */
+.stepperVideo {
+  width: 100%;
+  height: 200px;
+}
+
+.stepperVideo video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+  border-radius: 6px;
+}
+
+/* Two-up onboarding screens (framer-dglga6 grid; images aspect 1.46823) */
+.shotImage {
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.shotImage img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Education screens image (framer-n2uhpr): full width */
+.wideImage {
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.wideImage img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Gated-platform video (framer-1kxk6ix-container): aspect 1.66364 */
+.ahaVideo {
+  width: 100%;
+  aspect-ratio: 1.66364;
+}
+
+.ahaVideo video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+  border-radius: 10px;
+}
+
+/* Result section (framer-hb4n4e): centered, gap 30 */
+.resultSection {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+.resultText {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  width: 400px;
+  max-width: 100%;
+}
+
+/* A/B test results chart (framer-52qnhz): full width, radius 7 */
+.resultImage {
+  width: 100%;
+  border-radius: 7px;
+  overflow: hidden;
+}
+
+.resultImage img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@media (max-width: 809px) {
+  .approachHeader,
+  .principleCard,
+  .resultText {
+    width: 100%;
+  }
+  .stepperVideo {
+    height: auto;
+    /* intrinsic display ratio of the stepper clip (wide strip) */
+    aspect-ratio: 2554 / 784;
+  }
+}

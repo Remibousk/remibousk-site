@@ -1,0 +1,146 @@
+/*
+ * /mobileweb "Impact" card media (framer-1kvhvzw / framer-133ktx1):
+ * dimmed screenshot (opacity .4, radius 8) with the "View results" pill
+ * (framer-XvJuZ Variant 2: padding 12px 16px, radius 16, gradient + inset
+ * shadow) absolutely centered on top. Clicking the image opens the
+ * original's lightbox overlay (fixed inset 0, rgba(0,0,0,.8); image at 80%
+ * width inside a 2px #413857 border, radius 16).
+ */
+
+.media {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.viewResults {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  /* CardButton Variant 2 (`zkreKWejS`) is a flat --bg-3 fill with a --border
+     inset highlight — not Variant 1's gradient + rgb(51,51,51) shadow. */
+  background: var(--bg-3);
+  box-shadow: inset 0px 1px 2px 0px var(--border);
+}
+
+.viewResults {
+  cursor: pointer;
+  /* CardButton transition: tween 0.1s, ease [1, -0.13, 0.3, 1.35]. */
+  transition:
+    box-shadow 0.1s cubic-bezier(1, -0.13, 0.3, 1.35),
+    color 0.1s cubic-bezier(1, -0.13, 0.3, 1.35);
+}
+
+.viewResults h5 {
+  font-family: var(--font-gt-walsheim-regular);
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.1;
+  color: rgb(171, 168, 179);
+  white-space: pre;
+  transition: color 0.1s cubic-bezier(1, -0.13, 0.3, 1.35);
+}
+
+/* `zkreKWejS-hover`: inset shadow flips to a 1px bottom rule in --border and
+   the label goes to rgb(244,244,246). */
+.viewResults:hover,
+.viewResults:focus-visible {
+  box-shadow: inset 0px -1px 0px 0px var(--border);
+}
+
+.viewResults:hover h5,
+.viewResults:focus-visible h5 {
+  color: var(--text-primary);
+}
+
+.imageButton {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  opacity: 0.4;
+  /* whileHover on the thumbnail: opacity 0.6, spring bounce .2 duration .4. */
+  transition: opacity 0.4s cubic-bezier(0.22, 1.1, 0.36, 1);
+}
+
+/* The original hangs `whileHover` on the image element itself, and the
+   "View results" pill is an absolutely-positioned *sibling* stacked on top of
+   it — so hovering the pill leaves the image at 0.4. Keying off `.media:hover`
+   instead would brighten the image whenever the pill is hovered. */
+.image:hover {
+  opacity: 0.6;
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background-color: rgba(0, 0, 0, 0.8);
+  cursor: pointer;
+}
+
+.lightboxFrame {
+  position: fixed;
+  top: 50%;
+  left: 52%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  max-height: 90vh;
+  overflow: auto;
+  border: 2px solid var(--border);
+  border-radius: 16px;
+}
+
+/* Second card (framer-1krh77y): 1px --surface border, fixed 1.19287 aspect
+   ratio and a scrollable interior for the very tall screenshot. */
+.lightboxFrame[data-scroll] {
+  aspect-ratio: 1.1928721174004193;
+  max-height: none;
+  border-width: 1px;
+  border-color: var(--surface);
+}
+
+.lightboxImage {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@media (max-width: 1199px) and (min-width: 810px) {
+  .viewResults h5 {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 809px) {
+  .viewResults h5 {
+    font-size: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .viewResults,
+  .viewResults h5,
+  .image {
+    transition: none;
+  }
+}

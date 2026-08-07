@@ -1,0 +1,49 @@
+/*
+ * Intro statement — values measured from reference/mirror/home.html:
+ *   .framer-1f01agq -> .section
+ *     desktop (original >=1423 variant, mapped to our >=1200): padding
+ *     64px 32px 46px; tablet (810-1422.98 -> our 810-1199): 98px 32px;
+ *     phone (<=809): 65px 32px. Radius 8px, column flex, centered.
+ *   .framer-wrwqce  -> .statement (width 100%, max-width 530px)
+ *     Type: preset-1f1relj (GT Walsheim Pro Bold 28px/1.2 at every
+ *     breakpoint) with inline overrides text-align center + color #fff.
+ */
+
+.section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 64px 32px 46px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.statement {
+  width: 100%;
+  max-width: 530px;
+  font-family: var(--font-gt-walsheim-bold);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #fff;
+  text-align: center;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
+
+/* Tablet (810-1199px). */
+@media (min-width: 810px) and (max-width: 1199px) {
+  .section {
+    padding: 98px 32px;
+  }
+}
+
+/* Phone (<=809px). */
+@media (max-width: 809px) {
+  .section {
+    padding: 65px 32px;
+  }
+}

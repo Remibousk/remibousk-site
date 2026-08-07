@@ -1,0 +1,53 @@
+/*
+ * Homepage layout — measured from reference/mirror/home.html:
+ *
+ * .framer-1lxwdiy ("Content"): flex row, justify-content center,
+ *   align-items flex-start, width 100%; column direction at <=809px.
+ * .framer-4cct6m-container (nav): sticky flex item (see SidebarNav).
+ * .framer-1uexi1g ("Section"): flex 1 0 0 (width 1px trick), max-width
+ *   1200px, column, gap 200px, padding 4px; at <=809px flex none,
+ *   width 100%, gap 120px, padding 16px.
+ *
+ * Resulting content offsets (verified against hero-*.png):
+ *   1440: nav at x=48, main column starts at x=192
+ *    834: nav at x=0,  main column starts at x=144
+ *
+ * The original keeps a trailing zero-height element after Experience, so
+ * the Experience -> footer distance is gap (200/120) + section padding
+ * (4/16); replicated via the column's padding-bottom.
+ */
+
+.content {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.column {
+  flex: 1 0 0;
+  width: 1px;
+  min-width: 0;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 200px;
+  padding: 4px 4px 204px;
+}
+
+@media (max-width: 809px) {
+  .content {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .column {
+    flex: none;
+    width: 100%;
+    gap: 120px;
+    padding: 16px 16px 136px;
+  }
+}

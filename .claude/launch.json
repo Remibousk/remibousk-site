@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "rebuild-preview",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["serve", "site/out", "-l", "3499"],
+      "port": 3499
+    },
+    {
+      "name": "rebuild-dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "site", "run", "dev", "--", "-p", "3500"],
+      "port": 3500
+    }
+  ]
+}

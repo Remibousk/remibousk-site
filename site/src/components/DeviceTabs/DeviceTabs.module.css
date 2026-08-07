@@ -1,0 +1,191 @@
+/*
+ * Measurements from reference/mirror/home.html, data-framer-name
+ * "Desktop/summ/dark" / "Tablet/summ/dark" / "Mobile/summ/dark" (class
+ * framer-MLU73/framer-1ax46kk) and its children (framer-1yo55i4 toolbar row,
+ * framer-3eiugf-container/framer-1urooyw-container/framer-16p4uxt-container
+ * tab slots, framer-hb9po5/framer-PHoQ2 tab pill, framer-ufZ9I/framer-1eds58v
+ * "Off" toggle). Cross-checked against home-desktop/tablet/mobile.png.
+ *
+ * The original renders this as three separate fixed-width component
+ * instances (1200px / 900px / 420px canvases) gated by breakpoint-specific
+ * visibility classes. Rebuilt here as one fluid, responsive card so it never
+ * overflows at in-between viewport widths (matches the "no horizontal
+ * overflow anywhere" requirement in BUILD_SPEC's definition of done).
+ */
+
+/* .framer-1ax46kk: column, gap 40px, padding 40px 60px 60px, overflow
+   hidden, 1px --surface border, desert artwork as full-bleed background.
+   Fixed 1200/900/420px canvases in the original -> fluid here. */
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 60px 60px;
+  border: 1px solid var(--surface);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.cardBg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  border-radius: inherit;
+  z-index: 0;
+}
+
+/* .framer-1cuhrbf ("Portfolio"): the floating app window. */
+.window {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1.522;
+  z-index: 1;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* .framer-1yo55i4: in-flow toolbar row above the window. */
+.toolbar {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 1;
+}
+
+.tabList {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.tabDefault,
+.tabActive {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+  border-radius: 8px;
+  border-style: solid;
+  border-width: 1px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-out, border-color 0.2s ease-out;
+}
+
+.tabDefault {
+  background-color: var(--bg-1);
+  border-color: var(--surface);
+}
+
+/* "…/Default"-hover variants in the original: border --border, bg --surface. */
+.tabDefault:hover,
+.tabDefault:focus-visible {
+  background-color: var(--surface);
+  border-color: var(--border);
+}
+
+.tabActive {
+  background-color: var(--border);
+  border-color: #dfdee3;
+}
+
+.tabIcon {
+  width: 24px;
+  height: 24px;
+  flex: none;
+}
+
+/*
+ * "Utility / Toggle" (framer-ufZ9I): 40x24 track, radius 30, padding 4,
+ * two 16px slots in a row. The knob is one slot; the other is an empty
+ * spacer, and the "Off" variant just swaps their `order`. Reproduced with
+ * flex + justify-content so `layout` animation slides the knob.
+ */
+.toggleTrack {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0;
+  width: 40px;
+  height: 24px;
+  padding: 4px;
+  border: none;
+  border-radius: 30px;
+  background-color: rgb(53, 60, 105); /* "Off" / night */
+  cursor: pointer;
+  overflow: hidden;
+  flex: none;
+  transition: background-color 0.25s ease-out;
+}
+
+.toggleTrack[data-day] {
+  justify-content: flex-end;
+  background-color: rgb(227, 188, 48); /* "On" / day */
+}
+
+.toggleKnob {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  flex: none;
+  border-radius: 999px;
+  background-color: #fff;
+  border: 0.5px solid #ededed;
+  box-shadow:
+    1px 1px 2px 0px rgba(0, 0, 0, 0.15),
+    inset 0px -2px 2px 0px rgba(0, 0, 0, 0.1);
+}
+
+.moonIcon {
+  width: 11px;
+  height: 11px;
+}
+
+.sunIcon {
+  width: 12px;
+  height: 12px;
+}
+
+/* ---------- Tablet (810px - 1199px): 900px canvas, padding 30, gap 30 ---------- */
+@media (max-width: 1199px) and (min-width: 810px) {
+  .card {
+    gap: 30px;
+    padding: 30px;
+  }
+}
+
+/* ---------- Mobile (<=809px): 420px canvas, padding 20 10 10, gap 10 ---------- */
+@media (max-width: 809px) {
+  .card {
+    gap: 10px;
+    padding: 20px 10px 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tabDefault,
+  .tabActive,
+  .toggleTrack {
+    transition: none;
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "frame-ancestors 'self' https://remibousk.com https://*.remibousk.com https://remos-six.vercel.app https://*.vercel.app"
+        }
+      ]
+    }
+  ]
+}

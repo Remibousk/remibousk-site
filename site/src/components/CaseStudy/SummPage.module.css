@@ -1,0 +1,140 @@
+/*
+ * /summ-design-system page-specific layout. Measured from
+ * reference/mirror/summ-design-system.html (scope .framer-0r2LB).
+ */
+
+/* Gallery card (framer-155n6n8 / kbiu33 / ooop9q): bg #201d2a, border
+   #2a2537, radius 20, padding 10, column gap 10 */
+.galleryCard {
+  width: 100%;
+  background-color: var(--bg-3);
+  border: 1px solid var(--surface);
+  border-radius: 20px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  overflow: hidden;
+}
+
+/* Caption rows (framer-cm5jkw / framer-1v0qfsy): padding-left 2px */
+.captionRow {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  padding-left: 2px;
+}
+
+.caption {
+  font-family: var(--font-gt-walsheim-medium);
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--text-muted);
+}
+
+/* Gallery images: radius 10, hairline #2f2b23 border */
+.shot {
+  width: 100%;
+  border: 1px solid #2f2b23;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Borderless full-width image (framer-1wa1vsu / framer-1vi850m) */
+.shotPlain {
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.shotPlain img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* 68% / 31% row (framer-uweddy) */
+.splitRow {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.splitWide {
+  width: 68%;
+}
+
+.splitNarrow {
+  width: 31%;
+}
+
+/* 2x2 grid (framer-14xuhra) */
+.gridQuad {
+  width: 100%;
+  display: grid;
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(50px, 1fr));
+  grid-auto-rows: minmax(0, 1fr);
+  gap: 10px;
+}
+
+.gridQuad .shot {
+  border: none;
+  border-radius: 10px;
+}
+
+/* Storybook card (framer-1jb82xp): bg #1e1b27, border #2a2537, radius 20,
+   padding 20 10 10, centered, gap 24 */
+.storybookCard {
+  width: 100%;
+  background-color: var(--bg-2);
+  border: 1px solid var(--surface);
+  border-radius: 20px;
+  padding: 20px 10px 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  overflow: hidden;
+}
+
+.storybookTitle {
+  width: 525px;
+  max-width: 100%;
+}
+
+/* Storybook video (framer-118vpxy-container): aspect 1.78571 */
+.storybookVideo {
+  width: 100%;
+  aspect-ratio: 1.78571;
+}
+
+.storybookVideo video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+  border-radius: 10px;
+}
+
+@media (max-width: 809px) {
+  .storybookTitle {
+    width: 100%;
+  }
+}

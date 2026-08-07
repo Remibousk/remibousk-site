@@ -1,0 +1,317 @@
+/*
+ * Hero — values measured from reference/mirror/home.html:
+ *   .framer-1uexi1g  -> .section (outer padding 4px; 16px on phone)
+ *   .framer-1m9wofv  -> .card
+ *   .framer-1i5rrox  -> .blurb
+ *   .framer-24j6o1   -> .inner (73% wide; 100% on phone)
+ *   .framer-jhbock   -> .love
+ *   .framer-1p8s74k / .framer-13ts3no -> .loveLabel
+ *   .framer-ackz54   -> .chips
+ *   .framer-1lik8vf / 1blhrgy / ipsulm / 1ow4ika -> chip sizes
+ *   .framer-pmaj64-container -> .bg (absolute, inset 0 0 0 1px, z-index -1)
+ *
+ * Type presets:
+ *   eyebrow  = preset-1f1relj (GT Walsheim Pro Bold 28px/1.2 #ccc) on >=810px,
+ *              preset-1sh44vc (GT Walsheim Pro Medium 15px/1.2, text-primary
+ *              token) on <=809px.
+ *   title    = preset-1lpn1m7 (GT Walsheim Pro Bold 72px/1.2 #e5e5e6; 58px at
+ *              <=1023px) on >=810px, preset-7xlkj0 (42px/1.2) on <=809px.
+ *   loveLabel= preset-p87mie (GT Walsheim Pro Regular 20px/1.1 #adaab5; 18px
+ *              at 810-1199px; 16px at <=809px).
+ */
+
+/* Integration note: the original's .framer-1uexi1g (max-width 1200px,
+   padding 4px/16px) is the page-level Section column shared by ALL homepage
+   sections — it now lives in src/app/page.module.css (.column). The hero's
+   own wrapper is just full-width so the padding isn't applied twice. */
+.section {
+  width: 100%;
+}
+
+.card {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 9px;
+  width: 100%;
+  height: 98vh;
+  padding: 4px 4px 32px;
+  background-color: var(--bg-1);
+  /* Hardcoded in the original (not one of the shared tokens). */
+  border: 1px solid #251f2e;
+  border-radius: 8px;
+  box-shadow: 0 2px 7px 1px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  overflow: clip;
+}
+
+.blurb {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 10px;
+  width: 73%;
+}
+
+.eyebrow {
+  width: 100%;
+  font-family: var(--font-gt-walsheim-bold);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #ccc;
+}
+
+.title {
+  width: 100%;
+  font-family: var(--font-gt-walsheim-bold);
+  font-size: 72px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #e5e5e6;
+}
+
+.love {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  width: 100%;
+}
+
+.loveLabel {
+  white-space: pre;
+  font-family: var(--font-gt-walsheim-regular);
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--text-secondary);
+}
+
+.chips {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+/* Wrapper carries the chip's fixed frame size so the <img> can scale/lift on
+   hover without affecting layout, and so the easter-egg overlay can be
+   positioned against the chip box. */
+.chipWrap {
+  position: relative;
+  display: block;
+  flex: none;
+}
+
+.chip {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/*
+ * Discovery-chip easter egg. Framer positions this overlay with
+ * placement "bottom", alignment "center", offsetX 0.25, offsetY -202.5 —
+ * i.e. horizontally centred on the chip and pulled 202.5px up from the
+ * chip's bottom edge, so it floats above the chip. Rendered 200px wide
+ * (589x436 source -> ~148px tall).
+ */
+.egg {
+  position: absolute;
+  top: calc(100% - 202.5px);
+  left: calc(50% + 0.25px);
+  transform: translateX(-50%);
+  z-index: 11;
+  display: block;
+  width: 200px;
+  pointer-events: none;
+}
+
+.egg img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Widths + aspect ratios exactly as the original's fixed chip frames. */
+.chipProduct {
+  width: 159px;
+  aspect-ratio: 3.33684;
+}
+
+.chipDesign {
+  width: 145px;
+  aspect-ratio: 3.05263;
+}
+
+.chipDiscovery {
+  width: 176px;
+  aspect-ratio: 3.69474;
+}
+
+.chipStrategy {
+  width: 167px;
+  aspect-ratio: 3.58065;
+}
+
+/*
+ * Background — CSS stand-in for the original's animated WebGL gradient
+ * canvas. Colors sampled from reference/screenshots/hero-desktop.png:
+ * flat #1c1924 above ~40% height, purple plateau #2d2640 at the bottom,
+ * soft wavy boundary in between (higher on the left).
+ */
+.bg {
+  position: absolute;
+  inset: 0 0 0 1px;
+  z-index: -1;
+  border-radius: inherit;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.bgBase {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    #1c1924 0%,
+    #1c1924 44%,
+    #221e2d 58%,
+    #292339 72%,
+    #2d2640 86%,
+    #2d2640 100%
+  );
+}
+
+.bgBlobLeft,
+.bgBlobRight {
+  position: absolute;
+  filter: blur(48px);
+  will-change: transform;
+}
+
+.bgBlobLeft {
+  top: 40%;
+  left: -12%;
+  width: 68%;
+  height: 52%;
+  background: radial-gradient(
+    50% 50% at 50% 50%,
+    rgba(72, 61, 104, 0.4) 0%,
+    rgba(72, 61, 104, 0) 70%
+  );
+  animation: drift-a 18s ease-in-out infinite alternate;
+}
+
+.bgBlobRight {
+  top: 38%;
+  right: -10%;
+  width: 62%;
+  height: 55%;
+  background: radial-gradient(
+    50% 50% at 50% 50%,
+    rgba(56, 47, 82, 0.35) 0%,
+    rgba(56, 47, 82, 0) 70%
+  );
+  animation: drift-b 22s ease-in-out infinite alternate;
+}
+
+@keyframes drift-a {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  to {
+    transform: translate3d(6%, -5%, 0) scale(1.08);
+  }
+}
+
+@keyframes drift-b {
+  from {
+    transform: translate3d(0, 2%, 0) scale(1.05);
+  }
+
+  to {
+    transform: translate3d(-5%, -3%, 0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bgBlobLeft,
+  .bgBlobRight {
+    animation: none;
+  }
+}
+
+/* Tablet + small desktop: the original's h1 preset drops to 58px <=1023px. */
+@media (max-width: 1023px) {
+  .title {
+    font-size: 58px;
+  }
+}
+
+/* Tablet (810-1199px). */
+@media (min-width: 810px) and (max-width: 1199px) {
+  .loveLabel {
+    font-size: 18px;
+  }
+}
+
+/* Phone (<=809px). */
+@media (max-width: 809px) {
+  .blurb {
+    padding: 10px;
+  }
+
+  .inner {
+    width: 100%;
+  }
+
+  .eyebrow {
+    font-family: var(--font-gt-walsheim-medium);
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+
+  .title {
+    font-size: 42px;
+  }
+
+  .loveLabel {
+    font-size: 16px;
+  }
+
+  .chipProduct {
+    width: 134px;
+  }
+
+  .chipDesign {
+    width: 122px;
+  }
+
+  .chipDiscovery {
+    width: 148px;
+  }
+
+  .chipStrategy {
+    width: 140px;
+  }
+}

@@ -1,0 +1,96 @@
+/*
+ * Shared paging carousel — see Carousel.tsx for the source of every value.
+ * The frame clips to one slide (`itemAmount: 1` on both original instances);
+ * the track is a flex row that motion translates on the x axis.
+ */
+
+.carousel {
+  position: relative;
+  width: 100%;
+}
+
+.frame {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.track {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  touch-action: pan-y;
+  user-select: none;
+}
+
+.slide {
+  position: relative;
+  flex: 0 0 100%;
+  overflow: hidden;
+  list-style: none;
+}
+
+.slide img,
+.slide video {
+  display: block;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.arrows {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.arrow img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.dots {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.dot {
+  flex: none;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: opacity 0.2s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dot {
+    transition: none;
+  }
+}
