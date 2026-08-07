@@ -15,10 +15,17 @@
   overflow: hidden;
 }
 
+/* `height: 100%` mirrors the original's own track element, whose inline style
+   is `width:100%; height:100%; place-items:center`. It is load-bearing, not
+   decorative: without a definite height here the slides below cannot resolve
+   their own percentage heights and collapse to their content size. Where the
+   frame has no height (the SiteMinder tile, which is sized by its image's
+   aspect-ratio) this resolves to `auto` and changes nothing. */
 .track {
   display: flex;
   flex-direction: row;
   align-items: center;
+  height: 100%;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -26,18 +33,25 @@
   user-select: none;
 }
 
+/* The original's slide box is `flex-shrink:0; width:100%; height:100%`. */
 .slide {
   position: relative;
   flex: 0 0 100%;
+  height: 100%;
   overflow: hidden;
   list-style: none;
 }
 
+/* Height is deliberately NOT set here. This selector is `(0,1,1)` and would
+   outrank a consumer's own single-class rule on the media element, which is
+   what previously forced the Camera roll photos back to their intrinsic
+   aspect ratio. Each consumer declares its own height:
+   CameraRoll `.image` fills and covers; SiteMinderTile `.slideImg` uses
+   `height:auto` with an explicit aspect-ratio. */
 .slide img,
 .slide video {
   display: block;
   width: 100%;
-  height: auto;
   pointer-events: none;
   border-radius: inherit;
 }
