@@ -41,7 +41,7 @@
   padding: 4px 4px 32px;
   background-color: var(--bg-1);
   /* Hardcoded in the original (not one of the shared tokens). */
-  border: 1px solid #251f2e;
+  border: 1px solid var(--hero-border);
   border-radius: 8px;
   box-shadow: 0 2px 7px 1px rgba(0, 0, 0, 0.25);
   overflow: hidden;
@@ -74,7 +74,7 @@
   font-size: 28px;
   font-weight: 700;
   line-height: 1.2;
-  color: #ccc;
+  color: var(--text-eyebrow);
 }
 
 .title {
@@ -83,7 +83,7 @@
   font-size: 72px;
   font-weight: 700;
   line-height: 1.2;
-  color: #e5e5e6;
+  color: var(--text-heading);
 }
 
 .love {
@@ -191,12 +191,12 @@
   inset: 0;
   background: linear-gradient(
     180deg,
-    #1c1924 0%,
-    #1c1924 44%,
-    #221e2d 58%,
-    #292339 72%,
-    #2d2640 86%,
-    #2d2640 100%
+    var(--hero-grad-0) 0%,
+    var(--hero-grad-0) 44%,
+    var(--hero-grad-1) 58%,
+    var(--hero-grad-2) 72%,
+    var(--hero-grad-3) 86%,
+    var(--hero-grad-3) 100%
   );
 }
 
@@ -214,8 +214,8 @@
   height: 52%;
   background: radial-gradient(
     50% 50% at 50% 50%,
-    rgba(72, 61, 104, 0.4) 0%,
-    rgba(72, 61, 104, 0) 70%
+    var(--hero-blob-a) 0%,
+    transparent 70%
   );
   animation: drift-a 18s ease-in-out infinite alternate;
 }
@@ -227,8 +227,8 @@
   height: 55%;
   background: radial-gradient(
     50% 50% at 50% 50%,
-    rgba(56, 47, 82, 0.35) 0%,
-    rgba(56, 47, 82, 0) 70%
+    var(--hero-blob-b) 0%,
+    transparent 70%
   );
   animation: drift-b 22s ease-in-out infinite alternate;
 }

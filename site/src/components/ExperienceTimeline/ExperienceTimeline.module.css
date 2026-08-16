@@ -71,7 +71,7 @@
 .row:focus-within .role,
 .row:focus-within .title,
 .row:focus-within .dates {
-  color: rgb(223, 222, 227);
+  color: var(--text-hover);
 }
 
 @media (min-width: 810px) {

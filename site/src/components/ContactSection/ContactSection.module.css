@@ -48,6 +48,7 @@
 .logo {
   width: 136px;
   height: auto;
+  color: var(--logo);
 }
 
 .blurb {
@@ -82,14 +83,14 @@
   gap: 10px;
   padding: 18px;
   border-radius: 16px;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  background: linear-gradient(180deg, rgba(122, 122, 122, 0.05) 0%, rgba(38, 38, 38, 0.3) 100%);
-  box-shadow: inset 0 1px 2px 0 rgb(51, 51, 51);
+  border: 1px solid var(--btn-glass-border);
+  background: var(--btn-glass-bg);
+  box-shadow: var(--btn-glass-shadow);
   font-family: var(--font-gt-walsheim-bold);
   font-weight: 700;
   font-size: 28px;
   line-height: 1.2;
-  color: rgb(171, 168, 179);
+  color: var(--text-glass);
   transition:
     background 0.1s cubic-bezier(1, -0.13, 0.3, 1.35),
     box-shadow 0.1s cubic-bezier(1, -0.13, 0.3, 1.35),
@@ -98,9 +99,9 @@
 
 .getInTouch:hover,
 .getInTouch:focus-visible {
-  background: linear-gradient(180deg, rgba(122, 122, 122, 0.05) 5%, rgba(38, 38, 38, 0.6) 100%);
-  box-shadow: inset 0 0 2px 0 rgb(31, 31, 31);
-  color: rgb(223, 222, 227);
+  background: var(--btn-glass-bg-hover);
+  box-shadow: var(--btn-glass-shadow-hover);
+  color: var(--text-hover);
 }
 
 .linksRow {

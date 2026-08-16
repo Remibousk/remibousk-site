@@ -103,7 +103,7 @@
 
 .tabActive {
   background-color: var(--border);
-  border-color: #dfdee3;
+  border-color: var(--text-card-title);
 }
 
 .tabIcon {

@@ -40,7 +40,7 @@
   font-weight: 700;
   font-size: 72px;
   line-height: 1.2em;
-  color: #e5e5e6;
+  color: var(--text-heading);
 }
 
 .subheadRow {
@@ -73,7 +73,7 @@
   font-weight: 700;
   font-size: 28px;
   line-height: 1.2em;
-  color: #ccc;
+  color: var(--text-eyebrow);
 }
 
 .grid {
@@ -151,7 +151,7 @@
   font-weight: 700;
   font-size: 28px;
   line-height: 1.2em;
-  color: #ccc;
+  color: var(--text-eyebrow);
 }
 
 .cardSubtitle {

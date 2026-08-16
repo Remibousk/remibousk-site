@@ -46,7 +46,7 @@
   font-weight: 400;
   font-size: 20px;
   line-height: 1.1;
-  color: rgb(171, 168, 179);
+  color: var(--text-glass);
   white-space: pre;
   transition: color 0.1s cubic-bezier(1, -0.13, 0.3, 1.35);
 }
