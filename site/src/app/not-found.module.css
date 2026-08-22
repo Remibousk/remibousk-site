@@ -15,7 +15,7 @@
   font-weight: 700;
   font-size: 72px;
   line-height: 1.2;
-  color: #e5e5e6;
+  color: var(--text-heading);
 }
 
 .blurb {

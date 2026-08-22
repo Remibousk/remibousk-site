@@ -28,7 +28,7 @@
   font-size: 28px;
   font-weight: 700;
   line-height: 1.2;
-  color: #fff;
+  color: var(--text-heading);
   text-align: center;
   white-space: pre-wrap;
   overflow-wrap: break-word;
