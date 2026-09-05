@@ -82,47 +82,58 @@ function useAnchorHref(isHome: boolean) {
   return (id: string) => (isHome ? `#${id}` : `/#${id}`);
 }
 
+const SECTION_IDS = ['work', 'experience', 'side-projects'] as const;
+type SectionId = (typeof SECTION_IDS)[number];
+
 /**
- * The two anchor buttons. Faithful to the original's two distinct components:
- *
- * - "Work" (`NavButton 3`, framer-rGfuZ) is instantiated with no scroll-section
- *   ref and no hover gesture, so its 12px dot stays rgb(42,39,53) at all times
- *   and the button never changes on hover. (Its Variant 2 — a rgb(100,59,204)
- *   dot — exists in the component but is never reachable on the published
- *   site.)
- * - "Experience" (`NavButton`, framer-prE4U) IS wired to a scroll section:
- *   `__framer__targets: [{ref: <#experience>, target: 'SPzzMnmKN'}]` with
- *   `__framer__threshold: 0` and `__framer__animateOnce: false`. While any
- *   part of #experience is in the viewport the button switches to Variant 2
- *   (dot rgb(59,91,255)) and its transform effect scales it to 1.1, animated
- *   with `{type:'spring', bounce:0.2, duration:0.4}`.
+ * Homepage section anchors. Each link maps to an id; the active item is
+ * the last section whose top has crossed the spy line (70% from the top
+ * of the viewport). #work is only the intro statement, so Work stays
+ * active through the following case-study block until Experience takes
+ * over — we do not require the section's bottom to still be on screen.
  */
 function NavLinks({
   isHome,
-  experienceInView,
+  activeId,
   onNavigate,
 }: {
   isHome: boolean;
-  experienceInView: boolean;
+  activeId: SectionId | null;
   onNavigate?: () => void;
 }) {
   const anchorHref = useAnchorHref(isHome);
 
   return (
     <>
-      <a href={anchorHref('work')} className={styles.navLink} onClick={onNavigate}>
+      <a
+        href={anchorHref('work')}
+        className={styles.navLink}
+        data-inview={activeId === 'work' || undefined}
+        aria-current={activeId === 'work' ? 'true' : undefined}
+        onClick={onNavigate}
+      >
         <span className={styles.dot} aria-hidden="true" />
-        Work
+        <span className={styles.navLabel}>Work</span>
       </a>
       <a
         href={anchorHref('experience')}
         className={styles.navLink}
-        data-inview={experienceInView || undefined}
-        aria-current={experienceInView ? 'true' : undefined}
+        data-inview={activeId === 'experience' || undefined}
+        aria-current={activeId === 'experience' ? 'true' : undefined}
         onClick={onNavigate}
       >
         <span className={styles.dot} aria-hidden="true" />
-        Experience
+        <span className={styles.navLabel}>Experience</span>
+      </a>
+      <a
+        href={anchorHref('side-projects')}
+        className={styles.navLink}
+        data-inview={activeId === 'side-projects' || undefined}
+        aria-current={activeId === 'side-projects' ? 'true' : undefined}
+        onClick={onNavigate}
+      >
+        <span className={styles.dot} aria-hidden="true" />
+        <span className={styles.navLabel}>Side Projects</span>
       </a>
     </>
   );
@@ -165,9 +176,8 @@ function SmallLinks({ onNavigate }: { onNavigate?: () => void }) {
 
 /**
  * Primary site navigation. Desktop/tablet (>809px): a floating card in the
- * top-left corner with the "remi." wordmark, Work/Experience anchor links
- * (see NavLinks for the Experience-only in-view indicator), a divider, then
- * smaller Linkedin/Email/Resume links.
+ * top-left corner with the "remi." wordmark, Work / Experience / Side
+ * Projects anchors, a divider, then smaller Linkedin/Email/Resume links.
  *
  * Mobile (<=809px): collapses to a small top-left icon button that expands a
  * dropdown panel with the same content (see BUILD_SPEC.md breakpoints) —
@@ -176,25 +186,41 @@ function SmallLinks({ onNavigate }: { onNavigate?: () => void }) {
 export default function SidebarNav() {
   const pathname = usePathname();
   const isHome = pathname === '/';
-  const [experienceInView, setExperienceInView] = useState(false);
+  const [activeId, setActiveId] = useState<SectionId | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     if (!isHome) {
-      setExperienceInView(false);
+      setActiveId(null);
       return;
     }
 
-    const section = document.getElementById('experience');
-    if (!section) return;
+    let frame = 0;
 
-    // threshold 0 == "any part visible", matching __framer__threshold: 0.
-    const observer = new IntersectionObserver(
-      ([entry]) => setExperienceInView(entry.isIntersecting),
-      { threshold: 0 },
-    );
-    observer.observe(section);
-    return () => observer.disconnect();
+    const update = () => {
+      const line = window.innerHeight * 0.7;
+      let next: SectionId | null = null;
+      for (const id of SECTION_IDS) {
+        const section = document.getElementById(id);
+        if (!section) continue;
+        if (section.getBoundingClientRect().top <= line) next = id;
+      }
+      setActiveId((prev) => (prev === next ? prev : next));
+    };
+
+    const onScroll = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(update);
+    };
+
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    };
   }, [isHome]);
 
   const closeMobile = () => setMobileOpen(false);
@@ -208,7 +234,7 @@ export default function SidebarNav() {
         </a>
         <div className={styles.divider} />
         <div className={styles.links}>
-          <NavLinks isHome={isHome} experienceInView={experienceInView} />
+          <NavLinks isHome={isHome} activeId={activeId} />
         </div>
         <div className={styles.divider} />
         <SmallLinks />
@@ -241,7 +267,7 @@ export default function SidebarNav() {
             <div className={styles.links}>
               <NavLinks
                 isHome={isHome}
-                experienceInView={experienceInView}
+                activeId={activeId}
                 onNavigate={closeMobile}
               />
             </div>

@@ -1,0 +1,132 @@
+/*
+ * Side Projects — same row language as Experience (heading + hairline list).
+ * Sits in the homepage column, so it only adds its own 32px vertical padding.
+ */
+
+.section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 32px 0;
+}
+
+.heading {
+  font-family: var(--font-gt-walsheim-bold);
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1.2;
+  color: var(--text-primary);
+  padding: 4px 0;
+  margin: 0 0 16px;
+}
+
+@media (max-width: 809px) {
+  .heading {
+    font-size: 24px;
+  }
+}
+
+.rows {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1064px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.row {
+  list-style: none;
+  border-top: 1px solid var(--bg-4);
+}
+
+.row:first-child {
+  border-top: none;
+}
+
+.link {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 32px 8px;
+  text-decoration: none;
+  color: inherit;
+  transition: padding-left 0.4s cubic-bezier(0.22, 1.1, 0.36, 1);
+}
+
+.link:hover,
+.link:focus-visible {
+  padding-left: 16px;
+}
+
+.link:hover .name,
+.link:hover .description,
+.link:hover .meta,
+.link:focus-visible .name,
+.link:focus-visible .description,
+.link:focus-visible .meta {
+  color: var(--text-hover);
+}
+
+@media (min-width: 810px) {
+  .link:hover,
+  .link:focus-visible {
+    padding-left: 16px;
+  }
+}
+
+.copy {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+}
+
+.name,
+.meta {
+  font-family: var(--font-gt-walsheim-medium);
+  font-weight: 500;
+  font-size: 19px;
+  line-height: 1.2;
+  color: var(--text-muted);
+  margin: 0;
+  transition: color 0.4s cubic-bezier(0.22, 1.1, 0.36, 1);
+}
+
+.description {
+  max-width: 420px;
+  margin: 0;
+  font-family: var(--type-caption-family);
+  font-weight: var(--type-caption-weight);
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-leading);
+  letter-spacing: var(--type-caption-tracking);
+  color: var(--text-muted);
+  transition: color 0.4s cubic-bezier(0.22, 1.1, 0.36, 1);
+}
+
+@media (max-width: 809px) {
+  .name,
+  .meta {
+    font-size: 15px;
+  }
+}
+
+.meta {
+  flex: none;
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .link,
+  .name,
+  .description,
+  .meta {
+    transition: none;
+  }
+}
