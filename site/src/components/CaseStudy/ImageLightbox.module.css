@@ -1,0 +1,68 @@
+.zoomable {
+  cursor: zoom-in;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+}
+
+.scrim {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  cursor: pointer;
+}
+
+.image {
+  position: fixed;
+  z-index: 1;
+  display: block;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  object-fit: fill;
+  pointer-events: auto;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.close {
+  position: fixed;
+  top: max(16px, env(safe-area-inset-top));
+  right: max(16px, env(safe-area-inset-right));
+  z-index: 2;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  border: 1px solid var(--btn-glass-border);
+  background: var(--btn-glass-bg);
+  box-shadow: var(--btn-glass-shadow);
+  color: var(--text-glass);
+  cursor: pointer;
+  transition:
+    background 0.1s cubic-bezier(1, -0.13, 0.3, 1.35),
+    box-shadow 0.1s cubic-bezier(1, -0.13, 0.3, 1.35),
+    color 0.1s cubic-bezier(1, -0.13, 0.3, 1.35);
+}
+
+.close:hover,
+.close:focus-visible {
+  background: var(--btn-glass-bg-hover);
+  box-shadow: var(--btn-glass-shadow-hover);
+  color: var(--text-hover);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .close {
+    transition: none;
+  }
+}

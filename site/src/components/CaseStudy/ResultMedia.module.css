@@ -42,10 +42,11 @@
 }
 
 .viewResults h5 {
-  font-family: var(--font-gt-walsheim-regular);
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 1.1;
+  font-family: var(--type-body-family);
+  font-weight: var(--type-body-weight);
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-leading);
+  letter-spacing: var(--type-body-tracking);
   color: var(--text-glass);
   white-space: pre;
   transition: color 0.1s cubic-bezier(1, -0.13, 0.3, 1.35);
@@ -125,17 +126,7 @@
   height: auto;
 }
 
-@media (max-width: 1199px) and (min-width: 810px) {
-  .viewResults h5 {
-    font-size: 18px;
-  }
-}
 
-@media (max-width: 809px) {
-  .viewResults h5 {
-    font-size: 16px;
-  }
-}
 
 @media (prefers-reduced-motion: reduce) {
   .viewResults,

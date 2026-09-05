@@ -36,7 +36,9 @@ export function MetaGroup({
  * which wraps), then the Role/When | What/Outcome meta grid.
  *
  * `left` / `right` are the two meta columns; `tightLeft` reproduces the
- * 10px column gap used on /ctc (others use 20px).
+ * 10px column gap used on /ctc (others use 20px). `stackMetaOnPhone`
+ * stacks those columns below 810px so longer What/Outcome copy can wrap
+ * instead of clipping — used by /siteminder-pay.
  */
 export default function CaseHero({
   client,
@@ -44,6 +46,7 @@ export default function CaseHero({
   tags,
   tagsWrap = false,
   tightLeft = false,
+  stackMetaOnPhone = false,
   left,
   right,
 }: {
@@ -52,6 +55,7 @@ export default function CaseHero({
   tags: string[];
   tagsWrap?: boolean;
   tightLeft?: boolean;
+  stackMetaOnPhone?: boolean;
   left: ReactNode;
   right: ReactNode;
 }) {
@@ -68,7 +72,13 @@ export default function CaseHero({
           </div>
         ))}
       </div>
-      <div className={styles.metaRow}>
+      <div
+        className={
+          stackMetaOnPhone
+            ? `${styles.metaRow} ${styles.metaRowStack}`
+            : styles.metaRow
+        }
+      >
         <div
           className={
             tightLeft

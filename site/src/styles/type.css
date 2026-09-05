@@ -1,0 +1,89 @@
+/*
+ * Type roles — one place to tune size, leading, tracking, and paragraph gap.
+ * Figma Text Styles in Rem-Site map 1:1 to these names (Typography collection).
+ *
+ * Desktop on :root. Tablet/phone override size, and Body/Quote leading + gap.
+ * Body/Quote leading is px to match Figma (line-height variables resolve in px).
+ */
+
+:root {
+  --type-display-family: var(--font-gt-walsheim-bold);
+  --type-display-weight: 700;
+  --type-display-size: 72px;
+  --type-display-leading: 1.2;
+  --type-display-tracking: 0;
+
+  --type-title-family: var(--font-gt-walsheim-bold);
+  --type-title-weight: 400;
+  --type-title-size: 42px;
+  --type-title-leading: 1.2;
+  --type-title-tracking: 0;
+
+  --type-section-family: var(--font-gt-walsheim-bold);
+  --type-section-weight: 700;
+  --type-section-size: 28px;
+  --type-section-leading: 1.2;
+  --type-section-tracking: 0;
+
+  --type-card-family: var(--font-gt-walsheim-medium);
+  --type-card-weight: 500;
+  --type-card-size: 24px;
+  --type-card-leading: 1.2;
+  --type-card-tracking: 0;
+
+  --type-body-family: var(--font-gt-walsheim-regular);
+  --type-body-weight: 400;
+  --type-body-size: 18px;
+  --type-body-leading: 26px;
+  --type-body-tracking: 0;
+  --type-body-gap: 20px;
+
+  --type-quote-family: var(--font-gt-walsheim-medium-oblique);
+  --type-quote-weight: 500;
+  --type-quote-size: 18px;
+  --type-quote-leading: 22px;
+  --type-quote-tracking: 0;
+
+  --type-meta-label-family: var(--font-gt-walsheim-medium);
+  --type-meta-label-weight: 500;
+  --type-meta-label-size: 13px;
+  --type-meta-label-leading: 1.1;
+  --type-meta-label-tracking: -0.01em;
+
+  --type-meta-family: var(--font-figtree);
+  --type-meta-weight: 500;
+  --type-meta-size: 16px;
+  --type-meta-leading: 1.1;
+  --type-meta-tracking: 0;
+  --type-meta-gap: 20px;
+
+  --type-caption-family: var(--font-gt-walsheim-medium);
+  --type-caption-weight: 500;
+  --type-caption-size: 13px;
+  --type-caption-leading: 1.3;
+  --type-caption-tracking: -0.01em;
+}
+
+@media (max-width: 1199px) and (min-width: 810px) {
+  :root {
+    --type-display-size: 58px;
+    --type-body-size: 18px;
+    --type-body-leading: 22px;
+    --type-body-gap: 25px;
+    --type-quote-size: 18px;
+    --type-quote-leading: 19.8px;
+    --type-card-size: 19px;
+  }
+}
+
+@media (max-width: 809px) {
+  :root {
+    --type-display-size: 42px;
+    --type-body-size: 16px;
+    --type-body-leading: 20px;
+    --type-body-gap: 25px;
+    --type-quote-size: 16px;
+    --type-quote-leading: 17.6px;
+    --type-card-size: 15px;
+  }
+}

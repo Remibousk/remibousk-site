@@ -88,7 +88,7 @@ export default function ResultMedia({
   );
 
   return (
-    <div className={styles.media}>
+    <div className={styles.media} data-no-lightbox>
       <button type="button" className={styles.viewResults} onClick={() => setOpen(true)}>
         <h5>View results</h5>
       </button>

@@ -1,6 +1,7 @@
 /*
- * Shared layout/typography for the four case-study pages
- * (/ctc, /onboardingtoctc, /mobileweb, /summ-design-system).
+ * Shared layout/typography for the case-study pages
+ * (/ctc, /onboardingtoctc, /mobileweb, /summ-design-system,
+ * /siteminder-pay).
  *
  * Every value is measured from reference/mirror/{page}.html (Framer SSR CSS).
  * Framer preset mapping:
@@ -61,12 +62,25 @@
   padding: 4px;
 }
 
+/* Tighter chapter gap used by /siteminder-pay. */
+.mainTight {
+  flex: 1 0 0;
+  min-width: 0;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 80px;
+  padding: 4px;
+}
+
 @media (max-width: 809px) {
   .row {
     flex-direction: column;
   }
   .main,
-  .mainCtc {
+  .mainCtc,
+  .mainTight {
     flex: none;
     width: 100%;
     padding: 4px 8px;
@@ -167,6 +181,8 @@
    #231f2d, radius 8, padding 32, column gap 16. */
 .hero {
   width: 100%;
+  min-width: 0;
+  max-width: 100%;
   background-color: var(--bg-1);
   border: 1px solid var(--bg-4);
   border-radius: 8px;
@@ -187,21 +203,23 @@
   width: 100%;
 }
 
-/* preset p87mie (h5): 20px desktop / 18px tablet / 16px phone */
+/* Body role (Figma: Body). */
 .eyebrow {
-  font-family: var(--font-gt-walsheim-regular);
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 1.1;
+  font-family: var(--type-body-family);
+  font-weight: var(--type-body-weight);
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-leading);
+  letter-spacing: var(--type-body-tracking);
   color: var(--text-secondary);
 }
 
-/* preset 7xlkj0 (h2): GT Walsheim Bold 42px / 1.2, #e5e5e6 */
+/* Title role (Figma: Title). */
 .title {
-  font-family: var(--font-gt-walsheim-bold);
-  font-weight: 400;
-  font-size: 42px;
-  line-height: 1.2;
+  font-family: var(--type-title-family);
+  font-weight: var(--type-title-weight);
+  font-size: var(--type-title-size);
+  line-height: var(--type-title-leading);
+  letter-spacing: var(--type-title-tracking);
   color: var(--text-heading);
 }
 
@@ -300,22 +318,23 @@
   max-width: 620px;
 }
 
-/* preset irt79h (h6): GT Walsheim Medium 13px, -0.01em, #767282 */
+/* Meta/Label role (Figma: Meta/Label). */
 .metaLabel {
-  font-family: var(--font-gt-walsheim-medium);
-  font-weight: 500;
-  font-size: 13px;
-  line-height: 1.1;
-  letter-spacing: -0.01em;
+  font-family: var(--type-meta-label-family);
+  font-weight: var(--type-meta-label-weight);
+  font-size: var(--type-meta-label-size);
+  line-height: var(--type-meta-label-leading);
+  letter-spacing: var(--type-meta-label-tracking);
   color: var(--text-muted);
 }
 
-/* preset yxftsu (p): Figtree 500 16px / 1.1, #bebec1, paragraph gap 20px */
+/* Meta/Value role (Figma: Meta/Value). */
 .metaValue {
-  font-family: var(--font-figtree);
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 1.1;
+  font-family: var(--type-meta-family);
+  font-weight: var(--type-meta-weight);
+  font-size: var(--type-meta-size);
+  line-height: var(--type-meta-leading);
+  letter-spacing: var(--type-meta-tracking);
   color: var(--text-meta);
 }
 
@@ -324,7 +343,7 @@
 }
 
 .metaValue:not(:first-child) {
-  margin-top: 20px;
+  margin-top: var(--type-meta-gap);
 }
 
 /* Wide value blocks (What/Outcome/Overview text, framer-m9ips9: 418px) */
@@ -363,21 +382,23 @@
 
 /* ----------------------------------------------------------- typography */
 
-/* preset 1f1relj (h3): GT Walsheim Bold 28px / 1.2, #ccc (all breakpoints) */
+/* Section role (Figma: Section). */
 .sectionHeading {
-  font-family: var(--font-gt-walsheim-bold);
-  font-weight: 700;
-  font-size: 28px;
-  line-height: 1.2;
+  font-family: var(--type-section-family);
+  font-weight: var(--type-section-weight);
+  font-size: var(--type-section-size);
+  line-height: var(--type-section-leading);
+  letter-spacing: var(--type-section-tracking);
   color: var(--text-eyebrow);
 }
 
-/* preset p87mie body copy (h5): 20/18/16, #adaab5, paragraph spacing 25px */
+/* Body role (Figma: Body). */
 .body {
-  font-family: var(--font-gt-walsheim-regular);
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 1.1;
+  font-family: var(--type-body-family);
+  font-weight: var(--type-body-weight);
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-leading);
+  letter-spacing: var(--type-body-tracking);
   color: var(--text-secondary);
 }
 
@@ -391,11 +412,11 @@
   font-style: italic;
 }
 
-/* Paragraph spacing (25px) applies only between elements of one rich-text
+/* Paragraph spacing applies only between elements of one rich-text
    block — mark those wrappers with .bodyStack (e.g. the /mobileweb audit
    list, /summ-design-system "02" copy). */
 .bodyStack > *:not(:first-child) {
-  margin-top: 25px;
+  margin-top: var(--type-body-gap);
 }
 
 /* Framer rich-text lists (ol/ul.framer-text): marker via list-item counter */
@@ -426,23 +447,24 @@ ul.bodyList > li::before {
   inset-inline-start: 0;
 }
 
-/* Pull-quote (inline style on onboardingtoctc): GT Walsheim Medium Oblique
-   20px italic, #767282 */
+/* Quote role (Figma: Quote). */
 .quote {
-  font-family: var(--font-gt-walsheim-medium-oblique);
+  font-family: var(--type-quote-family);
   font-style: italic;
-  font-weight: 500;
-  font-size: 20px;
-  line-height: 1.1;
+  font-weight: var(--type-quote-weight);
+  font-size: var(--type-quote-size);
+  line-height: var(--type-quote-leading);
+  letter-spacing: var(--type-quote-tracking);
   color: var(--text-muted);
 }
 
-/* preset 1sh44vc card titles (h4/ol): GT Walsheim Medium 24/19/15, #dfdee3 */
+/* Card role (Figma: Card). */
 .cardTitle {
-  font-family: var(--font-gt-walsheim-medium);
-  font-weight: 500;
-  font-size: 24px;
-  line-height: 1.2;
+  font-family: var(--type-card-family);
+  font-weight: var(--type-card-weight);
+  font-size: var(--type-card-size);
+  line-height: var(--type-card-leading);
+  letter-spacing: var(--type-card-tracking);
   color: var(--text-card-title);
 }
 
@@ -467,30 +489,6 @@ ul.bodyList > li::before {
   inset-inline-start: 0;
 }
 
-@media (max-width: 1199px) and (min-width: 810px) {
-  .eyebrow,
-  .body,
-  .bodyList {
-    font-size: 18px;
-  }
-  .cardTitle,
-  .cardTitleList {
-    font-size: 19px;
-  }
-}
-
-@media (max-width: 809px) {
-  .eyebrow,
-  .body,
-  .bodyList {
-    font-size: 16px;
-  }
-  .cardTitle,
-  .cardTitleList {
-    font-size: 15px;
-  }
-}
-
 /* --------------------------------------------------------- content groups */
 
 /* Small rounded text group (framer-dp0fws etc.): radius 12, padding 8,
@@ -513,9 +511,37 @@ ul.bodyList > li::before {
 @media (max-width: 809px) {
   .textGroup {
     width: 100%;
+    min-width: 0;
+    align-items: stretch;
   }
   .textBlock {
+    width: auto;
+    max-width: 100%;
+    min-width: 0;
+  }
+  .metaRowStack {
+    flex-direction: column;
+    gap: 20px;
+  }
+  .metaRowStack .metaLeft,
+  .metaRowStack .metaRight {
     width: 100%;
+    min-width: 0;
+  }
+  .metaGroup,
+  .metaTextWide {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+  .metaValue {
+    overflow-wrap: break-word;
+  }
+  .hero {
+    overflow: visible;
+  }
+  .tagsWrap {
+    min-width: 0;
   }
 }
 
@@ -523,6 +549,8 @@ ul.bodyList > li::before {
    centered children */
 .sectionWide {
   width: 100%;
+  min-width: 0;
+  max-width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -682,10 +710,11 @@ ul.bodyList > li::before {
 }
 
 .ctaButton h3 {
-  font-family: var(--font-gt-walsheim-bold);
-  font-weight: 700;
-  font-size: 28px;
-  line-height: 1.2;
+  font-family: var(--type-section-family);
+  font-weight: var(--type-section-weight);
+  font-size: var(--type-section-size);
+  line-height: var(--type-section-leading);
+  letter-spacing: var(--type-section-tracking);
   color: var(--text-glass);
   white-space: pre;
   transition: color 0.1s cubic-bezier(1, -0.13, 0.3, 1.35);
@@ -707,10 +736,11 @@ ul.bodyList > li::before {
 }
 
 .backToTop h5 {
-  font-family: var(--font-gt-walsheim-regular);
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 1.1;
+  font-family: var(--type-body-family);
+  font-weight: var(--type-body-weight);
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-leading);
+  letter-spacing: var(--type-body-tracking);
   color: currentcolor;
   white-space: pre;
 }
@@ -766,9 +796,6 @@ ul.bodyList > li::before {
   .ctaLinksRow {
     flex-wrap: wrap;
   }
-  .backToTop h5 {
-    font-size: 18px;
-  }
 }
 
 @media (max-width: 809px) {
@@ -796,8 +823,5 @@ ul.bodyList > li::before {
     justify-content: flex-start;
     align-items: flex-start;
     gap: 20px;
-  }
-  .backToTop h5 {
-    font-size: 16px;
   }
 }

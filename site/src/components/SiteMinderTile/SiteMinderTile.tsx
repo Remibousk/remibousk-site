@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import Carousel from '@/components/Carousel/Carousel';
 import styles from './SiteMinderTile.module.css';
 
@@ -52,9 +53,9 @@ const SLIDES = [
  * rgba(0,0,0,0.2)) or by dragging, with `showProgressDots: false` and
  * `borderRadius: 10`.
  *
- * Per BUILD_SPEC ("Routes"): /siteminder is dropped, so — unlike the
- * original, where this whole block links to that route — this renders as a
- * plain section with no <a>.
+ * The original linked this whole block to /siteminder (a stub, dropped in
+ * BUILD_SPEC). The carousel stays unlinkable so prev/next still work; a
+ * case-study card below points at the new /siteminder-pay route.
  */
 export default function SiteMinderTile() {
   return (
@@ -94,6 +95,29 @@ export default function SiteMinderTile() {
             />
           ))}
         />
+      </div>
+
+      <div className={styles.portfolio}>
+        <h3 className={styles.caseStudiesHeading}>Case studies</h3>
+        <div className={styles.grid}>
+          <Link href="/siteminder-pay" className={styles.card}>
+            <div className={styles.mediaFrame}>
+              <img
+                className={styles.media}
+                src="/images/siteminder-pay/process-payment.png"
+                width={2878}
+                height={2028}
+                alt="SiteMinder Payments overlay for charging a reservation"
+              />
+            </div>
+            <div className={styles.cardText}>
+              <h3 className={styles.cardTitle}>SiteMinder Pay</h3>
+              <h5 className={styles.cardSubtitle}>
+                Making hotel payments part of the booking workflow.
+              </h5>
+            </div>
+          </Link>
+        </div>
       </div>
     </section>
   );

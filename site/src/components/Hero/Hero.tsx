@@ -23,10 +23,9 @@ import styles from './Hero.module.css';
  * hero-*.png: flat #1c1924 top ~40%, plateau #2d2640 at the bottom, wavy
  * blurred boundary) with a very slow drift animation on the blob layers.
  *
- * The chips ("Product" / "Design" / "Discovery" / "Strategy") are the
- * original's own self-contained SVG artwork files (gradient, gloss, icon and
- * outlined text are all inside each SVG) referenced as <img> exactly like the
- * original does — see the framer-ackz54 row in the mirror.
+ * The chips ("Product" / "Design" / "Discovery" / "Strategy" / "Build") are
+ * self-contained SVG artwork (gradient, gloss, outlined text) referenced as
+ * <img>.
  *
  * Interactions (exact values from the page's own generated module,
  * reference/mirror/.../RUqqse2zCrL-…DKx8smEm.mjs):
@@ -34,11 +33,10 @@ import styles from './Hero.module.css';
  *   `{type:'spring', bounce:0.25, duration:0.45}` (variant `ca`).
  * - The "Discovery" chip uses variant `la`: the same scale/y plus
  *   `boxShadow: 0px 2px 4px 0px rgba(0,0,0,0.25)`, and its `onMouseEnter`
- *   opens an overlay (Framer `<Overlay placement="bottom" alignment="center"
- *   offsetX=0.25 offsetY=-202.5>`) containing the 589x436 GIF
- *   wlDO7zczytEqqYcuQ3Sd77YDY.gif rendered 200px wide — an easter egg.
- *   The overlay fades in (opacity 0 -> 1, spring bounce 0.2 duration 0.4)
- *   and out again.
+ *   opens an overlay containing the 589x436 GIF
+ *   wlDO7zczytEqqYcuQ3Sd77YDY.gif rendered 200px wide — an easter egg,
+ *   4px above the hovered chip. The overlay fades in (opacity 0 -> 1,
+ *   spring bounce 0.2 duration 0.4) and out again.
  *
  * The homepage has NO appear/scroll-reveal animations in the original (the
  * mirror HTML contains no `data-framer-appear-id` on `/`), so nothing here
@@ -52,37 +50,45 @@ const OVERLAY_SPRING = { type: 'spring', bounce: 0.2, duration: 0.4 } as const;
 
 const CHIPS = [
   {
-    // 317x95 intrinsic; 159px wide on desktop/tablet, 134px on phone.
-    src: '/images/Z1HsPDK51LLSFpUf0NVn0RzKY.svg',
+    // 245x95 intrinsic; 123px wide on desktop/tablet, 103px on phone.
+    src: '/images/chip-product.svg',
     alt: 'Product',
     className: styles.chipProduct,
-    width: 317,
+    width: 245,
     height: 95,
   },
   {
-    // 290x95 intrinsic; 145px / 122px.
-    src: '/images/lzIe6kX0aUa5HVA3kVOHdWm9O4.svg',
+    // 218x95 intrinsic; 109px / 92px.
+    src: '/images/chip-design.svg',
     alt: 'Design',
     className: styles.chipDesign,
-    width: 290,
+    width: 218,
     height: 95,
   },
   {
-    // 351x95 intrinsic; 176px / 148px. Carries the GIF easter egg.
-    src: '/images/loJUIF65sQ3jhXYsC3s3x9OwchQ.svg',
+    // 289x95 intrinsic; 145px / 122px. Carries the GIF easter egg.
+    src: '/images/chip-discovery.svg',
     alt: 'Discovery',
     className: styles.chipDiscovery,
-    width: 351,
+    width: 289,
     height: 95,
     easterEgg: true,
   },
   {
-    // 333x93 intrinsic; 167px / 140px.
-    src: '/images/6ck8xwcUoFJP6SVsYfqCjZLeW4.svg',
+    // 261x93 intrinsic; 131px / 110px.
+    src: '/images/chip-strategy.svg',
     alt: 'Strategy',
     className: styles.chipStrategy,
-    width: 333,
+    width: 261,
     height: 93,
+  },
+  {
+    // 180x86 intrinsic; 100px / 84px so displayed height matches the others.
+    src: '/images/chip-build.svg',
+    alt: 'Build',
+    className: styles.chipBuild,
+    width: 180,
+    height: 86,
   },
 ];
 

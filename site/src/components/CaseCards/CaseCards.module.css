@@ -94,20 +94,18 @@
   flex: 1 0 0;
   width: 1px; /* flex-basis trick so the three cards stay equal width */
   padding: 12px;
-  background-color: var(--surface);
+  background-color: var(--bg-1);
   border: 1px solid var(--surface);
   border-radius: 16px;
   text-decoration: none;
-  /* Original's hover variant `ha` is a plain background swap on a
-     `{type:'spring', bounce:0.25, duration:0.45}` transition — no scale, no
-     shadow. The cubic-bezier below is the closest CSS approximation of that
-     spring's settle for a single non-transform property. */
+  /* Inverted from the original `ha` hover: rest is --bg-1, hover fills
+     --surface. Same spring-like settle on background-color. */
   transition: background-color 0.45s cubic-bezier(0.22, 1.2, 0.36, 1);
 }
 
 .card:hover,
 .card:focus-visible {
-  background-color: var(--bg-1); /* rgb(28, 25, 36) */
+  background-color: var(--surface);
 }
 
 .mediaFrame {

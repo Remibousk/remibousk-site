@@ -1,151 +1,215 @@
 /*
- * /mobileweb page-specific layout. Measured from
- * reference/mirror/mobileweb.html (scope .framer-OFZxc).
+ * /mobileweb page-specific layout. Reading column, annotated shots, and
+ * portrait phone frames. Mirrors the SiteMinder Pay content craft.
  */
 
-/* Intro row (framer-hher7n): phone screenshot card + 01/02 text, gap 60.
-   Column below 1200px (original tablet variant stacks it). */
-.introRow {
+.copy {
   display: flex;
-  flex-direction: row;
-  justify-content: center;
+  flex-direction: column;
   align-items: flex-start;
-  gap: 60px;
-  width: 100%;
+  gap: var(--type-body-gap);
+  width: 620px;
+  max-width: 100%;
+  min-width: 0;
+  padding: 8px;
 }
 
-/* Phone screenshot card (framer-11n35j5): bg #1e1b27, border #2a2537,
-   radius 16, padding 8; image 486px wide, radius 12 */
-.phoneCard {
+.lede {
+  composes: copy;
+}
+
+.shot {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
   background-color: var(--bg-2);
   border: 1px solid var(--surface);
   border-radius: 16px;
   padding: 8px;
-  flex: none;
-  max-width: 100%;
+  overflow: hidden;
 }
 
-.phoneCard img {
-  display: block;
-  width: 486px;
-  max-width: 100%;
-  height: auto;
-  border-radius: 12px;
-}
-
-/* Right text column (framer-tisb8l): gap 116 */
-.introText {
-  flex: 1 0 0;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 116px;
-}
-
-/* Media strip cards (framer-1xbaqa3 / framer-17am5wq): bg #1e1b27, border
-   #2a2537, radius 16, padding 8, row gap 10; three flex-1 columns of
-   image/video + caption (gap 10). */
-.mediaStrip {
-  width: 100%;
-  background-color: var(--bg-2);
-  border: 1px solid var(--surface);
-  border-radius: 16px;
-  padding: 8px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-}
-
-.mediaCol {
-  flex: 1 0 0;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-}
-
-.mediaCol img {
+.shot img {
   display: block;
   width: 100%;
   height: auto;
   border-radius: 12px;
 }
 
-/* Screen-recording columns (framer-8is9z5-container...): aspect .45922 */
-.mediaVideo {
-  width: 100%;
-  aspect-ratio: 0.45922;
-}
-
-.mediaVideo video {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 50% 50%;
-  border-radius: 12px;
-}
-
-/* Caption (preset irt79h) */
 .caption {
-  font-family: var(--font-gt-walsheim-medium);
-  font-weight: 500;
-  font-size: 13px;
-  line-height: 1.1;
-  letter-spacing: -0.01em;
+  font-family: var(--type-caption-family);
+  font-weight: var(--type-caption-weight);
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-leading);
+  letter-spacing: var(--type-caption-tracking);
   color: var(--text-muted);
-  white-space: pre;
+  max-width: 100%;
+  overflow-wrap: break-word;
 }
 
-/* Impact cards (framer-zz9x0n / framer-16r4te9): bg #231f2d, radius 10,
-   padding 20 (14 on tablet), gap 20 */
-.impactCard {
-  background-color: var(--bg-4);
-  border: 1px solid var(--bg-4);
-  border-radius: 10px;
-  padding: 20px;
+.heroShot {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 20px;
+  gap: 10px;
+  width: 100%;
   min-width: 0;
+  max-width: 100%;
 }
 
-.impactCard > * {
+.heroShot .caption {
+  padding-left: 12px;
+}
+
+.frame {
   width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.frameCopy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  width: 620px;
+  max-width: 100%;
+  padding: 0 8px;
+}
+
+.pair {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(240px, 400px);
+  gap: 40px;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  align-items: center;
+}
+
+.pair .copy {
+  width: auto;
+  max-width: 620px;
+}
+
+.pair .phoneShot {
+  justify-self: stretch;
+  width: 100%;
+  max-width: none;
+}
+
+.phoneShot {
+  width: 100%;
+  max-width: 400px;
+  background-color: var(--bg-2);
+  border: 1px solid var(--surface);
+  border-radius: 16px;
+  padding: 8px 8px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow: hidden;
+}
+
+.phoneShot img,
+.phoneShot video {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+
+.kicker {
+  font-family: var(--type-meta-label-family);
+  font-weight: var(--type-meta-label-weight);
+  font-size: var(--type-meta-label-size);
+  line-height: var(--type-meta-label-leading);
+  letter-spacing: var(--type-meta-label-tracking);
+  color: var(--text-muted);
+}
+
+.note {
+  font-family: var(--type-caption-family);
+  font-weight: var(--type-caption-weight);
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-leading);
+  letter-spacing: var(--type-caption-tracking);
+  color: var(--text-muted);
+  width: 620px;
+  max-width: 100%;
+  padding: 0 8px;
+}
+
+.phones {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  width: 100%;
+}
+
+.phones .phoneShot {
+  justify-self: stretch;
+  width: 100%;
+  max-width: none;
+}
+
+.inlineLink {
+  color: var(--text-card-title);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.inlineLink:hover,
+.inlineLink:focus-visible {
+  color: var(--text-hover);
 }
 
 @media (max-width: 1199px) {
-  .introRow {
-    flex-direction: column;
-    align-items: center;
+  .phoneShot {
+    justify-self: start;
+    width: min(360px, 100%);
   }
-  .introText {
-    flex: none;
-    width: min-content;
+
+  .phones .phoneShot {
+    width: 100%;
   }
-  .impactCard {
-    padding: 14px;
+
+  .pair {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  .pair .copy {
+    width: 100%;
+    max-width: 620px;
+  }
+
+  .pair .phoneShot {
+    justify-self: start;
+    width: min(360px, 100%);
   }
 }
 
 @media (max-width: 809px) {
-  .introText {
+  .copy,
+  .frameCopy,
+  .note,
+  .pair .copy {
     width: 100%;
+    max-width: 100%;
   }
-  .mediaStripVideos {
-    flex-direction: column;
-  }
-  .mediaStripVideos .mediaCol {
-    flex: none;
+
+  .phoneShot,
+  .pair .phoneShot {
     width: 100%;
+    max-width: 100%;
   }
-  .impactCard {
-    padding: 20px;
+
+  .phones {
+    grid-template-columns: minmax(0, 1fr);
   }
 }

@@ -124,6 +124,98 @@
   }
 }
 
+/* ---------- Case studies (mirrors SUMM CaseCards) ---------- */
+
+.portfolio {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.caseStudiesHeading {
+  font-family: var(--font-gt-walsheim-bold);
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1.2em;
+  color: var(--text-eyebrow);
+}
+
+.grid {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+  width: 100%;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex: 1 0 0;
+  width: 1px;
+  max-width: calc((100% - 40px) / 3);
+  padding: 12px;
+  background-color: var(--bg-1);
+  border: 1px solid var(--surface);
+  border-radius: 16px;
+  text-decoration: none;
+  transition: background-color 0.45s cubic-bezier(0.22, 1.2, 0.36, 1);
+}
+
+.card:hover,
+.card:focus-visible {
+  background-color: var(--surface);
+}
+
+.mediaFrame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1.6 / 1;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: var(--bg-1);
+  flex: none;
+}
+
+.media {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  border-radius: inherit;
+}
+
+.cardText {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  width: 100%;
+  padding-left: 3px;
+}
+
+.cardTitle {
+  font-family: var(--font-gt-walsheim-bold);
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1.2em;
+  color: var(--text-eyebrow);
+}
+
+.cardSubtitle {
+  font-family: var(--font-gt-walsheim-regular);
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.1em;
+  color: var(--text-secondary);
+}
+
 /* ---------- Mobile: <=809px ---------- */
 
 @media (max-width: 809px) {
@@ -149,5 +241,39 @@
   .arrow {
     width: 30px;
     height: 30px;
+  }
+
+  .grid {
+    flex-direction: column;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .cardSubtitle {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 1199px) and (min-width: 810px) {
+  .grid {
+    flex-direction: column;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .cardSubtitle {
+    font-size: 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: none;
   }
 }

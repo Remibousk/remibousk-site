@@ -1,134 +1,76 @@
 ---
-url: https://old.remibousk.com/mobileweb
-title: Remi Bouskila
-meta_description: leading design for founders, and global companies on new ventures, strategy and company defining experiences.
-og_image: https://framerusercontent.com/images/9sFnJYCbSWOEMtc6kSRQadieHHY.png
+url: /mobileweb
+title: Show the tax number first — Remi Bouskila
 ---
 
-Go back
+# Show the tax number first
 
-(links to: ./)
+A tax product built for desktop was opening on phones. After a Coinbase partnership, about 60% of those referrals arrived on mobile. The money screen hid the number behind a plan banner. We showed the number, then the reason to import more or pay.
 
-##### Crypto Tax Calculator
+| | |
+|---|---|
+| **Client** | Crypto Tax Calculator (now SUMM) |
+| **Role** | Lead Product Designer |
+| **When** | Q1 2025 |
+| **What** | Rebuild reports for mobile, then apply the same pattern to transactions and filters |
+| **Outcome** | Reports page, 16.27% → 20.84% plan conversion. n=2,090. 99.67% probability of being best |
+| **Craft** | Mobile UX, information hierarchy, experimentation |
 
-## Uplifting the mobile experience
+## The job
 
-#### Mobile
+Coinbase sent a large influx of new users to a product that had been designed on desktop. About 60% of those referrals arrived on a phone. The layouts had been squeezed, not redesigned. Friction concentrated where it converted: reports, then transactions and filters.
 
-#### Web design
+The most important number on the product — total capital gains — was often paywalled behind a blur, or sitting below a plan-selection banner that owned the fold.
 
-#### Visual design
+## Audit
 
-#### Copywriting
+A mobile UX audit before the rebuild. Recurring problems, and what they implied:
 
-#### UX
+- **Slow interaction.** Taps could take one to two seconds. That is an engineering problem. I flagged it so we were not decorating a sluggish UI.
+- **Information overload.** Too much content and too many warnings on a single screen. The screen had not decided what it was for.
+- **Desktop patterns on a phone.** Horizontal scrolling, cramped tables, cluttered filter chrome.
+- **Hidden primary.** Hierarchy was unclear, especially on reports: the plan banner was the first action, the tax number was not.
 
-#### A/B testing
+## The call
 
-###### Role:
+Desktop density is not a layout problem. It is a “what is this screen for” problem. Reports is for “what is my tax position, and what should I do about it.”
 
-Lead Designer
+The commercial call: show the real number, then show what connecting more accounts could save. Useful for the customer, and a stronger reason to finish importing data or buy a plan. Those two things pointing the same direction is rare enough to take when it happens.
 
-###### When:
+This was a judgment call, shipped behind a feature flag — not a three-variant test of number-first versus savings-first.
 
-Q1 2025
+**Unlocked.** Total capital gains first. Savings as an explained, tappable row directly underneath. The full breakdown visible without a tap.
 
-###### What:
+**Free.** The headline figure can stay locked. The plan banner does not get the fold. The savings opportunity stays visible and explained. The plan CTA sits at the bottom.
 
-Optimising the end-to-end mobile journey for conversion.
+## The proof
 
-###### Outcome
+I designed the variant. It shipped behind a feature flag and was read with a Bayesian stats engine.
 
-Achieved a +50.76% CVR lift in mobile onboarding and a 28.04% increase in reports page conversion
+The primary metric was viewed reports → purchased a plan.
 
-<!-- media: 7m9E61Ujtnd0WvoTmtuvFLk8s0.png -->
+- Control: **16.27%**
+- Reports redesign: **20.84%** (**+28.04%** relative)
+- **2,090** participants
+- **99.67%** probability of being best; statistically significant
+- 95% credible interval **+13.46% to +43.96%** — all on the same side of zero
 
-### 01 - Problem
+A separate mobile onboarding-imports test ran in the same period. That result lives on the onboarding page. It is not this project’s headline.
 
-##### Following a strategic partnership with Coinbase, we saw a massive influx of new users, with 60% of referrals arriving via mobile. However, our mobile experience wasn't optimized for this scale. An underwhelming UX led to significant friction and high churn rates at critical stages of the onboarding funnel.
+Company growth over the broader period is context, not a design claim.
 
-### 02 - The Audit: "It Wasn't Pretty"
+## The same pattern
 
-##### Before diving into solutions, I conducted a full UX audit that identified several critical friction points:
+The reports call was the prototype for the rest of the phone: decide what the screen is for, put that first, hide the rest until it is useful, prefer patterns people already know.
 
-##### Janky and laggy experience Users faced 1-2 second delays on taps, making the interface feel non-robust.
+### Transactions
 
-##### Information overload: Pages were cluttered with "too much content" and unnecessary warnings that overwhelmed users.
+People checking history need three things: what happened, which assets moved, and what it was worth in local currency. The old table was a desktop grid compressed until a truncated hash was the most visible thing on the row. Date-grouped cards lead with type, assets, and local value. None of those is a hash.
 
-##### Poor mobile patterns Heavy reliance on horizontal scrolling and cluttered filter sections that "suck on mobile".
+### Filters
 
-##### Hidden primary actions: Critical buttons were not prominent enough, and layout hierarchy was unclear, especially on the Reports page
+Filters were a desktop control strip: pagination, view toggles, chips, all competing with the first transaction. After, search and a few icon buttons stay in the chrome; the rest lives in a sheet. Progressive disclosure, and a pattern people already know how to close.
 
-### 03 - Design principles
+### Around the loop
 
-##### To guide the uplift, I established three core principles focused on mobile-first comprehension:
-
-#### Progressive disclosure
-
-##### End to end usability testing on the existing experience to establish a benchmark and discover the 'why' behind key drop of points
-
-#### Optimise for scannability
-
-##### Prioritizing the most useful information to improve user comprehension at a glance
-
-#### Mobile familiarity
-
-##### Mobile Familiarity: Utilizing common mobile patterns, such as the iOS-style "sheet" component , to reduce cognitive load.
-
-<!-- media: OV6hh3a2GbKHYB5AtYeoTSkGI.png -->
-
-###### Connecting Binance by API
-
-<!-- media: vfyc7E91Cpb6nRADNgUBvm6ws.png -->
-
-###### Transaction table
-
-<!-- media: iQzZz1yqwqxim3SDXND9QFzPr0.png -->
-
-###### Transaction breakdown
-
-<!-- media: Wk3YEINpjKHIncfdO8kZPOZWxY.mp4 -->
-
-###### Landing on portfolio post onboarding
-
-<!-- media: mUreafFX0lfKLeNugAygqz9sNpo.mp4 -->
-
-###### Viewing transactions
-
-<!-- media: 0vBQbh3mMA9YV0HZygJnLkiBU.mp4 -->
-
-###### Browsing the plans page
-
-### 03 - Impact
-
-##### The optimisations led to significant, measurable growth across the entire product funnel.
-
-#### Onboarding
-
-##### +50.76% Increase in conversion rate
-
-##### View results
-
-(links to: mailto:remi.bouskila@gmail.com)
-
-<!-- media: vIl9U6342xvxqn4Wo6CswH3Xgfc.png -->
-
-#### Reports page
-
-##### +28.04% increase in covrsion rate
-
-<!-- media: CkY8W2cjQo9jtezh18OMBtDYs.png -->
-
-##### View results
-
-(links to: mailto:remi.bouskila@gmail.com)
-
-### Interested in getting into the detaills?
-
-### Get in touch
-
-(links to: mailto:remi.bouskila@gmail.com)
-
-##### Back to top
-
-(links to: ./onboardingtoctc#onboarding-top)
+The same scannability rule on the rest of the loop: viewing history, landing on portfolio after onboarding, connecting an exchange as a job rather than a settings form.
