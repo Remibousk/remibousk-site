@@ -1,10 +1,12 @@
 import Link from 'next/link';
 import type { ReactElement } from 'react';
+import CaseStudiesAccordion from '@/components/CaseStudiesAccordion/CaseStudiesAccordion';
 import DeviceTabs from '@/components/DeviceTabs/DeviceTabs';
 import styles from './CaseCards.module.css';
 
 /**
- * "SUMM" header block + tabbed device showcase + "Case studies" card grid.
+ * "SUMM" header block + tabbed device showcase + collapsed "Case studies"
+ * accordion (card grid is unchanged once opened).
  * Source: reference/mirror/home.html, the (unnamed) wrapper div that holds
  * both the "SUMM"/"Formerly Crypto Tax Calculator"/"Lead product designer"
  * heading (framer-1a9z7v2, no data-framer-name of its own) and, immediately
@@ -51,22 +53,21 @@ const CARDS: CardDef[] = [
 ];
 
 /**
- * Onboarding card's media: an autoplaying, looping mp4
- * (BVBw6HPmvDBjrHViefERyskIw8.mp4 — confirmed via reference/mirror/home.html,
- * this is the only one of the three "Onboarding card" anchors that contains
- * a <video> rather than an <img>; the other two use LjAF6ttW1OyRFF8BptAITS4wDJ8.png
- * and 7wxvhyqQBQnK74KbhtDilqlok.png/aalz0wO0iak5HKwo88fdr62dk.png respectively).
+ * Onboarding card's media: a looping mp4 that plays once the accordion
+ * opens (BVBw6HPmvDBjrHViefERyskIw8.mp4 — confirmed via
+ * reference/mirror/home.html; the other two cards use
+ * LjAF6ttW1OyRFF8BptAITS4wDJ8.png and
+ * 7wxvhyqQBQnK74KbhtDilqlok.png/aalz0wO0iak5HKwo88fdr62dk.png).
  */
 function OnboardingMedia() {
   return (
     <video
       className={styles.media}
       src="/videos/BVBw6HPmvDBjrHViefERyskIw8.mp4"
-      autoPlay
       muted
       loop
       playsInline
-      preload="metadata"
+      preload="none"
       aria-label="Onboarding flow screen recording"
     />
   );
@@ -136,8 +137,7 @@ export default function CaseCards() {
 
       <DeviceTabs />
 
-      <div className={styles.portfolio}>
-        <h3 className={styles.caseStudiesHeading}>Case studies</h3>
+      <CaseStudiesAccordion>
         <div className={styles.grid}>
           {CARDS.map((card) => {
             const Media = CARD_MEDIA[card.key];
@@ -154,7 +154,7 @@ export default function CaseCards() {
             );
           })}
         </div>
-      </div>
+      </CaseStudiesAccordion>
     </section>
   );
 }

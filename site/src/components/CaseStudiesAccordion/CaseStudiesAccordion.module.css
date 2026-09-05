@@ -1,0 +1,80 @@
+/*
+ * Trigger type matches the existing "Case studies" heading
+ * (GT Walsheim Pro Bold 28px / 1.2em / --text-eyebrow). Panel gap matches
+ * the previous heading-to-grid spacing (10px).
+ */
+
+.root {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.heading {
+  margin: 0;
+}
+
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  font-family: var(--font-gt-walsheim-bold);
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1.2em;
+  color: var(--text-eyebrow);
+  text-align: left;
+  transition: color 0.45s cubic-bezier(0.22, 1.2, 0.36, 1);
+}
+
+.trigger:hover,
+.trigger:focus-visible {
+  color: var(--text-hover);
+}
+
+.trigger:focus-visible {
+  outline: 1px solid var(--border-focus);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+.chevron {
+  width: 16px;
+  height: 16px;
+  flex: none;
+  transform: rotate(0deg);
+  transition: transform 0.35s cubic-bezier(0.22, 1.1, 0.36, 1);
+}
+
+.chevron[data-open] {
+  transform: rotate(90deg);
+}
+
+.panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  overflow: hidden;
+  transition: grid-template-rows 0.4s cubic-bezier(0.22, 1.1, 0.36, 1);
+}
+
+.panel[data-open] {
+  grid-template-rows: 1fr;
+}
+
+.panelInner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.panelBody {
+  padding-top: 10px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .trigger,
+  .chevron,
+  .panel {
+    transition: none;
+  }
+}

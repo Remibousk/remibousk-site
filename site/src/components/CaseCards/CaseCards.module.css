@@ -59,22 +59,7 @@
   color: var(--text-secondary);
 }
 
-/* ---------- Case studies + card grid ---------- */
-
-.portfolio {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  width: 100%;
-}
-
-.caseStudiesHeading {
-  font-family: var(--font-gt-walsheim-bold);
-  font-weight: 700;
-  font-size: 28px;
-  line-height: 1.2em;
-  color: var(--text-eyebrow);
-}
+/* ---------- Case studies card grid ---------- */
 
 .grid {
   display: flex;

@@ -15,7 +15,7 @@
  * a `position: sticky; top: 0` flex item inside the page's "Content" row
  * (.framer-1lxwdiy), so it sticks near the top while scrolling and leaves
  * the viewport with its container before the footer. Here the <nav> element
- * itself is that sticky flex item (~144px wide incl. 4px top / 2px left
+ * itself is that sticky flex item (~164px wide incl. 4px top / 2px left
  * inset, measured from hero-desktop.png: card border at x=50, y=4 with the
  * container at x=48; on tablet the container sits at x=0, card at x=2).
  */
@@ -25,7 +25,7 @@
   top: 0;
   z-index: 100;
   flex: none;
-  width: 144px;
+  width: 164px;
   padding: 4px 0 0 2px;
 }
 
@@ -35,7 +35,7 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  width: 140px;
+  width: 160px;
   padding: 8px;
   background-color: var(--nav-bg);
   border: 1px solid var(--nav-border);
@@ -81,7 +81,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  width: min-content;
+  width: 100%;
   padding: 4px;
   cursor: pointer;
   font-family: var(--font-gt-walsheim-black-oblique);
@@ -89,17 +89,14 @@
   font-weight: 800;
   font-size: 16px;
   line-height: 1.2em;
-  white-space: pre;
   color: var(--nav-link);
   border-radius: 8px;
   overflow: hidden;
-  /* Experience only: scale 1.1 while #experience is on screen, spring
-     bounce 0.2 / duration 0.4. */
-  transition: transform 0.4s cubic-bezier(0.22, 1.1, 0.36, 1);
 }
 
-.navLink[data-inview] {
-  transform: scale(1.1);
+.navLabel {
+  min-width: 0;
+  white-space: nowrap;
 }
 
 .dot {
@@ -111,7 +108,6 @@
   transition: background-color 0.4s cubic-bezier(0.22, 1.1, 0.36, 1);
 }
 
-/* NavButton Variant 2 dot colour. */
 .navLink[data-inview] .dot {
   background-color: var(--nav-dot-active);
 }
@@ -205,12 +201,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .navLink,
   .dot {
     transition: none;
-  }
-
-  .navLink[data-inview] {
-    transform: none;
   }
 }

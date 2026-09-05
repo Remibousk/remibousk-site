@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import Carousel from '@/components/Carousel/Carousel';
+import CaseStudiesAccordion from '@/components/CaseStudiesAccordion/CaseStudiesAccordion';
 import styles from './SiteMinderTile.module.css';
 
 /**
@@ -97,8 +98,7 @@ export default function SiteMinderTile() {
         />
       </div>
 
-      <div className={styles.portfolio}>
-        <h3 className={styles.caseStudiesHeading}>Case studies</h3>
+      <CaseStudiesAccordion>
         <div className={styles.grid}>
           <Link href="/siteminder-pay" className={styles.card}>
             <div className={styles.mediaFrame}>
@@ -118,7 +118,7 @@ export default function SiteMinderTile() {
             </div>
           </Link>
         </div>
-      </div>
+      </CaseStudiesAccordion>
     </section>
   );
 }

@@ -126,21 +126,6 @@
 
 /* ---------- Case studies (mirrors SUMM CaseCards) ---------- */
 
-.portfolio {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  width: 100%;
-}
-
-.caseStudiesHeading {
-  font-family: var(--font-gt-walsheim-bold);
-  font-weight: 700;
-  font-size: 28px;
-  line-height: 1.2em;
-  color: var(--text-eyebrow);
-}
-
 .grid {
   display: flex;
   flex-direction: row;
