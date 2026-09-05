@@ -13,6 +13,10 @@ Experience
 
 (links to: ./#experience)
 
+Side Projects
+
+(links to: ./#side-projects)
+
 [Linkedin](https://www.linkedin.com/in/remibousk/)
 
 [Email](mailto:remi.bouskila@gmail.com)
@@ -144,5 +148,23 @@ Experience
 #### Student of Industrial Design
 
 #### 2010 - 2013
+
+### Side Projects
+
+#### RemOS
+A macOS-inspired portfolio desktop, built with Next.js.
+(links to: https://remibousk.com)
+
+#### RemOS UI
+Portable design system: two-tier tokens, an OKLCH theme engine, and Radix primitives.
+(links to: https://github.com/Remibousk/remos-ui)
+
+#### World Clock
+Compare time zones at a glance — live clocks, work-hours overlap, weather, and AI city skies.
+(links to: https://worldtime.me)
+
+#### Life Timeline
+Plan your life on a visual timeline of events, milestones, and dependencies.
+(links to: https://github.com/Remibousk/Life-timeline)
 
 Lets talk

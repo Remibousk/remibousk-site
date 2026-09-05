@@ -4,6 +4,7 @@ import CaseCards from '@/components/CaseCards/CaseCards';
 import SiteMinderTile from '@/components/SiteMinderTile/SiteMinderTile';
 import IbmSection from '@/components/IbmSection/IbmSection';
 import ExperienceTimeline from '@/components/ExperienceTimeline/ExperienceTimeline';
+import SideProjects from '@/components/SideProjects/SideProjects';
 import ContactSection from '@/components/ContactSection/ContactSection';
 import SidebarNav from '@/components/SidebarNav/SidebarNav';
 import styles from './page.module.css';
@@ -13,13 +14,14 @@ import styles from './page.module.css';
  * (reference/mirror/home.html):
  *
  *   .framer-1lxwdiy "Content"  -> .content  (row, centered, items at top)
- *     .framer-4cct6m-container -> SidebarNav (sticky flex item, ~144px)
+ *     .framer-4cct6m-container -> SidebarNav (sticky flex item, ~164px)
  *     .framer-1uexi1g "Section"-> <main .column> (flex 1, max-width 1200px,
  *                                  gap 200px / 120px mobile, padding 4/16px)
  *   .framer-1ug5js3 (footer)   -> ContactSection (full-bleed, outside the row)
  *
- * Section order per content/structure-notes.md. LogoRow carries id="work",
- * ExperienceTimeline carries id="experience".
+ * Section order: work, cases, experience, side projects. LogoRow carries
+ * id="work", ExperienceTimeline carries id="experience", SideProjects
+ * carries id="side-projects".
  */
 export default function HomePage() {
   return (
@@ -33,6 +35,7 @@ export default function HomePage() {
           <SiteMinderTile />
           <IbmSection />
           <ExperienceTimeline />
+          <SideProjects />
         </main>
       </div>
       <ContactSection />
