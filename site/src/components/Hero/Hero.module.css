@@ -127,48 +127,56 @@
 }
 
 /*
- * Discovery-chip easter egg. Framer positions this overlay with
- * placement "bottom", alignment "center", offsetX 0.25, offsetY -202.5 —
- * i.e. horizontally centred on the chip and pulled 202.5px up from the
- * chip's bottom edge, so it floats above the chip. Rendered 200px wide
+ * Discovery-chip easter egg. Horizontally centred, 4px above the *hovered*
+ * chip. Hover is scale 1.05 from center + translateY(-2px), which lifts the
+ * chip top by 2px + 2.5% of its height — that lift is included here so the
+ * gap stays 4px while the clip is visible. Rendered 200px wide
  * (589x436 source -> ~148px tall).
  */
 .egg {
   position: absolute;
-  top: calc(100% - 202.5px);
+  bottom: calc(100% + 6px + 2.5%);
   left: calc(50% + 0.25px);
   transform: translateX(-50%);
   z-index: 11;
   display: block;
   width: 200px;
   pointer-events: none;
+  border-radius: 8px;
+  overflow: clip;
 }
 
 .egg img {
   display: block;
   width: 100%;
   height: auto;
+  border-radius: 8px;
 }
 
-/* Widths + aspect ratios exactly as the original's fixed chip frames. */
+/* Displayed at ~0.5 of the SVG intrinsic size so chip height stays ~48px. */
 .chipProduct {
-  width: 159px;
-  aspect-ratio: 3.33684;
+  width: 123px;
+  aspect-ratio: 245 / 95;
 }
 
 .chipDesign {
-  width: 145px;
-  aspect-ratio: 3.05263;
+  width: 109px;
+  aspect-ratio: 218 / 95;
 }
 
 .chipDiscovery {
-  width: 176px;
-  aspect-ratio: 3.69474;
+  width: 145px;
+  aspect-ratio: 289 / 95;
 }
 
 .chipStrategy {
-  width: 167px;
-  aspect-ratio: 3.58065;
+  width: 131px;
+  aspect-ratio: 261 / 93;
+}
+
+.chipBuild {
+  width: 100px;
+  aspect-ratio: 180 / 86;
 }
 
 /*
@@ -300,18 +308,22 @@
   }
 
   .chipProduct {
-    width: 134px;
+    width: 103px;
   }
 
   .chipDesign {
-    width: 122px;
+    width: 92px;
   }
 
   .chipDiscovery {
-    width: 148px;
+    width: 122px;
   }
 
   .chipStrategy {
-    width: 140px;
+    width: 110px;
+  }
+
+  .chipBuild {
+    width: 84px;
   }
 }

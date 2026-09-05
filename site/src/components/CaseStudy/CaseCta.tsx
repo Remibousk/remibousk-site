@@ -22,8 +22,8 @@ function ArrowUpIcon() {
 }
 
 /**
- * Closing CTA panel shared by /onboardingtoctc, /mobileweb and
- * /summ-design-system: "Interested in getting into the detaills?" (typo
+ * Closing CTA panel shared by case-study pages:
+ * "Interested in getting into the detaills?" (typo
  * intentional), a "Get in touch" mailto button and a "Back to top" link
  * that scrolls to the top of the page (#case-top on CaseLayout).
  */

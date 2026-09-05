@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import '@/styles/tokens.css';
 import '@/styles/fonts.css';
+import '@/styles/type.css';
 import '@/styles/globals.css';
 
 const SITE_URL = 'https://remibousk.com';
