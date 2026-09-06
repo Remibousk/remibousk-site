@@ -15,7 +15,7 @@ interface Project {
 const PROJECTS: Project[] = [
   {
     name: 'RemOS',
-    description: 'A macOS-inspired portfolio desktop, built with Next.js.',
+    description: 'A personal OS.',
     href: 'https://remibousk.com',
     published: true,
   },
@@ -29,7 +29,7 @@ const PROJECTS: Project[] = [
   {
     name: 'World Clock',
     description:
-      'Compare time zones at a glance — live clocks, work-hours overlap, weather, and AI city skies.',
+      'Compare time zones at a glance: live clocks, work-hours overlap, weather, and AI city skies.',
     href: 'https://worldtime.me',
     published: true,
   },
