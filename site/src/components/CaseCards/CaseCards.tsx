@@ -2,11 +2,12 @@ import Link from 'next/link';
 import type { ReactElement } from 'react';
 import CaseStudiesAccordion from '@/components/CaseStudiesAccordion/CaseStudiesAccordion';
 import DeviceTabs from '@/components/DeviceTabs/DeviceTabs';
+import SummVideos from './SummVideos';
 import styles from './CaseCards.module.css';
 
 /**
- * "SUMM" header block + tabbed device showcase + collapsed "Case studies"
- * accordion (card grid is unchanged once opened).
+ * "SUMM" header block + tabbed device showcase + product recordings +
+ * collapsed "Case studies" accordion (card grid is unchanged once opened).
  * Source: reference/mirror/home.html, the (unnamed) wrapper div that holds
  * both the "SUMM"/"Formerly Crypto Tax Calculator"/"Lead product designer"
  * heading (framer-1a9z7v2, no data-framer-name of its own) and, immediately
@@ -17,8 +18,8 @@ import styles from './CaseCards.module.css';
  *
  * DeviceTabs is a standalone, separately-exported component (own folder),
  * but this component is what actually places it in the page — it renders
- * between the two heading blocks to match the original's DOM order exactly.
- * Text verbatim from content/home.md.
+ * between the heading and the case-study accordion. SummVideos sits
+ * immediately under the device hero. Text verbatim from content/home.md.
  *
  * No entrance animation: the original homepage carries no Framer appear
  * effects at all (`/` has zero `data-framer-appear-id` nodes in the mirror).
@@ -135,7 +136,10 @@ export default function CaseCards() {
         </div>
       </div>
 
-      <DeviceTabs />
+      <div className={styles.showcase}>
+        <DeviceTabs />
+        <SummVideos />
+      </div>
 
       <CaseStudiesAccordion>
         <div className={styles.grid}>
