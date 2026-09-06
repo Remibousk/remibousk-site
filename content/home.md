@@ -152,7 +152,7 @@ Side Projects
 ### Side Projects
 
 #### RemOS
-A macOS-inspired portfolio desktop, built with Next.js.
+A personal OS.
 (links to: https://remibousk.com)
 
 #### RemOS UI
@@ -160,7 +160,7 @@ Portable design system: two-tier tokens, an OKLCH theme engine, and Radix primit
 (links to: https://github.com/Remibousk/remos-ui)
 
 #### World Clock
-Compare time zones at a glance — live clocks, work-hours overlap, weather, and AI city skies.
+Compare time zones at a glance: live clocks, work-hours overlap, weather, and AI city skies.
 (links to: https://worldtime.me)
 
 #### Life Timeline

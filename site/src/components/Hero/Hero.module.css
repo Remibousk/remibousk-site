@@ -67,7 +67,8 @@
   justify-content: center;
   gap: 10px;
   width: 100%;
-  overflow: hidden;
+  /* Visible (the mirror clips) so a chip's hover lift and focus ring are not cut off. */
+  overflow: visible;
 }
 
 .inner {

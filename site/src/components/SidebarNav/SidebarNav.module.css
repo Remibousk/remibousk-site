@@ -70,13 +70,6 @@
   width: 100%;
 }
 
-/*
- * The original's nav buttons have NO hover gesture (neither NavButton nor
- * NavButton 3 declares `enabledGestures`, and there is no `:hover` CSS rule
- * for framer-rGfuZ / framer-prE4U), so nothing here reacts to hover beyond
- * the pointer cursor. `overflow: hidden` + radius 8 come from the original;
- * gap 8px, padding 4px.
- */
 .navLink {
   display: flex;
   align-items: center;
@@ -87,11 +80,18 @@
   font-family: var(--font-gt-walsheim-black-oblique);
   font-style: italic;
   font-weight: 800;
-  font-size: 16px;
+  font-size: 15px;
   line-height: 1.2em;
-  color: var(--nav-link);
+  color: var(--text-low);
   border-radius: 8px;
   overflow: hidden;
+  transition: color 0.4s cubic-bezier(0.22, 1.1, 0.36, 1);
+}
+
+.navLink:hover,
+.navLink:focus-visible,
+.navLink[data-inview] {
+  color: var(--text-high);
 }
 
 .navLabel {
@@ -201,6 +201,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .navLink,
   .dot {
     transition: none;
   }
