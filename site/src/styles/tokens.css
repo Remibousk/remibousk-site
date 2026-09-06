@@ -133,6 +133,8 @@
   --text-disabled: var(--gray-8);
   --text-inverse: var(--gray-1);
   --text-accent: var(--accent-11);
+  --text-high: var(--text-primary);
+  --text-low: var(--text-tertiary);
 
   --icon-primary: var(--gray-12);
   --icon-secondary: var(--gray-11);
