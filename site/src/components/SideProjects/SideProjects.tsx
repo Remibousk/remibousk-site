@@ -67,9 +67,6 @@ export default function SideProjects() {
                   <h3 className={styles.name}>{project.name}</h3>
                   <p className={styles.description}>{project.description}</p>
                 </div>
-                <span className={styles.meta}>
-                  {project.published ? 'Live' : 'GitHub'}
-                </span>
               </a>
             </li>
           );

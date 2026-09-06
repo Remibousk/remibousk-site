@@ -49,8 +49,6 @@
   position: relative;
   display: flex;
   align-items: flex-start;
-  justify-content: space-between;
-  gap: 16px;
   padding: 32px 8px;
   text-decoration: none;
   color: inherit;
@@ -58,10 +56,8 @@
 
 .link:hover .name,
 .link:hover .description,
-.link:hover .meta,
 .link:focus-visible .name,
-.link:focus-visible .description,
-.link:focus-visible .meta {
+.link:focus-visible .description {
   color: var(--text-hover);
 }
 
@@ -73,8 +69,7 @@
   min-width: 0;
 }
 
-.name,
-.meta {
+.name {
   font-family: var(--font-gt-walsheim-medium);
   font-weight: 500;
   font-size: 19px;
@@ -94,13 +89,7 @@
 }
 
 @media (max-width: 809px) {
-  .name,
-  .meta {
+  .name {
     font-size: 15px;
   }
-}
-
-.meta {
-  flex: none;
-  white-space: nowrap;
 }
