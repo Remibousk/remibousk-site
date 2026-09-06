@@ -1,8 +1,14 @@
 'use client';
 
 import { useState } from 'react';
+import dynamic from 'next/dynamic';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import styles from './Hero.module.css';
+
+const ProductKnife = dynamic(() => import('./ProductKnife'), {
+  ssr: false,
+  loading: () => null,
+});
 
 /**
  * Homepage hero — replica of the original's "Hero" frame
@@ -95,6 +101,11 @@ const CHIPS = [
 export default function Hero() {
   const reduceMotion = useReducedMotion();
   const [eggOpen, setEggOpen] = useState(false);
+  const [productHovered, setProductHovered] = useState(false);
+  const [productFocused, setProductFocused] = useState(false);
+  const [productTapped, setProductTapped] = useState(false);
+  const [productLoaded, setProductLoaded] = useState(false);
+  const productOpen = productHovered || productFocused || productTapped;
 
   const chipHover = (easterEgg: boolean) =>
     reduceMotion
@@ -110,6 +121,11 @@ export default function Hero() {
   return (
     <section className={styles.section}>
       <div className={styles.card} id="home-hero">
+        <div className={styles.productSpace}>
+          <div className={styles.productStage} data-visible={productOpen} aria-hidden="true">
+            {productLoaded && <ProductKnife active={productOpen} reducedMotion={Boolean(reduceMotion)} />}
+          </div>
+        </div>
         <div className={styles.blurb}>
           <div className={styles.inner}>
             <p className={styles.eyebrow}>
@@ -128,7 +144,45 @@ export default function Hero() {
                     onMouseEnter={chip.easterEgg ? () => setEggOpen(true) : undefined}
                     onMouseLeave={chip.easterEgg ? () => setEggOpen(false) : undefined}
                   >
-                    <motion.img
+                    {chip.alt === 'Product' ? (
+                      <motion.button
+                        type="button"
+                        className={styles.productTrigger}
+                        aria-label="Preview Product Swiss Army knife"
+                        whileHover={chipHover(false)}
+                        whileFocus={chipHover(false)}
+                        transition={CHIP_SPRING}
+                        onPointerEnter={(event) => {
+                          if (event.pointerType === 'touch') return;
+                          setProductLoaded(true);
+                          setProductHovered(true);
+                        }}
+                        onPointerLeave={() => setProductHovered(false)}
+                        onFocus={(event) => {
+                          if (event.currentTarget.matches(':focus-visible')) {
+                            setProductLoaded(true);
+                            setProductFocused(true);
+                          }
+                        }}
+                        onBlur={() => { setProductFocused(false); setProductTapped(false); }}
+                        onClick={() => {
+                          if (window.matchMedia('(hover: none)').matches) {
+                            setProductLoaded(true);
+                            setProductTapped((open) => !open);
+                          }
+                        }}
+                        onKeyDown={(event) => {
+                          if (event.key === 'Escape') {
+                            setProductFocused(false);
+                            setProductTapped(false);
+                            setProductHovered(false);
+                            event.currentTarget.blur();
+                          }
+                        }}
+                      >
+                        <img src={chip.src} alt="" width={chip.width} height={chip.height} className={styles.chip} />
+                      </motion.button>
+                    ) : <motion.img
                       src={chip.src}
                       alt={chip.alt}
                       width={chip.width}
@@ -136,7 +190,7 @@ export default function Hero() {
                       className={styles.chip}
                       whileHover={chipHover(Boolean(chip.easterEgg))}
                       transition={CHIP_SPRING}
-                    />
+                    />}
                     {chip.easterEgg && (
                       <AnimatePresence>
                         {eggOpen && (

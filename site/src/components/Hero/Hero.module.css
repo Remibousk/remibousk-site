@@ -56,7 +56,63 @@
   justify-content: center;
   gap: 10px;
   width: 100%;
-  overflow: hidden;
+  overflow: visible;
+}
+
+/* Use the available space above the copy without changing it on hover. */
+.productSpace {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  margin: 22px 0 14px;
+}
+
+.productStage {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: min(580px, 88%);
+  height: 100%;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, 14px) scale(.94);
+  transition: opacity 180ms ease, transform 320ms cubic-bezier(.2,.8,.2,1);
+}
+
+.productStage[data-visible='true'] {
+  opacity: 1;
+  transform: translate(-50%, 0) scale(1);
+}
+
+.knifePoster,
+.knifeCanvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: opacity 160ms ease;
+}
+
+.knifeCanvas canvas {
+  display: block;
+}
+
+.productTrigger {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.productTrigger:focus-visible {
+  outline: 2px solid #84afe0;
+  outline-offset: 5px;
 }
 
 .inner {
@@ -262,6 +318,16 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .productStage,
+  .knifePoster,
+  .knifeCanvas {
+    transition: none;
+  }
+
+  .productStage,
+  .productStage[data-visible='true'] {
+    transform: translateX(-50%);
+  }
   .bgBlobLeft,
   .bgBlobRight {
     animation: none;
@@ -284,6 +350,10 @@
 
 /* Phone (<=809px). */
 @media (max-width: 809px) {
+  .productStage {
+    width: min(440px, 94%);
+  }
+
   .blurb {
     padding: 10px;
   }
