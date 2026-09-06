@@ -1,14 +1,12 @@
 'use client';
 
-import { useState } from 'react';
-import dynamic from 'next/dynamic';
-import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
+import { useEffect, useState } from 'react';
+import { motion, useReducedMotion } from 'motion/react';
+import HeroParticles from '@/components/HeroParticles/HeroParticles';
+import { preloadScenes } from '@/components/HeroParticles/particles';
+import { HERO_SCENES, type HeroSceneId } from '@/components/HeroParticles/scenes';
+import HeroTuner from '@/components/HeroTuner/HeroTuner';
 import styles from './Hero.module.css';
-
-const ProductKnife = dynamic(() => import('./ProductKnife'), {
-  ssr: false,
-  loading: () => null,
-});
 
 /**
  * Homepage hero — replica of the original's "Hero" frame
@@ -38,11 +36,16 @@ const ProductKnife = dynamic(() => import('./ProductKnife'), {
  * - Every chip has `whileHover: {scale: 1.05, y: -2}` with transition
  *   `{type:'spring', bounce:0.25, duration:0.45}` (variant `ca`).
  * - The "Discovery" chip uses variant `la`: the same scale/y plus
- *   `boxShadow: 0px 2px 4px 0px rgba(0,0,0,0.25)`, and its `onMouseEnter`
- *   opens an overlay containing the 589x436 GIF
- *   wlDO7zczytEqqYcuQ3Sd77YDY.gif rendered 200px wide — an easter egg,
- *   4px above the hovered chip. The overlay fades in (opacity 0 -> 1,
- *   spring bounce 0.2 duration 0.4) and out again.
+ *   `boxShadow: 0px 2px 4px 0px rgba(0,0,0,0.25)`. In the original its
+ *   `onMouseEnter` also opened a 200px-wide GIF easter egg above the chip;
+ *   that overlay is dropped here because the same clip now plays as the
+ *   chip's particle scene (below).
+ *
+ * Addition (not in the original): chips that have a scene in HERO_SCENES
+ * are toggle buttons. Clicking one sweeps a greyscale particle rendering of
+ * its picture (or clip) into the empty space above the headline (see
+ * HeroParticles); clicking it again, clicking another chip, or pressing
+ * Escape sends it out.
  *
  * The homepage has NO appear/scroll-reveal animations in the original (the
  * mirror HTML contains no `data-framer-appear-id` on `/`), so nothing here
@@ -51,10 +54,20 @@ const ProductKnife = dynamic(() => import('./ProductKnife'), {
 
 /** Framer transition `ca`/`la`: spring, bounce 0.25, duration 0.45s. */
 const CHIP_SPRING = { type: 'spring', bounce: 0.25, duration: 0.45 } as const;
-/** Framer transition `ua`, used by the overlay fade. */
-const OVERLAY_SPRING = { type: 'spring', bounce: 0.2, duration: 0.4 } as const;
 
-const CHIPS = [
+type Chip = {
+  src: string;
+  alt: string;
+  className: string;
+  width: number;
+  height: number;
+  /** Framer variant `la`: adds a drop shadow to the hover lift. */
+  hoverShadow?: boolean;
+  /** Key into HERO_SCENES; chips without one are plain artwork for now. */
+  scene?: HeroSceneId;
+};
+
+const CHIPS: Chip[] = [
   {
     // 245x95 intrinsic; 123px wide on desktop/tablet, 103px on phone.
     src: '/images/chip-product.svg',
@@ -62,6 +75,7 @@ const CHIPS = [
     className: styles.chipProduct,
     width: 245,
     height: 95,
+    scene: 'product',
   },
   {
     // 218x95 intrinsic; 109px / 92px.
@@ -72,13 +86,14 @@ const CHIPS = [
     height: 95,
   },
   {
-    // 289x95 intrinsic; 145px / 122px. Carries the GIF easter egg.
+    // 289x95 intrinsic; 145px / 122px.
     src: '/images/chip-discovery.svg',
     alt: 'Discovery',
     className: styles.chipDiscovery,
     width: 289,
     height: 95,
-    easterEgg: true,
+    hoverShadow: true,
+    scene: 'discovery',
   },
   {
     // 261x93 intrinsic; 131px / 110px.
@@ -87,6 +102,7 @@ const CHIPS = [
     className: styles.chipStrategy,
     width: 261,
     height: 93,
+    scene: 'strategy',
   },
   {
     // 180x86 intrinsic; 100px / 84px so displayed height matches the others.
@@ -95,36 +111,56 @@ const CHIPS = [
     className: styles.chipBuild,
     width: 180,
     height: 86,
+    scene: 'build',
   },
 ];
 
 export default function Hero() {
   const reduceMotion = useReducedMotion();
-  const [eggOpen, setEggOpen] = useState(false);
-  const [productHovered, setProductHovered] = useState(false);
-  const [productFocused, setProductFocused] = useState(false);
-  const [productTapped, setProductTapped] = useState(false);
-  const [productLoaded, setProductLoaded] = useState(false);
-  const productOpen = productHovered || productFocused || productTapped;
+  const [activeScene, setActiveScene] = useState<HeroSceneId | null>(null);
+  // Temporary tuning panel: shown in `next dev`, or anywhere with `?tune` in
+  // the URL. Not rendered in the production export otherwise.
+  const [tunerOpen, setTunerOpen] = useState(false);
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'development' || window.location.search.includes('tune')) {
+      setTunerOpen(true);
+    }
+  }, []);
 
-  const chipHover = (easterEgg: boolean) =>
+  // Warm the picture cache once the page has settled so the first click
+  // never waits on the network.
+  useEffect(() => {
+    const id = window.setTimeout(() => preloadScenes(Object.values(HERO_SCENES)), 800);
+    return () => window.clearTimeout(id);
+  }, []);
+
+  useEffect(() => {
+    if (!activeScene) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setActiveScene(null);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [activeScene]);
+
+  const chipHover = (shadow: boolean) =>
     reduceMotion
       ? undefined
       : {
           scale: 1.05,
           y: -2,
-          ...(easterEgg
-            ? { boxShadow: '0px 2px 4px 0px rgba(0, 0, 0, 0.25)' }
-            : {}),
+          ...(shadow ? { boxShadow: '0px 2px 4px 0px rgba(0, 0, 0, 0.25)' } : {}),
         };
+
+  const toggleScene = (id: HeroSceneId) =>
+    setActiveScene((current) => (current === id ? null : id));
 
   return (
     <section className={styles.section}>
+      {tunerOpen && <HeroTuner onClose={() => setTunerOpen(false)} />}
       <div className={styles.card} id="home-hero">
-        <div className={styles.productSpace}>
-          <div className={styles.productStage} data-visible={productOpen} aria-hidden="true">
-            {productLoaded && <ProductKnife active={productOpen} reducedMotion={Boolean(reduceMotion)} />}
-          </div>
+        <div className={styles.stage}>
+          <HeroParticles scene={activeScene ? HERO_SCENES[activeScene] : null} />
         </div>
         <div className={styles.blurb}>
           <div className={styles.inner}>
@@ -137,85 +173,41 @@ export default function Hero() {
             <div className={styles.love}>
               <p className={styles.loveLabel}>In love with:</p>
               <div className={styles.chips}>
-                {CHIPS.map((chip) => (
-                  <span
-                    key={chip.alt}
-                    className={`${styles.chipWrap} ${chip.className}`}
-                    onMouseEnter={chip.easterEgg ? () => setEggOpen(true) : undefined}
-                    onMouseLeave={chip.easterEgg ? () => setEggOpen(false) : undefined}
-                  >
-                    {chip.alt === 'Product' ? (
-                      <motion.button
-                        type="button"
-                        className={styles.productTrigger}
-                        aria-label="Preview Product Swiss Army knife"
-                        whileHover={chipHover(false)}
-                        whileFocus={chipHover(false)}
-                        transition={CHIP_SPRING}
-                        onPointerEnter={(event) => {
-                          if (event.pointerType === 'touch') return;
-                          setProductLoaded(true);
-                          setProductHovered(true);
-                        }}
-                        onPointerLeave={() => setProductHovered(false)}
-                        onFocus={(event) => {
-                          if (event.currentTarget.matches(':focus-visible')) {
-                            setProductLoaded(true);
-                            setProductFocused(true);
-                          }
-                        }}
-                        onBlur={() => { setProductFocused(false); setProductTapped(false); }}
-                        onClick={() => {
-                          if (window.matchMedia('(hover: none)').matches) {
-                            setProductLoaded(true);
-                            setProductTapped((open) => !open);
-                          }
-                        }}
-                        onKeyDown={(event) => {
-                          if (event.key === 'Escape') {
-                            setProductFocused(false);
-                            setProductTapped(false);
-                            setProductHovered(false);
-                            event.currentTarget.blur();
-                          }
-                        }}
-                      >
-                        <img src={chip.src} alt="" width={chip.width} height={chip.height} className={styles.chip} />
-                      </motion.button>
-                    ) : <motion.img
+                {CHIPS.map((chip) => {
+                  const wrapClass = `${styles.chipWrap} ${chip.className}`;
+                  const content = (
+                    <motion.img
                       src={chip.src}
                       alt={chip.alt}
                       width={chip.width}
                       height={chip.height}
                       className={styles.chip}
-                      whileHover={chipHover(Boolean(chip.easterEgg))}
+                      whileHover={chipHover(Boolean(chip.hoverShadow))}
                       transition={CHIP_SPRING}
-                    />}
-                    {chip.easterEgg && (
-                      <AnimatePresence>
-                        {eggOpen && (
-                          <motion.span
-                            className={styles.egg}
-                            role="dialog"
-                            aria-label="Discovery"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            transition={OVERLAY_SPRING}
-                          >
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img
-                              src="/images/wlDO7zczytEqqYcuQ3Sd77YDY.gif"
-                              alt=""
-                              width={589}
-                              height={436}
-                            />
-                          </motion.span>
-                        )}
-                      </AnimatePresence>
-                    )}
-                  </span>
-                ))}
+                    />
+                  );
+
+                  if (chip.scene) {
+                    const scene = chip.scene;
+                    return (
+                      <button
+                        key={chip.alt}
+                        type="button"
+                        className={`${wrapClass} ${styles.chipButton}`}
+                        aria-pressed={activeScene === scene}
+                        aria-label={`Show ${chip.alt}`}
+                        onClick={() => toggleScene(scene)}
+                      >
+                        {content}
+                      </button>
+                    );
+                  }
+                  return (
+                    <span key={chip.alt} className={wrapClass}>
+                      {content}
+                    </span>
+                  );
+                })}
               </div>
             </div>
           </div>
