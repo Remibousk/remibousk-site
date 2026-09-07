@@ -5,7 +5,7 @@ import strategyFrames from './strategy.frames.json';
 import productRig from './product.rig.json';
 
 /**
- * Pictures the hero chips can summon above the headline. Two kinds:
+ * Pictures the hero chips can summon above the headline. Three kinds:
  *
  * - `image`: a greyscale-with-alpha WebP in public/images; the particles form
  *   its opaque pixels and hold still.
@@ -25,6 +25,17 @@ import productRig from './product.rig.json';
  * Hero.tsx to wire another chip.
  */
 export const HERO_SCENES = {
+  // Supplied Opera House artwork, losslessly encoded with its original alpha.
+  // A wide architectural silhouette: leave enough room for the entry ribbons.
+  design: {
+    id: 'design',
+    kind: 'image',
+    src: '/images/hero-design-opera-house.webp',
+    width: 1536,
+    height: 1024,
+    fit: 0.94,
+    anchorY: 0.55,
+  },
   // The clip that was the Discovery chip's hover easter egg on the original
   // site (wlDO7zczytEqqYcuQ3Sd77YDY.gif, 589x436, 184 frames / 7.44s; the GIF
   // itself is no longer shipped — see git history), as 256x190 greyscale
@@ -98,6 +109,7 @@ export const HERO_SCENES = {
     durations: buildFrames.durations,
     transparent: buildFrames.transparent,
     loopFrom: buildFrames.loopFrom,
+    reducedFrame: buildFrames.count - 1,
     // Tall object on a wide stage: let it use more of the height so the
     // screen text stays legible in the mist.
     fit: 0.94,

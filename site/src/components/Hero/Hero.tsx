@@ -84,6 +84,7 @@ const CHIPS: Chip[] = [
     className: styles.chipDesign,
     width: 218,
     height: 95,
+    scene: 'design',
   },
   {
     // 289x95 intrinsic; 145px / 122px.
@@ -118,11 +119,10 @@ const CHIPS: Chip[] = [
 export default function Hero() {
   const reduceMotion = useReducedMotion();
   const [activeScene, setActiveScene] = useState<HeroSceneId | null>(null);
-  // Temporary tuning panel: shown in `next dev`, or anywhere with `?tune` in
-  // the URL. Not rendered in the production export otherwise.
+  // The tuning workbench is opt-in with ?tune, including during development.
   const [tunerOpen, setTunerOpen] = useState(false);
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development' || window.location.search.includes('tune')) {
+    if (new URLSearchParams(window.location.search).has('tune')) {
       setTunerOpen(true);
     }
   }, []);
@@ -195,7 +195,7 @@ export default function Hero() {
                         type="button"
                         className={`${wrapClass} ${styles.chipButton}`}
                         aria-pressed={activeScene === scene}
-                        aria-label={`Show ${chip.alt}`}
+                        aria-label={`${activeScene === scene ? 'Hide' : 'Show'} ${chip.alt}`}
                         onClick={() => toggleScene(scene)}
                       >
                         {content}
