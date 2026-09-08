@@ -15,8 +15,8 @@
  * Showing another scene while one is up *morphs*: every particle is matched
  * to a target of the new set by rank along a Hilbert curve (so neighbours
  * keep travelling together and paths rarely cross), then launched in a quick
- * left-to-right wave — each particle holds its old spot until its launch,
- * gets a kick towards the new one, and re-condenses under the same
+ * windward wave — each particle peels into a shared random gust anchor,
+ * curls back towards the next picture, and re-condenses under the same
  * ramping spring. Greys ease over, so the picture melts from one into the
  * other instead of dispersing and re-emerging.
  *
@@ -189,6 +189,10 @@ export const DEFAULT_TUNING = {
   /** Curl-field strength while travelling and once settled, px/s². */
   flowTravel: 1100,
   flowHold: 24,
+  /** Bounded movement around a settled target, CSS px; scaled down for small art. */
+  idleDrift: 1.6,
+  /** Angular speed of the slow, interleaved idle currents, radians/second. */
+  idleSpeed: 0.65,
   /** Multipliers on the curl field's feature size and drift speed. */
   flowScale: 1,
   flowSpeed: 1,
@@ -210,12 +214,18 @@ export const DEFAULT_TUNING = {
   morphJitter: 0.08,
   /** Seconds from launch until the spring fully holds again. */
   morphSettle: 1.1,
-  /** Nominal travel time used to aim the launch kick, s. */
-  morphTravel: 0.7,
-  /** Share of the straight-line velocity applied as the kick. */
-  morphKick: 0.7,
   /** Seconds after the morph settles before a clip starts moving. */
   morphPlayGap: 0.3,
+
+  // A shared wind anchor briefly draws the cloud away before it reconvenes.
+  /** Seconds following the gust, varied ±15% across ribbons. */
+  windDuration: 0.42,
+  /** Seconds easing attraction from the anchor to the new shape. */
+  windReturn: 0.48,
+  /** Anchor displacement as a share of the shorter stage dimension. */
+  windDistance: 0.38,
+  /** Perpendicular ribbon spread, also relative to the shorter dimension. */
+  windSpread: 0.12,
 
   // Exit (dismiss)
   exitTime: 0.7,
@@ -315,6 +325,8 @@ export const TUNING_DEFS: TuningDef[] = [
   { group: 'Spring & flow', key: 'dampHold', label: 'damping hold', min: 0.2, max: 1.5, step: 0.02 },
   { group: 'Spring & flow', key: 'flowTravel', label: 'flow travel', min: 0, max: 3000, step: 50 },
   { group: 'Spring & flow', key: 'flowHold', label: 'flow hold', min: 0, max: 300, step: 5 },
+  { group: 'Spring & flow', key: 'idleDrift', label: 'idle drift', min: 0, max: 4, step: 0.1 },
+  { group: 'Spring & flow', key: 'idleSpeed', label: 'idle speed', min: 0.1, max: 1.5, step: 0.05 },
   { group: 'Spring & flow', key: 'flowScale', label: 'flow scale', min: 0.3, max: 3, step: 0.05 },
   { group: 'Spring & flow', key: 'flowSpeed', label: 'flow speed', min: 0, max: 4, step: 0.05 },
 
@@ -327,9 +339,12 @@ export const TUNING_DEFS: TuningDef[] = [
   { group: 'Morph', key: 'morphSweep', label: 'wave time', min: 0, max: 1.5, step: 0.05 },
   { group: 'Morph', key: 'morphJitter', label: 'wave jitter', min: 0, max: 0.6, step: 0.05 },
   { group: 'Morph', key: 'morphSettle', label: 'settle time', min: 0.2, max: 3, step: 0.05 },
-  { group: 'Morph', key: 'morphTravel', label: 'travel time', min: 0.2, max: 2, step: 0.05 },
-  { group: 'Morph', key: 'morphKick', label: 'kick', min: 0, max: 2, step: 0.05 },
   { group: 'Morph', key: 'morphPlayGap', label: 'play gap', min: 0, max: 1.5, step: 0.05 },
+
+  { group: 'Morph', key: 'windDuration', label: 'wind drift time', min: 0.1, max: 1, step: 0.02, note: NEXT_SCENE },
+  { group: 'Morph', key: 'windReturn', label: 'wind return time', min: 0.15, max: 1.2, step: 0.02, note: NEXT_SCENE },
+  { group: 'Morph', key: 'windDistance', label: 'wind distance', min: 0.1, max: 0.65, step: 0.01, note: NEXT_SCENE },
+  { group: 'Morph', key: 'windSpread', label: 'wind ribbon spread', min: 0, max: 0.3, step: 0.01, note: NEXT_SCENE },
 
   { group: 'Exit', key: 'exitTime', label: 'exit time', min: 0.2, max: 2.5, step: 0.05 },
   { group: 'Exit', key: 'exitFlow', label: 'flow', min: 0, max: 3000, step: 50 },
@@ -639,6 +654,12 @@ type Pool = {
   delay: Float32Array;
   /** 1 once the particle has appeared; morphing particles skip the grow-in. */
   born: Uint8Array;
+  /** Wind waypoint in normalized stage coordinates, so it follows resizes. */
+  windU: Float32Array;
+  windV: Float32Array;
+  windTime: Float32Array;
+  /** One-shot launch, also when interrupting a scene before its first birth. */
+  windLaunch: Uint8Array;
   deposit: Float32Array;
   pdeposit: Float32Array;
   /** Current luminance 0..1 (eases towards `targetShade`). */
@@ -679,6 +700,10 @@ function makePool(n: number): Pool {
     pv: new Float32Array(n),
     delay: new Float32Array(n),
     born: new Uint8Array(n),
+    windU: new Float32Array(n),
+    windV: new Float32Array(n),
+    windTime: new Float32Array(n),
+    windLaunch: new Uint8Array(n),
     deposit: new Float32Array(n),
     pdeposit: new Float32Array(n),
     shade: new Float32Array(n),
@@ -737,6 +762,10 @@ export class ParticleField {
   private time = 0;
   /** Which settle time applies to the current launch (birth vs morph). */
   private settleMode: 'birth' | 'morph' = 'birth';
+  private windStarted = 0;
+  private windEnds = 0;
+  private windReturn = 0;
+  private windAngle = Math.random() * Math.PI * 2;
   private tuningSeen = 0;
   /** Field time at which the current clip starts moving. */
   private playAt = T.playDelay;
@@ -799,6 +828,8 @@ export class ParticleField {
       p.y[i] = p.ty[i];
       p.vx[i] = p.vy[i] = p.stir[i] = p.excite[i] = 0;
       p.shade[i] = p.targetShade[i];
+      p.windLaunch[i] = 0;
+      p.windTime[i] = 0;
     }
   }
 
@@ -1439,7 +1470,7 @@ export class ParticleField {
    * Re-aim every particle at the new set. Particles and targets are each
    * sorted along a Hilbert curve over the stage and matched by rank, so
    * neighbours travel together. Each particle keeps its old spot until its
-   * launch, staggered left to right, then gets a kick towards the new one.
+   * launch, staggered along the gust, then takes a wind detour before returning.
    */
   private morphTo(set: TargetSet) {
     const p = this.pool;
@@ -1457,6 +1488,26 @@ export class ParticleField {
     const mu = set.mu ?? set.u;
     const mv = set.mv ?? set.v;
     const rig = set.rig;
+
+    // One direction per transition. The anchor is a broad region, not a
+    // pin-point: preserve the cloud's spread and shear it into ribbons.
+    this.windAngle += Math.PI * (0.65 + Math.random() * 0.7);
+    const windX = Math.cos(this.windAngle);
+    const windY = Math.sin(this.windAngle);
+    const span = Math.min(W, H);
+    let centerX = 0, centerY = 0;
+    for (let i = 0; i < n; i++) {
+      centerX += clampX(p.x[i]);
+      centerY += clampY(p.y[i]);
+    }
+    centerX /= n;
+    centerY /= n;
+    const distance = span * T.windDistance * (0.85 + Math.random() * 0.3);
+    const anchorX = Math.max(W * 0.12, Math.min(W * 0.88, centerX + windX * distance));
+    const anchorY = Math.max(H * 0.12, Math.min(H * 0.88, centerY + windY * distance));
+    this.windStarted = t;
+    this.windReturn = T.windReturn;
+    this.windEnds = t + T.morphSweep + T.morphJitter + T.windDuration * 1.15 + this.windReturn;
 
     // Sort keys pack (curve index << 16 | element index) into a double so a
     // plain numeric typed-array sort orders them.
@@ -1478,8 +1529,9 @@ export class ParticleField {
       const j = keysT[r] % 65536;
       const alive = t - p.delay[i] >= 0;
 
-      p.ptx[i] = p.tx[i];
-      p.pty[i] = p.ty[i];
+      // Interrupted transitions depart from the actual cloud, without snapping.
+      p.ptx[i] = p.x[i];
+      p.pty[i] = p.y[i];
       p.pu[i] = p.u[i];
       p.pv[i] = p.v[i];
       p.pdeposit[i] = p.deposit[i];
@@ -1507,18 +1559,29 @@ export class ParticleField {
         p.delay[i] = t;
         continue;
       }
-      // Launch wave crosses the stage left to right from where particles are now.
-      p.delay[i] = t + (clampX(p.x[i]) / Math.max(1, W)) * T.morphSweep + Math.random() * T.morphJitter;
+      const su = clampX(p.x[i]) / W;
+      const sv = clampY(p.y[i]) / H;
+      const curl = ribbon(su, sv);
+      const band = ribbon2(su, sv);
+      const spread = span * T.windSpread * curl;
+      p.windU[i] = (anchorX + (p.x[i] - centerX) * 0.82 - windY * spread) / W;
+      p.windV[i] = (anchorY + (p.y[i] - centerY) * 0.82 + windX * spread) / H;
+      p.windTime[i] = T.windDuration * (1 + 0.15 * band);
+      p.windLaunch[i] = 1;
+      // Windward particles peel away first, along the selected gust.
+      const projection = ((su - 0.5) * windX + (sv - 0.5) * windY)
+        / Math.max(0.001, Math.abs(windX) + Math.abs(windY)) + 0.5;
+      p.delay[i] = t + projection * T.morphSweep + Math.random() * T.morphJitter;
     }
 
     this.settleMode = 'morph';
-    // A clip waits for the morph to settle plus a gap; a rig starts as soon as
-    // the last-launched particles have had their travel time to arrive.
+    // Wait for the last ribbon to turn home and settle before animating
+    // the new subject. Clips retain their additional breathing space.
     this.playAt = reduced
       ? t + REDUCED_PLAY_DELAY
       : rig
-        ? t + T.morphSweep + T.morphJitter + T.morphTravel
-        : t + T.morphSweep + T.morphJitter + T.morphSettle * 0.8 + T.morphPlayGap;
+        ? this.windEnds + T.morphSettle
+        : this.windEnds + T.morphSettle + T.morphPlayGap;
   }
 
   /* ---- playback -------------------------------------------------------- */
@@ -1673,6 +1736,15 @@ export class ParticleField {
     }
   };
 
+  /** Longer wisps during the gust; the settled material regains its crispness. */
+  private trailKeep(dt: number) {
+    const duration = this.windEnds - this.windStarted;
+    const progress = duration > 0 ? (this.time - this.windStarted) / duration : 1;
+    const gust = !this.reducedMotion && this.settleMode === 'morph' && this.phase !== 'exit'
+      && progress > 0 && progress < 1 ? Math.sin(Math.PI * progress) : 0;
+    return Math.pow(lerp(T.trailDecay, Math.max(T.trailDecay, 0.84), gust), dt * 60);
+  }
+
   /** Overall opacity at field time `t`. */
   private fadeAt(t: number) {
     const exiting = this.phase === 'exit';
@@ -1713,7 +1785,7 @@ export class ParticleField {
 
     // Deposits are scaled so the steady state is frame-rate independent:
     // the accumulators keep pow(trailDecay, frames) between frames.
-    const keep = Math.pow(T.trailDecay, dt * 60);
+    const keep = this.trailKeep(dt);
     const depositScale = T.targetDensity * (1 - keep);
     const shadeMix = 1 - Math.exp(-dt / T.shadeTau);
     const stirKeep = Math.exp(-dt / T.stirTau);
@@ -1780,6 +1852,8 @@ export class ParticleField {
     const pvy = this.pvy;
     const settleTime = this.settleMode === 'morph' ? T.morphSettle : T.settleTime;
     const cHold = 2 * Math.sqrt(T.kHold) * T.dampHold;
+    const idleSize = T.idleDrift * Math.min(1, Math.max(0.45, Math.min(rw, rh) / 280));
+    const idleTime = t * T.idleSpeed;
 
     for (let i = 0; i < p.count; i++) {
       const age = t - delay[i];
@@ -1796,8 +1870,10 @@ export class ParticleField {
       // the wave reaches it.
       let sh = shade[i];
       const ts = targetShade[i];
+      const windTime = this.settleMode === 'morph' ? p.windTime[i] : 0;
+      const shadeProgress = windTime > 0 ? ease5((age - windTime) / this.windReturn) : 1;
       if (!holding && sh !== ts) {
-        sh += (ts - sh) * shadeMix;
+        sh += (ts - sh) * shadeMix * shadeProgress;
         shade[i] = sh;
       }
       let st = stir[i];
@@ -1846,17 +1922,19 @@ export class ParticleField {
         goalY = pty[i];
         ink = pdeposit[i] * ppres[i];
       } else {
-        if (born[i] && age < dt) {
-          // First frame after a morph launch: aim at the new spot, curling.
-          const dx = tx[i] - X;
-          const dy = ty[i] - Y;
-          const kx = (dx / T.morphTravel) * T.morphKick;
-          const ky = (dy / T.morphTravel) * T.morphKick;
-          const perp = ribbon(u[i], v[i]) * 0.5;
-          nvx = kx - ky * perp;
-          nvy = ky + kx * perp;
+        const windTime = this.settleMode === 'morph' ? p.windTime[i] : 0;
+        const redirect = windTime > 0 ? ease5((age - windTime) / this.windReturn) : 1;
+        const windGoalX = p.windU[i] * this.width;
+        const windGoalY = p.windV[i] * this.height;
+        if (p.windLaunch[i]) {
+          const travel = Math.max(0.1, windTime);
+          nvx = nvx * 0.3 + (windGoalX - X) / travel * 0.85;
+          nvy = nvy * 0.3 + (windGoalY - Y) / travel * 0.85;
+          p.windLaunch[i] = 0;
         }
-        const settle = smoothstep(age / settleTime);
+        // Ease attraction across the turn; no second kick or position reset.
+        const returnAge = age - (windTime > 0 ? windTime + this.windReturn : 0);
+        const settle = smoothstep(returnAge / settleTime);
         k = lerp(T.kTravel, T.kHold, settle);
         c = lerp(T.cTravel, cHold, settle);
         // Motion in the clip stirs the smoke: recent brightness change
@@ -1864,10 +1942,27 @@ export class ParticleField {
         flowAmp = lerp(T.flowTravel, T.flowHold, Math.sqrt(settle)) + T.stirGain * st;
         density = lerp(T.travelDensity, 1, settle);
         if (!born[i] && age < T.growTime) density *= age / T.growTime;
-        goalX = tx[i];
-        goalY = ty[i];
+        goalX = lerp(windGoalX, tx[i], redirect);
+        goalY = lerp(windGoalY, ty[i], redirect);
+        if (windTime > 0 && redirect < 1) {
+          k = lerp(9, T.kTravel, redirect);
+          c = lerp(3.2, T.cTravel, redirect);
+          flowAmp *= 1 + 0.5 * (1 - redirect);
+          density *= 0.8 + 0.2 * redirect;
+        }
+        // Two slow, spatially coherent currents keep the finished material
+        // alive. Move the spring's goal, never accumulate displacement: fine
+        // edges remain bounded and the whole object does not bob as one piece.
+        // Ease this in only after arrival, and keep an unfolding rig quieter.
+        const life = idleSize * settle * settle * (this.rig && !this.rigDone ? 0.25 : 1);
+        if (life > 0) {
+          const a = u[i] * 9 + v[i] * 5 + idleTime;
+          const b = u[i] * 17 - v[i] * 11 - idleTime * 0.71;
+          goalX += life * (0.65 * fastCos(a) + 0.35 * fastCos(b));
+          goalY += life * (0.65 * fastCos(a + Math.PI / 2) - 0.35 * fastCos(b + Math.PI / 2));
+        }
         // Presence eases from the held value to the current one as the particle settles.
-        ink = deposit[i] * lerp(ppres[i], pres[i] * vis, settle);
+        ink = lerp(pdeposit[i] * ppres[i], deposit[i] * pres[i] * vis, windTime > 0 ? redirect * settle : settle);
       }
       const lum = dark ? sh : 1 - sh;
       density *= lumFloor + T.densityFromLuminance * lum;
@@ -1971,7 +2066,7 @@ export class ParticleField {
     const hi = dark ? T.greyDarkHi : T.greyLightHi;
     const lo255 = lo * 255;
     const span255 = (hi - lo) * 255;
-    const keep = Math.pow(T.trailDecay, dt * 60);
+    const keep = this.trailKeep(dt);
     const alphaScale = fade * 255;
 
     const accA = this.accA;
