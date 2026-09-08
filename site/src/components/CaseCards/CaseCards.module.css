@@ -70,16 +70,15 @@
 /* ---------- Product recordings under the device hero ---------- */
 
 .videoRow {
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   align-items: stretch;
   gap: 20px;
   width: 100%;
 }
 
 .videoFrame {
-  flex: 1 0 0;
-  width: 1px;
+  min-width: 0;
   margin: 0;
   aspect-ratio: 3 / 2;
   border: 1px solid var(--surface);
@@ -228,11 +227,7 @@
   }
 
   .videoRow {
-    flex-direction: column;
-  }
-
-  .videoFrame {
-    width: 100%;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .grid {
