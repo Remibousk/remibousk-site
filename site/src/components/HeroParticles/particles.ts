@@ -87,6 +87,8 @@ export type SheetScene = SceneBase & {
   transparent?: boolean;
   /** Play frames 0..count once, then loop from this frame (default 0 = loop everything). */
   loopFrom?: number;
+  /** Static poster frame when the visitor requests reduced motion. */
+  reducedFrame?: number;
 };
 
 /** One moving part of a rig: a polygon of the finished picture that swings about a hinge. */
@@ -159,19 +161,19 @@ const MAX_DT = 1 / 30;
 export const DEFAULT_TUNING = {
   // Pointer
   /** Reach of the pointer, CSS px (scaled ±30% per particle so the hole has no hard rim). */
-  pointerRadius: 170,
+  pointerRadius: 110,
   /** Steady outward push at the pointer, px/s² (falls off as (1 - d/R)^1.5). */
-  repel: 16000,
+  repel: 7200,
   /** Tangential push, px/s²: makes the hole swirl. */
-  swirl: 4500,
+  swirl: 1800,
   /** How much of the pointer's own velocity is passed to particles it sweeps through. */
-  dragPush: 5,
+  dragPush: 2.4,
   /** Velocity impulse, px/s, when the pointer newly reaches a particle — the throw. */
-  throwImpulse: 900,
+  throwImpulse: 320,
   /** Seconds a struck particle stays "excited". */
   exciteTau: 0.55,
   /** How much excitement loosens the spring (0 none, 0.95 nearly free). */
-  exciteLoosen: 0.75,
+  exciteLoosen: 0.5,
   /** How much excitement reduces damping. */
   exciteUndamp: 0.4,
   /** How fast the remembered pointer velocity fades once it stops, 1/s. */
@@ -183,10 +185,10 @@ export const DEFAULT_TUNING = {
   kHold: 140,
   /** Damping while travelling (absolute) and settled (ratio of critical). */
   cTravel: 2.4,
-  dampHold: 0.72,
+  dampHold: 0.9,
   /** Curl-field strength while travelling and once settled, px/s². */
   flowTravel: 1100,
-  flowHold: 40,
+  flowHold: 24,
   /** Multipliers on the curl field's feature size and drift speed. */
   flowScale: 1,
   flowSpeed: 1,
@@ -196,7 +198,7 @@ export const DEFAULT_TUNING = {
   settleTime: 1.4,
   /** Seconds between the first and last birth on each side. */
   sweepTime: 0.9,
-  birthJitter: 0.2,
+  birthJitter: 0.12,
   /** Nominal travel time used to aim the birth velocity, s. */
   travelTime: 0.9,
   /** Seconds a newborn takes to reach full ink. */
@@ -205,7 +207,7 @@ export const DEFAULT_TUNING = {
   // Morph (scene to scene)
   /** Seconds the launch wave takes to cross the stage. */
   morphSweep: 0.35,
-  morphJitter: 0.15,
+  morphJitter: 0.08,
   /** Seconds from launch until the spring fully holds again. */
   morphSettle: 1.1,
   /** Nominal travel time used to aim the launch kick, s. */
@@ -226,13 +228,13 @@ export const DEFAULT_TUNING = {
 
   // Mist
   /** Share of last frame's ink kept each frame (at 60fps). Longer = smokier. */
-  trailDecay: 0.78,
+  trailDecay: 0.7,
   /** Steady-state alpha a settled, fully bright region converges to. */
   targetDensity: 0.95,
   /** Ink multiplier while travelling (gauzier streams). */
   travelDensity: 0.7,
   /** How much the mist thins where the picture is dark (light theme: where it is light). */
-  densityFromLuminance: 0.75,
+  densityFromLuminance: 0.6,
   /** Fraction of a full-frame clip's width/height over which the mist thins to nothing at the edge. */
   edgeFeather: 0.08,
   /** Grey range per theme (0 black … 1 white) the picture's luminance maps into. */
@@ -247,7 +249,7 @@ export const DEFAULT_TUNING = {
   /** Time constant for a particle's grey to follow its new frame value, s. */
   shadeTau: 0.045,
   /** Extra curl strength per unit of brightness change between frames, and its decay. */
-  stirGain: 1400,
+  stirGain: 800,
   stirTau: 0.15,
   /** Seconds after a fresh appearance before a rig starts moving — about when the last particles land. */
   rigDelay: 1.6,
@@ -258,7 +260,7 @@ export const DEFAULT_TUNING = {
 
   // Pool
   /** Particle counts; must stay below 65536. */
-  poolDesktop: 60000,
+  poolDesktop: 36000,
   poolPhone: 12000,
 };
 
@@ -481,7 +483,10 @@ function loadImage(src: string): Promise<HTMLImageElement> {
         if (typeof img.decode === 'function') img.decode().then(done, done);
         else done();
       };
-      img.onerror = () => reject(new Error(`Failed to load ${src}`));
+      img.onerror = () => {
+        imageCache.delete(src); // A transient failure must be retryable.
+        reject(new Error(`Failed to load ${src}`));
+      };
       img.src = src;
     });
     imageCache.set(src, p);
@@ -538,6 +543,7 @@ function loadFrames(scene: SheetScene): Promise<FrameSet> {
       const loopFrom = Math.min(Math.max(0, scene.loopFrom ?? 0), count - 1);
       return { fw, fh, count, data, starts, total: t, alpha, loopFrom };
     });
+    p = p.catch((error) => { frameCache.delete(scene.id); throw error; });
     frameCache.set(scene.id, p);
   }
   return p;
@@ -704,6 +710,7 @@ export class ParticleField {
   private height = 0;
   private theme: ParticleTheme = 'dark';
   private reducedMotion = false;
+  private reducedUntil = 0;
 
   /** Pixel buffer: dimensions, accumulators and the ImageData they compose into. */
   private bw = 0;
@@ -751,6 +758,7 @@ export class ParticleField {
 
   constructor(private canvas: HTMLCanvasElement) {
     this.ctx = canvas.getContext('2d', { alpha: true });
+    this.pageVisible = !document.hidden;
     document.addEventListener('visibilitychange', this.onVisibility);
   }
 
@@ -758,10 +766,40 @@ export class ParticleField {
 
   setTheme(theme: ParticleTheme) {
     this.theme = theme;
+    this.wakeReduced();
   }
 
   setReducedMotion(on: boolean) {
+    if (this.reducedMotion === on) return;
     this.reducedMotion = on;
+    if (on) this.settleReduced();
+    this.wakeReduced();
+  }
+
+  /** A brief dissolve, then no animation work for a reduced-motion poster. */
+  private wakeReduced() {
+    this.reducedUntil = this.time + 0.7;
+    this.syncLoop();
+  }
+
+  private settleReduced() {
+    const p = this.pool;
+    if (!p) return;
+    if (this.rig) this.updateRig(this.playAt + 3600, 0);
+    const frames = this.frames;
+    if (frames) {
+      const requested = this.scene?.kind === 'sheet' ? this.scene.reducedFrame ?? 0 : 0;
+      const frame = Math.min(frames.count - 1, Math.max(0, requested));
+      this.frameIndex = frame;
+      const base = frame * frames.fw * frames.fh;
+      for (let i = 0; i < p.count; i++) p.targetShade[i] = frames.data[base + p.pix[i]] / 255;
+    }
+    for (let i = 0; i < p.count; i++) {
+      p.x[i] = p.tx[i];
+      p.y[i] = p.ty[i];
+      p.vx[i] = p.vy[i] = p.stir[i] = p.excite[i] = 0;
+      p.shade[i] = p.targetShade[i];
+    }
   }
 
   setInView(on: boolean) {
@@ -791,6 +829,8 @@ export class ParticleField {
       this.retarget();
     }
     if (this.phase === 'idle') this.clear();
+    if (this.reducedMotion) this.settleReduced();
+    this.wakeReduced();
   }
 
   setPointer(x: number | null, y?: number) {
@@ -824,11 +864,11 @@ export class ParticleField {
    * up (or on its way out) they morph into the new one instead.
    */
   show(scene: ParticleScene) {
+    const token = ++this.showToken;
     if (this.scene?.id === scene.id && this.phase !== 'idle' && this.pool) {
       if (this.phase === 'exit') this.cancelExit();
       return;
     }
-    const token = ++this.showToken;
     type Loaded = { frames: FrameSet | null; img: HTMLImageElement | null; rig: RigImages | null };
     const rigScene = scene.kind === 'rig' ? scene : null;
     const load: Promise<Loaded> =
@@ -870,7 +910,8 @@ export class ParticleField {
           if (this.phase === 'exit') this.cancelExit();
           this.morphTo(targets);
         }
-        this.syncLoop();
+        if (this.reducedMotion) this.settleReduced();
+        this.wakeReduced();
       },
       () => {
         if (token === this.showToken && this.phase === 'idle') this.scene = null;
@@ -879,10 +920,11 @@ export class ParticleField {
   }
 
   hide() {
+    // Invalidate pending loads even while another scene is visible or exiting.
+    this.showToken++;
     if (this.phase === 'shown') this.beginExit();
     else if (this.phase === 'idle') {
       // Cancel a show() that is still waiting on its assets.
-      this.showToken++;
       this.scene = null;
     }
   }
@@ -907,14 +949,18 @@ export class ParticleField {
   };
 
   private poolSize() {
-    const n = this.width <= PHONE_MAX_WIDTH ? T.poolPhone : T.poolDesktop;
+    // A tablet stage can have three times a phone's picture area. Avoid
+    // imposing the phone budget on every layout below the CSS breakpoint.
+    const n = this.width <= PHONE_MAX_WIDTH
+      ? Math.min(T.poolDesktop, T.poolPhone * Math.max(1, (this.width / 390) ** 2))
+      : T.poolDesktop;
     return Math.min(65535, Math.max(1000, Math.round(n)));
   }
 
   private beginExit() {
     this.phase = 'exit';
     this.exitStart = this.time;
-    this.syncLoop();
+    this.wakeReduced();
   }
 
   /** A new scene arrived mid-dismissal: keep the particles and fade back in. */
@@ -922,6 +968,7 @@ export class ParticleField {
     this.fadeFloor = this.fadeAt(this.time);
     this.fadeFloorAt = this.time;
     this.phase = 'shown';
+    this.wakeReduced();
   }
 
   private finishExit() {
@@ -984,7 +1031,7 @@ export class ParticleField {
 
   /**
    * Thin or top up sampled candidates to exactly `n` entries. Surplus is
-   * dropped at random; shortfall is filled with jittered duplicates.
+   * thinned evenly; shortfall is filled with balanced jittered duplicates.
    */
   private finishTargets(c: Candidates, n: number, stepCss: number, feather: boolean): TargetSet {
     const { us, vs, shades, pix, part, shadeA, shadeB, presB } = c;
@@ -1015,27 +1062,21 @@ export class ParticleField {
     const ju = (stepCss * 0.5) / Math.max(1, rw);
     const jv = (stepCss * 0.5) / Math.max(1, rh);
 
-    // Random permutation prefix of the candidates (partial Fisher–Yates).
-    const order = new Int32Array(m);
-    for (let i = 0; i < m; i++) order[i] = i;
+    // Even coverage prevents random thinning and duplicate clusters from
+    // creating bright clumps and dark holes in a settled silhouette.
+    if (m === 0) return set;
     const take = Math.min(m, n);
-    for (let i = 0; i < take; i++) {
-      const j = i + Math.floor(Math.random() * (m - i));
-      const t = order[i];
-      order[i] = order[j];
-      order[j] = t;
-    }
 
     for (let k = 0; k < n; k++) {
       let src: number;
       let u: number;
       let v: number;
       if (k < take) {
-        src = order[k];
+        src = Math.floor(k * m / take);
         u = us[src];
         v = vs[src];
       } else {
-        src = order[Math.floor(Math.random() * take)];
+        src = (k - take) % m;
         u = Math.min(1, Math.max(0, us[src] + (Math.random() - 0.5) * 2 * ju));
         v = Math.min(1, Math.max(0, vs[src] + (Math.random() - 0.5) * 2 * jv));
       }
@@ -1049,7 +1090,7 @@ export class ParticleField {
         rig.shadeB[k] = shadeB[src];
         rig.presB[k] = presB[src];
       }
-      let d = base * (0.8 + Math.random() * 0.4);
+      let d = base * (0.94 + Math.random() * 0.12);
       if (feather) {
         // Full-frame clips would otherwise end in a hard rectangle.
         d *= smoothstep(Math.min(u, 1 - u) / T.edgeFeather) * smoothstep(Math.min(v, 1 - v) / T.edgeFeather);
@@ -1074,7 +1115,7 @@ export class ParticleField {
 
     const sample = (stepCss: number) => {
       const step = stepCss * (sw / rw);
-      const jitter = step * 0.35;
+      const jitter = step * 0.22;
       const us: number[] = [];
       const vs: number[] = [];
       const shades: number[] = [];
@@ -1090,7 +1131,8 @@ export class ParticleField {
           if (data[o + 3] < ALPHA_THRESHOLD) continue;
           us.push(jx / sw);
           vs.push(jy / sh);
-          shades.push(data[o] / 255);
+          // Actual luminance matters for supplied colour artwork.
+          shades.push((0.2126 * data[o] + 0.7152 * data[o + 1] + 0.0722 * data[o + 2]) / 255);
         }
       }
       return { us, vs, shades, coverage: total ? us.length / total : 0 };
@@ -1215,7 +1257,7 @@ export class ParticleField {
 
     const sample = (stepCss: number): Candidates => {
       const step = stepCss * (sw / rw);
-      const jitter = step * 0.35;
+      const jitter = step * 0.22;
       const us: number[] = [];
       const vs: number[] = [];
       const shades: number[] = [];
@@ -1600,7 +1642,8 @@ export class ParticleField {
   /* ---- loop ------------------------------------------------------------ */
 
   private syncLoop() {
-    const shouldRun = this.phase !== 'idle' && this.inView && this.pageVisible;
+    const shouldRun = this.phase !== 'idle' && this.inView && this.pageVisible
+      && (!this.reducedMotion || this.time < this.reducedUntil);
     if (shouldRun && !this.frame) {
       this.lastFrame = 0;
       this.frame = requestAnimationFrame(this.tick);
@@ -1625,7 +1668,9 @@ export class ParticleField {
     this.lastFrame = now;
     if (!this.step(dt)) return;
     this.compose(dt);
-    this.frame = requestAnimationFrame(this.tick);
+    if (this.inView && this.pageVisible && (!this.reducedMotion || this.time < this.reducedUntil)) {
+      this.frame = requestAnimationFrame(this.tick);
+    }
   };
 
   /** Overall opacity at field time `t`. */
@@ -1661,7 +1706,7 @@ export class ParticleField {
       return false;
     }
 
-    if (!exiting) {
+    if (!exiting && !reduced) {
       this.updateClip(t);
       this.updateRig(t, dt);
     }
@@ -1704,8 +1749,8 @@ export class ParticleField {
     };
 
     if (reduced) {
-      // Particles sit on their targets; greys still follow the clip, and
-      // only the fade animates (in compose).
+      // A static poster: no clip playback, rig motion, or pointer force.
+      // Only the brief dissolve animates (in compose).
       for (let i = 0; i < p.count; i++) {
         const sh = shade[i] + (targetShade[i] - shade[i]) * shadeMix;
         shade[i] = sh;
@@ -1728,6 +1773,7 @@ export class ParticleField {
     const f1 = flow[1];
     const f2 = flow[2];
     const pointer = this.pointerActive && !exiting;
+    const pointerRadius = Math.min(T.pointerRadius, this.rect.w * 0.24, this.rect.h * 0.4);
     const px = this.px;
     const py = this.py;
     const pvx = this.pvx;
@@ -1842,7 +1888,7 @@ export class ParticleField {
         const dx = X - px;
         const dy = Y - py;
         const d2 = dx * dx + dy * dy;
-        const radius = T.pointerRadius * reach[i];
+        const radius = pointerRadius * reach[i];
         if (d2 < radius * radius) {
           const d = Math.sqrt(d2) + 0.001;
           const f = 1 - d / radius;
