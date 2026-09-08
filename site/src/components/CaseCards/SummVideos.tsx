@@ -18,11 +18,25 @@ const VIDEOS = [
     height: 804,
     label: 'Summ stocks announcement',
   },
+  {
+    src: '/videos/summ-add-transaction.mp4',
+    poster: '/images/summ-add-transaction-poster.jpg',
+    width: 1280,
+    height: 828,
+    label: 'Summ add transaction walkthrough',
+  },
+  {
+    src: '/videos/summ-stocks-animation-bg.mp4',
+    poster: '/images/summ-stocks-animation-bg-poster.jpg',
+    width: 1280,
+    height: 858,
+    label: 'Summ stocks dashboard animation',
+  },
 ] as const;
 
 /**
- * Two looping product recordings under the SUMM device hero.
- * Play only while in view so the homepage does not download both files
+ * Looping product recordings in pairs under the SUMM device hero.
+ * Play only while in view so the homepage does not download the files
  * on first paint; pause for prefers-reduced-motion.
  */
 export default function SummVideos() {
@@ -67,7 +81,7 @@ export default function SummVideos() {
             muted
             loop
             playsInline
-            preload="metadata"
+            preload="none"
             aria-label={video.label}
           />
         </figure>
