@@ -44,10 +44,11 @@ import styles from './Hero.module.css';
  * Addition (not in the original): chips that have a scene in HERO_SCENES
  * are toggle buttons. Product starts on load, then the five scenes cycle
  * in chip order every eight seconds. The active chip holds the hover lift
- * so it reads as selected. Clicking a chip jumps to that scene and
- * restarts the timer; clicking the active chip again, or pressing Escape,
- * sends it out and stops the cycle. Reduced-motion visitors keep Product
- * and do not auto-advance.
+ * so it reads as selected (a static CSS copy of that pose under reduced
+ * motion). Clicking a chip jumps to that scene and restarts the timer;
+ * clicking the active chip again, or pressing Escape, sends it out and
+ * stops the cycle. Reduced-motion visitors keep Product and do not
+ * auto-advance.
  */
 
 /** Framer transition `ca`/`la`: spring, bounce 0.25, duration 0.45s. */
