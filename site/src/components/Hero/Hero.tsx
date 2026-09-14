@@ -42,14 +42,12 @@ import styles from './Hero.module.css';
  *   chip's particle scene (below).
  *
  * Addition (not in the original): chips that have a scene in HERO_SCENES
- * are toggle buttons. Clicking one sweeps a greyscale particle rendering of
- * its picture (or clip) into the empty space above the headline (see
- * HeroParticles); clicking it again, clicking another chip, or pressing
- * Escape sends it out.
- *
- * The homepage has NO appear/scroll-reveal animations in the original (the
- * mirror HTML contains no `data-framer-appear-id` on `/`), so nothing here
- * animates in on load.
+ * are toggle buttons. Product starts on load, then the five scenes cycle
+ * in chip order every eight seconds. The active chip holds the hover lift
+ * so it reads as selected. Clicking a chip jumps to that scene and
+ * restarts the timer; clicking the active chip again, or pressing Escape,
+ * sends it out and stops the cycle. Reduced-motion visitors keep Product
+ * and do not auto-advance.
  */
 
 /** Framer transition `ca`/`la`: spring, bounce 0.25, duration 0.45s. */
@@ -78,15 +76,6 @@ const CHIPS: Chip[] = [
     scene: 'product',
   },
   {
-    // 218x95 intrinsic; 109px / 92px.
-    src: '/images/chip-design.svg',
-    alt: 'Design',
-    className: styles.chipDesign,
-    width: 218,
-    height: 95,
-    scene: 'design',
-  },
-  {
     // 289x95 intrinsic; 145px / 122px.
     src: '/images/chip-discovery.svg',
     alt: 'Discovery',
@@ -106,6 +95,15 @@ const CHIPS: Chip[] = [
     scene: 'strategy',
   },
   {
+    // 218x95 intrinsic; 109px / 92px.
+    src: '/images/chip-design.svg',
+    alt: 'Design',
+    className: styles.chipDesign,
+    width: 218,
+    height: 95,
+    scene: 'design',
+  },
+  {
     // 180x86 intrinsic; 100px / 84px so displayed height matches the others.
     src: '/images/chip-build.svg',
     alt: 'Build',
@@ -116,9 +114,14 @@ const CHIPS: Chip[] = [
   },
 ];
 
+const SCENE_ORDER = CHIPS.map((chip) => chip.scene).filter(
+  (id): id is HeroSceneId => Boolean(id),
+);
+const CYCLE_MS = 8000;
+
 export default function Hero() {
   const reduceMotion = useReducedMotion();
-  const [activeScene, setActiveScene] = useState<HeroSceneId | null>(null);
+  const [activeScene, setActiveScene] = useState<HeroSceneId | null>('product');
   // The tuning workbench is opt-in with ?tune, including during development.
   const [tunerOpen, setTunerOpen] = useState(false);
   useEffect(() => {
@@ -127,12 +130,22 @@ export default function Hero() {
     }
   }, []);
 
-  // Warm the picture cache once the page has settled so the first click
-  // never waits on the network.
   useEffect(() => {
-    const id = window.setTimeout(() => preloadScenes(Object.values(HERO_SCENES)), 800);
-    return () => window.clearTimeout(id);
+    preloadScenes(Object.values(HERO_SCENES));
   }, []);
+
+  useEffect(() => {
+    if (reduceMotion || !activeScene) return;
+    const id = window.setTimeout(() => {
+      setActiveScene((current) => {
+        if (!current) return current;
+        const index = SCENE_ORDER.indexOf(current);
+        const from = index === -1 ? 0 : index;
+        return SCENE_ORDER[(from + 1) % SCENE_ORDER.length];
+      });
+    }, CYCLE_MS);
+    return () => window.clearTimeout(id);
+  }, [activeScene, reduceMotion]);
 
   useEffect(() => {
     if (!activeScene) return;
@@ -143,13 +156,19 @@ export default function Hero() {
     return () => window.removeEventListener('keydown', onKey);
   }, [activeScene]);
 
-  const chipHover = (shadow: boolean) =>
+  const chipMotion = (lifted: boolean, shadow: boolean) =>
     reduceMotion
       ? undefined
       : {
-          scale: 1.05,
-          y: -2,
-          ...(shadow ? { boxShadow: '0px 2px 4px 0px rgba(0, 0, 0, 0.25)' } : {}),
+          scale: lifted ? 1.05 : 1,
+          y: lifted ? -2 : 0,
+          ...(shadow
+            ? {
+                boxShadow: lifted
+                  ? '0px 2px 4px 0px rgba(0, 0, 0, 0.25)'
+                  : '0px 0px 0px 0px rgba(0, 0, 0, 0)',
+              }
+            : {}),
         };
 
   const toggleScene = (id: HeroSceneId) =>
@@ -175,6 +194,7 @@ export default function Hero() {
               <div className={styles.chips}>
                 {CHIPS.map((chip) => {
                   const wrapClass = `${styles.chipWrap} ${chip.className}`;
+                  const lifted = chip.scene === activeScene;
                   const content = (
                     <motion.img
                       src={chip.src}
@@ -182,7 +202,8 @@ export default function Hero() {
                       width={chip.width}
                       height={chip.height}
                       className={styles.chip}
-                      whileHover={chipHover(Boolean(chip.hoverShadow))}
+                      animate={chipMotion(lifted, Boolean(chip.hoverShadow))}
+                      whileHover={chipMotion(true, Boolean(chip.hoverShadow))}
                       transition={CHIP_SPRING}
                     />
                   );

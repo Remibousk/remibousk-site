@@ -49,8 +49,7 @@
 }
 
 /* Everything above the blurb: the flex remainder of the 98vh card. Holds the
-   particle canvas (HeroParticles fills it absolutely). Empty and inert
-   until a chip is clicked. */
+   particle canvas (HeroParticles fills it absolutely). Product starts on load. */
 .stage {
   position: relative;
   flex: 1 1 auto;
@@ -154,6 +153,10 @@
 .chipButton:focus-visible {
   outline: 2px solid var(--border-focus);
   outline-offset: 3px;
+}
+
+.chipButton[aria-pressed='true'] {
+  z-index: 1;
 }
 
 /* Displayed at ~0.5 of the SVG intrinsic size so chip height stays ~48px. */
