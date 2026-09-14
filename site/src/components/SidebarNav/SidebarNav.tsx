@@ -158,11 +158,9 @@ function SmallLinks({ onNavigate }: { onNavigate?: () => void }) {
       >
         Email
       </a>
-      {/* Resume href is the original's exact Google Drive share link (see
-          reference/mirror/home.html) — not a framerusercontent PDF asset,
-          so there is nothing to self-host. Flagged in the build report. */}
+      {/* Resume href is a Google Drive share link — not a self-hosted PDF. */}
       <a
-        href="https://drive.google.com/file/d/1K3cDPcaTtubMTIIHOGLsKj8TPRLqcfAQ/view?usp=sharing"
+        href="https://drive.google.com/file/d/1TcnjDDrr47pN9WyHbY0zCI--o_iosgSV/view?usp=sharing"
         target="_blank"
         rel="noopener noreferrer"
         className={styles.smallLink}
