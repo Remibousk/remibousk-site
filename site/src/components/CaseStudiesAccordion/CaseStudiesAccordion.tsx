@@ -7,8 +7,18 @@ import styles from './CaseStudiesAccordion.module.css';
  * Collapsed-by-default disclosure around a case-study card grid.
  * The trigger keeps the existing "Case studies" heading type; the cards
  * inside are unchanged and only shown once opened.
+ *
+ * `label` overrides the trigger text. SUMM passes "Other case studies"
+ * because the Version History tile above it is already a featured case
+ * study; SiteMinder has no such tile and keeps the default.
  */
-export default function CaseStudiesAccordion({ children }: { children: ReactNode }) {
+export default function CaseStudiesAccordion({
+  children,
+  label = 'Case studies',
+}: {
+  children: ReactNode;
+  label?: string;
+}) {
   const [open, setOpen] = useState(false);
   const panelId = useId();
   const headingId = useId();
@@ -36,7 +46,7 @@ export default function CaseStudiesAccordion({ children }: { children: ReactNode
           aria-controls={panelId}
           onClick={() => setOpen((value) => !value)}
         >
-          Case studies
+          {label}
           <svg
             className={styles.chevron}
             data-open={open || undefined}

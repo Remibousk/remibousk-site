@@ -3,11 +3,12 @@ import type { ReactElement } from 'react';
 import CaseStudiesAccordion from '@/components/CaseStudiesAccordion/CaseStudiesAccordion';
 import DeviceTabs from '@/components/DeviceTabs/DeviceTabs';
 import SummVideos from './SummVideos';
+import VersionHistoryTile from './VersionHistoryTile';
 import styles from './CaseCards.module.css';
 
 /**
  * "SUMM" header block + tabbed device showcase + product recordings +
- * collapsed "Case studies" accordion (card grid is unchanged once opened).
+ * collapsed "Other case studies" accordion (card grid is unchanged once opened).
  * Source: reference/mirror/home.html, the (unnamed) wrapper div that holds
  * both the "SUMM"/"Formerly Crypto Tax Calculator"/"Lead product designer"
  * heading (framer-1a9z7v2, no data-framer-name of its own) and, immediately
@@ -141,7 +142,9 @@ export default function CaseCards() {
         <SummVideos />
       </div>
 
-      <CaseStudiesAccordion>
+      <VersionHistoryTile />
+
+      <CaseStudiesAccordion label="Other case studies">
         <div className={styles.grid}>
           {CARDS.map((card) => {
             const Media = CARD_MEDIA[card.key];
