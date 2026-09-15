@@ -94,12 +94,12 @@ const ENTRIES: Entry[] = [
   { company: 'Meld Studios', role: 'Service Designer', dates: '2015' },
   {
     company: 'University of Technology, Sydney',
-    role: 'Designing futures',
+    role: 'Master of Design - Creative futures',
     dates: '2014 - 2015',
   },
   {
     company: 'University of Technology, Sydney',
-    role: 'Student of Industrial Design',
+    role: 'Bachelor of Industrial Design',
     dates: '2010 - 2013',
   },
 ];

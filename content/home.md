@@ -139,13 +139,13 @@ Side Projects
 
 #### University of Technology, Sydney
 
-#### Designing futures
+#### Master of Design - Creative futures
 
 #### 2014 - 2015
 
 #### University of Technology, Sydney
 
-#### Student of Industrial Design
+#### Bachelor of Industrial Design
 
 #### 2010 - 2013
 
