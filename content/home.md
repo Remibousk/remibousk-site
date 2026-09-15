@@ -153,7 +153,13 @@ Side Projects
 
 #### RemOS
 A personal OS.
-(links to: https://remibousk.com)
+(links to: https://os.remibousk.com)
+<!-- media: remos.mp4 -->
+
+#### Symbol Morph
+A playground for shape and motion. Morph symbols into looping animations.
+(links to: https://symbol-morph.vercel.app/)
+<!-- media: symbol-morph.mp4 -->
 
 #### RemOS UI
 Portable design system: two-tier tokens, an OKLCH theme engine, and Radix primitives.
