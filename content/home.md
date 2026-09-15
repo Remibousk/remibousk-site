@@ -139,7 +139,7 @@ Side Projects
 
 #### University of Technology, Sydney
 
-#### Master of Design - Creative futures
+#### Master of Design - Creative Futures
 
 #### 2014 - 2015
 
