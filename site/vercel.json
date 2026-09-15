@@ -10,5 +10,12 @@
         }
       ]
     }
+  ],
+  "redirects": [
+    {
+      "source": "/cv",
+      "destination": "https://os.remibousk.com/cv",
+      "permanent": true
+    }
   ]
 }
