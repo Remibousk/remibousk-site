@@ -19,6 +19,12 @@ import styles from './Carousel.module.css';
  * (reference/mirror/.../RUqqse2zCrL-…DKx8smEm.mjs):
  *
  * - `itemAmount: 1`, `infinity: true`, `direction: 'left'`, `gap` in px.
+ *   The gap is read back from the track's computed style on every measure,
+ *   so a consumer may either pass the `gap` prop (inline px) or set a
+ *   responsive `gap` in its own `trackClassName` and omit the prop.
+ * - `clip` (default true) is the frame's `overflow: hidden`. The SiteMinder
+ *   tile turns it off so outgoing slides glide across the tile's padding and
+ *   are cut by the tile's own edge instead of the frame's.
  * - `transitionControl` (both instances use the default):
  *   `{type: 'spring', stiffness: 200, damping: 40}`.
  * - `dragControl: true` on both — the track is draggable, cursor `grab` /
@@ -37,7 +43,10 @@ import styles from './Carousel.module.css';
  * - Prev/next arrow buttons (`arrowOptions.showMouseControls`) with
  *   `whileTap: {scale: 0.9}` on a `{duration: 0.15}` tween, using the
  *   original's own arrow SVGs.
- * - Optional progress dots (`progressOptions.showProgressDots`).
+ * - Optional progress dots (`progressOptions.showProgressDots`), either in
+ *   their own row (the original's layout) or inline between the two arrows.
+ * - A manual arrow/dot click restarts the autoplay countdown so an automatic
+ *   advance never lands right on top of a click.
  *
  * Infinite paging uses the same trick as the original's DOM, which renders
  * the slide set three times: the middle copy is the live one, and once a
@@ -50,13 +59,16 @@ const PAGE_TRANSITION = { type: 'spring', stiffness: 200, damping: 40 } as const
 export default function Carousel({
   slides,
   ariaLabel,
-  gap = 10,
+  gap,
   borderRadius = 10,
+  clip = true,
   autoPlaySeconds,
   arrows = false,
   dots = false,
+  dotsPlacement = 'below',
   className,
   frameClassName,
+  trackClassName,
   slideClassName,
   arrowsClassName,
   arrowClassName,
@@ -65,16 +77,25 @@ export default function Carousel({
 }: {
   slides: ReactNode[];
   ariaLabel: string;
+  /** Slide gap in px, set inline. Omit to control it from `trackClassName`. */
   gap?: number;
   borderRadius?: number;
+  /** Clip slides at the frame's edge (`overflow: hidden`). */
+  clip?: boolean;
   /** Seconds between automatic advances; omit for a manual-only carousel. */
   autoPlaySeconds?: number;
   /** Render the prev/next buttons (`arrowOptions.showMouseControls`). */
   arrows?: boolean;
   /** Render the pagination dots (`progressOptions.showProgressDots`). */
   dots?: boolean;
+  /**
+   * Where the dots sit: their own absolutely-positioned row (`below`), or
+   * inline between the prev/next buttons (`between-arrows`, needs `arrows`).
+   */
+  dotsPlacement?: 'below' | 'between-arrows';
   className?: string;
   frameClassName?: string;
+  trackClassName?: string;
   slideClassName?: string;
   /**
    * Arrow/dot geometry lives in the consumer's CSS module (the two instances
@@ -90,21 +111,34 @@ export default function Carousel({
   const reduceMotion = useReducedMotion();
 
   const frameRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLUListElement>(null);
   const x = useMotionValue(0);
   const [step, setStep] = useState(0);
+  /** The gap actually in effect, measured from the track (prop or CSS). */
+  const [gapPx, setGapPx] = useState(gap ?? 0);
   /** Absolute index into the tripled list; starts in the middle copy. */
   const indexRef = useRef(count);
   const [active, setActive] = useState(0);
   const [dragging, setDragging] = useState(false);
   /** `playOffscreen: false` — autoplay only runs while the carousel is in view. */
   const [inView, setInView] = useState(false);
+  /** Bumped on every manual arrow/dot click so the autoplay interval restarts. */
+  const [autoplayEpoch, setAutoplayEpoch] = useState(0);
+  const restartAutoplay = useCallback(() => setAutoplayEpoch((n) => n + 1), []);
 
-  /* Measure the frame so paging can work in px (one slide fills the frame). */
+  /* Measure the frame so paging can work in px (one slide fills the frame).
+     The gap is measured too, so a CSS-driven gap that changes at a
+     breakpoint is picked up on the same resize. */
   useLayoutEffect(() => {
     const frame = frameRef.current;
     if (!frame) return;
     const measure = () => {
-      const next = frame.clientWidth + gap;
+      const track = trackRef.current;
+      const measuredGap = track
+        ? parseFloat(getComputedStyle(track).columnGap) || 0
+        : (gap ?? 0);
+      const next = frame.clientWidth + measuredGap;
+      setGapPx(measuredGap);
       setStep(next);
       x.set(-indexRef.current * next);
     };
@@ -169,14 +203,58 @@ export default function Carousel({
   }, [autoPlaySeconds]);
 
   /* Autoplay — paused while dragging and while offscreen, but NOT on hover
-     (see the `effectsHover` note above). */
+     (see the `effectsHover` note above). `autoplayEpoch` is only here so a
+     manual click tears the interval down and starts a fresh countdown. */
   useEffect(() => {
     if (!autoPlaySeconds || dragging || !inView || step === 0) return;
     const id = setInterval(() => page(1), autoPlaySeconds * 1000);
     return () => clearInterval(id);
-  }, [autoPlaySeconds, dragging, inView, page, step]);
+  }, [autoPlaySeconds, autoplayEpoch, dragging, inView, page, step]);
 
   const tripled = [...slides, ...slides, ...slides];
+  const inlineDots = dots && arrows && dotsPlacement === 'between-arrows';
+
+  const renderArrow = (label: 'Previous' | 'Next', delta: -1 | 1, icon: string) => (
+    <motion.button
+      key={label}
+      type="button"
+      aria-label={label}
+      className={`${styles.arrow}${arrowClassName ? ` ${arrowClassName}` : ''}`}
+      whileTap={reduceMotion ? undefined : { scale: 0.9 }}
+      transition={{ duration: 0.15 }}
+      onClick={() => {
+        page(delta);
+        restartAutoplay();
+      }}
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={icon} alt="" width={40} height={40} />
+    </motion.button>
+  );
+
+  const dotsRow = dots ? (
+    <div
+      className={`${styles.dots}${inlineDots ? ` ${styles.dotsInline}` : ''}${
+        dotsClassName ? ` ${dotsClassName}` : ''
+      }`}
+    >
+      {slides.map((_slide, i) => (
+        <button
+          // eslint-disable-next-line react/no-array-index-key
+          key={i}
+          type="button"
+          className={`${styles.dot}${dotClassName ? ` ${dotClassName}` : ''}`}
+          aria-label={`Go to slide ${i + 1} of ${count}`}
+          aria-current={i === active ? 'true' : undefined}
+          data-active={i === active || undefined}
+          onClick={() => {
+            goTo(i);
+            restartAutoplay();
+          }}
+        />
+      ))}
+    </div>
+  ) : null;
 
   return (
     <div
@@ -186,12 +264,19 @@ export default function Carousel({
       aria-label={ariaLabel}
     >
       <div
-        className={`${styles.frame}${frameClassName ? ` ${frameClassName}` : ''}`}
+        className={`${styles.frame}${clip ? '' : ` ${styles.frameOpen}`}${
+          frameClassName ? ` ${frameClassName}` : ''
+        }`}
         ref={frameRef}
       >
         <motion.ul
-          className={styles.track}
-          style={{ x, gap: `${gap}px`, cursor: dragging ? 'grabbing' : 'grab' }}
+          ref={trackRef}
+          className={`${styles.track}${trackClassName ? ` ${trackClassName}` : ''}`}
+          style={{
+            x,
+            ...(gap !== undefined ? { gap: `${gap}px` } : null),
+            cursor: dragging ? 'grabbing' : 'grab',
+          }}
           drag="x"
           // No dragConstraints: the track follows the pointer 1:1 and
           // onDragEnd always animates back to the correct slide offset.
@@ -206,7 +291,7 @@ export default function Carousel({
             //   else a && page(s); o && page(-s)
             // `step` includes the gap, `item` doesn't — subtract it back out
             // so the slide count matches at the same drag distance.
-            const item = Math.max(1, step - gap);
+            const item = Math.max(1, step - gapPx);
             const { x: offset } = info.offset;
             const { x: velocity } = info.velocity;
             const slides = Math.round(Math.abs(offset) / item);
@@ -235,44 +320,13 @@ export default function Carousel({
 
       {arrows && (
         <div className={`${styles.arrows}${arrowsClassName ? ` ${arrowsClassName}` : ''}`}>
-          {(
-            [
-              ['Previous', -1, '/images/6tTbkXggWgQCAJ4DO2QEdXXmgM.svg'],
-              ['Next', 1, '/images/11KSGbIZoRSg4pjdnUoif6MKHI.svg'],
-            ] as const
-          ).map(([label, delta, icon]) => (
-            <motion.button
-              key={label}
-              type="button"
-              aria-label={label}
-              className={`${styles.arrow}${arrowClassName ? ` ${arrowClassName}` : ''}`}
-              whileTap={reduceMotion ? undefined : { scale: 0.9 }}
-              transition={{ duration: 0.15 }}
-              onClick={() => page(delta)}
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={icon} alt="" width={40} height={40} />
-            </motion.button>
-          ))}
+          {renderArrow('Previous', -1, '/images/6tTbkXggWgQCAJ4DO2QEdXXmgM.svg')}
+          {inlineDots && dotsRow}
+          {renderArrow('Next', 1, '/images/11KSGbIZoRSg4pjdnUoif6MKHI.svg')}
         </div>
       )}
 
-      {dots && (
-        <div className={`${styles.dots}${dotsClassName ? ` ${dotsClassName}` : ''}`}>
-          {slides.map((_slide, i) => (
-            <button
-              // eslint-disable-next-line react/no-array-index-key
-              key={i}
-              type="button"
-              className={`${styles.dot}${dotClassName ? ` ${dotClassName}` : ''}`}
-              aria-label={`Go to slide ${i + 1} of ${count}`}
-              aria-current={i === active ? 'true' : undefined}
-              data-active={i === active || undefined}
-              onClick={() => goTo(i)}
-            />
-          ))}
-        </div>
-      )}
+      {!inlineDots && dotsRow}
     </div>
   );
 }

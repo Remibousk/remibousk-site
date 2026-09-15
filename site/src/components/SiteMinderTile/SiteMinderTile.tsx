@@ -46,13 +46,21 @@ const SLIDES = [
  * plus a bordered tile with a beach-photo background and a carousel of
  * product screenshots on top.
  *
- * The carousel is the original's Framer Slideshow with
- * `autoPlayControl: false` — it does NOT self-advance. It is paged by the
- * prev/next buttons (which sit *below* the frame: `arrowPosition
- * 'bottom-mid'`, `arrowPaddingBottom` -60 on desktop / -36 on phone,
- * `arrowSize` 40 / 30, `arrowRadius` 8, `arrowGap` 10, fill
- * rgba(0,0,0,0.2)) or by dragging, with `showProgressDots: false` and
- * `borderRadius: 10`.
+ * The carousel is the original's Framer Slideshow. The original shipped it
+ * with `autoPlayControl: false` and `showProgressDots: false`; this rebuild
+ * deliberately departs from that: it now
+ * auto-advances every 6 seconds and shows one progress dot per screenshot,
+ * sitting between the prev/next buttons. The arrow geometry is unchanged
+ * (buttons sit *below* the frame: `arrowPosition 'bottom-mid'`,
+ * `arrowPaddingBottom` -60 on desktop / -36 on phone, `arrowSize` 40 / 30,
+ * `arrowRadius` 8, `arrowGap` 10, fill rgba(0,0,0,0.2)), dragging still
+ * pages, and `borderRadius: 10`.
+ *
+ * Second departure: the frame no longer clips (`clip={false}`). Slides glide
+ * across the tile's padding, over the beach photo, and are cut by the tile's
+ * own edge. The slide gap therefore has to be at least the tile's horizontal
+ * padding so no neighbour peeks in while a slide is at rest — it lives in
+ * `.track` in the CSS module, per breakpoint, instead of the `gap` prop.
  *
  * The original linked this whole block to /siteminder (a stub, dropped in
  * BUILD_SPEC). The carousel stays unlinkable so prev/next still work; a
@@ -79,11 +87,17 @@ export default function SiteMinderTile() {
         <Carousel
           className={styles.carousel}
           ariaLabel="SiteMinder product screenshots"
-          gap={10}
+          trackClassName={styles.track}
+          clip={false}
           borderRadius={10}
+          autoPlaySeconds={6}
           arrows
           arrowsClassName={styles.arrows}
           arrowClassName={styles.arrow}
+          dots
+          dotsPlacement="between-arrows"
+          dotsClassName={styles.dots}
+          dotClassName={styles.dot}
           slides={SLIDES.map((slide) => (
             <Image
               key={slide.src}
