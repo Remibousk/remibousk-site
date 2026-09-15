@@ -90,6 +90,13 @@
   width: 100%;
 }
 
+/* Slide gap = tile horizontal padding + 10px at each breakpoint, so a
+   resting slide has no neighbour inside the tile, and the outgoing one
+   clears the tile edge before the next arrives. Desktop padding is 80px. */
+.track {
+  gap: 90px;
+}
+
 .slideImg {
   display: block;
   width: 100%;
@@ -112,6 +119,33 @@
   background-color: rgba(0, 0, 0, 0.2);
 }
 
+/* Progress dots sit between the two arrows as a third pill in the same row,
+   matching the arrows' height, radius and fill so the trio reads as one
+   control. Not in the original (it had showProgressDots off). */
+.dots {
+  gap: 8px;
+  height: 40px;
+  padding: 0 14px;
+  border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  background-color: #fff;
+  opacity: 0.4;
+}
+
+.dot:hover,
+.dot:focus-visible {
+  opacity: 0.7;
+}
+
+.dot[data-active] {
+  opacity: 1;
+}
+
 /* ---------- Tablet: 810px - 1199px ---------- */
 
 @media (max-width: 1199px) {
@@ -121,6 +155,10 @@
 
   .tile {
     padding: 40px 40px 70px;
+  }
+
+  .track {
+    gap: 50px;
   }
 }
 
@@ -218,6 +256,10 @@
     padding: 20px 20px 40px;
   }
 
+  .track {
+    gap: 30px;
+  }
+
   /* Phone override in the original: arrowSize 30, arrowPaddingBottom -36. */
   .arrows {
     bottom: -36px;
@@ -226,6 +268,17 @@
   .arrow {
     width: 30px;
     height: 30px;
+  }
+
+  .dots {
+    gap: 6px;
+    height: 30px;
+    padding: 0 10px;
+  }
+
+  .dot {
+    width: 5px;
+    height: 5px;
   }
 
   .grid {

@@ -15,6 +15,12 @@
   overflow: hidden;
 }
 
+/* `clip: false` — slides are left to overflow the frame and get cut by
+   whichever ancestor clips (the SiteMinder tile's `overflow: hidden`). */
+.frameOpen {
+  overflow: visible;
+}
+
 /* `height: 100%` mirrors the original's own track element, whose inline style
    is `width:100%; height:100%; place-items:center`. It is load-bearing, not
    decorative: without a definite height here the slides below cannot resolve
@@ -92,6 +98,13 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
+}
+
+/* `dotsPlacement: 'between-arrows'` — the dots become a flex child of the
+   arrows row instead of floating in their own absolutely-positioned row. */
+.dotsInline {
+  position: static;
+  transform: none;
 }
 
 .dot {
