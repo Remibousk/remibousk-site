@@ -1,4 +1,3 @@
-import ThemeToggle from '@/components/ThemeToggle/ThemeToggle';
 import styles from './CaseStudy.module.css';
 
 /**
@@ -63,7 +62,6 @@ export default function CaseNav() {
             <ChevronLeftIcon />
             <span>Go back</span>
           </a>
-          <ThemeToggle />
         </div>
       </div>
     </nav>

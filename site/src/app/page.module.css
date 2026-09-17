@@ -12,9 +12,9 @@
  *   1440: nav at x=48, main column starts at x=192
  *    834: nav at x=0,  main column starts at x=144
  *
- * The original keeps a trailing zero-height element after Experience, so
- * the Experience -> footer distance is gap (200/120) + section padding
- * (4/16); replicated via the column's padding-bottom.
+ * The original keeps a trailing zero-height element after the last
+ * section, so the last-section -> footer distance is gap (200/120) +
+ * section padding (4/16); replicated via the column's padding-bottom.
  */
 
 .content {

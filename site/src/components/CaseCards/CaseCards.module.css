@@ -59,7 +59,7 @@
   color: var(--text-secondary);
 }
 
-/* Device hero + recordings: 24px between the two, not the section's 40px. */
+/* Clickthrough hero + recordings: 24px between the two, not the section's 40px. */
 .showcase {
   display: flex;
   flex-direction: column;
@@ -67,7 +67,7 @@
   width: 100%;
 }
 
-/* ---------- Product recordings under the device hero ---------- */
+/* ---------- Product recordings: hero clickthrough, then 2-up loops ---------- */
 
 .videoRow {
   display: grid;
@@ -85,6 +85,10 @@
   border-radius: 12px;
   overflow: hidden;
   background-color: var(--bg-1);
+}
+
+.heroFrame {
+  aspect-ratio: 1280 / 866;
 }
 
 .video {
