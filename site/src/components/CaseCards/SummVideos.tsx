@@ -3,14 +3,23 @@
 import { useEffect, useRef } from 'react';
 import styles from './CaseCards.module.css';
 
-const VIDEOS = [
-  {
-    src: '/videos/summ-clickthrough.mp4',
-    poster: '/images/summ-clickthrough-poster.jpg',
-    width: 1280,
-    height: 866,
-    label: 'Summ product clickthrough',
-  },
+interface Recording {
+  src: string;
+  poster: string;
+  width: number;
+  height: number;
+  label: string;
+}
+
+const HERO: Recording = {
+  src: '/videos/summ-clickthrough.mp4',
+  poster: '/images/summ-clickthrough-poster.jpg',
+  width: 1280,
+  height: 866,
+  label: 'Summ product clickthrough',
+};
+
+const TILES: Recording[] = [
   {
     src: '/videos/summ-stocks-announcement.mp4',
     poster: '/images/summ-stocks-announcement-poster.jpg',
@@ -32,18 +41,49 @@ const VIDEOS = [
     height: 858,
     label: 'Summ stocks dashboard animation',
   },
-] as const;
+  {
+    src: '/videos/summ-mobile-app.mp4',
+    poster: '/images/summ-mobile-app-poster.jpg',
+    width: 1280,
+    height: 960,
+    label: 'Summ mobile app recording',
+  },
+];
+
+function RecordingVideo({
+  recording,
+  preload = 'none',
+}: {
+  recording: Recording;
+  preload?: 'none' | 'metadata';
+}) {
+  return (
+    <video
+      className={styles.video}
+      src={recording.src}
+      poster={recording.poster}
+      width={recording.width}
+      height={recording.height}
+      muted
+      loop
+      playsInline
+      preload={preload}
+      aria-label={recording.label}
+    />
+  );
+}
 
 /**
- * Looping product recordings in pairs under the SUMM device hero.
- * Play only while in view so the homepage does not download the files
- * on first paint; pause for prefers-reduced-motion.
+ * SUMM product recordings: the clickthrough as the section hero, then a
+ * 2-up grid of remaining loops (including the mobile app). Play only while
+ * in view so the homepage does not download the files on first paint;
+ * pause for prefers-reduced-motion.
  */
 export default function SummVideos() {
-  const rowRef = useRef<HTMLDivElement>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const root = rowRef.current;
+    const root = rootRef.current;
     if (!root) return;
 
     const videos = Array.from(root.querySelectorAll('video'));
@@ -69,23 +109,17 @@ export default function SummVideos() {
   }, []);
 
   return (
-    <div className={styles.videoRow} ref={rowRef} aria-label="SUMM product recordings">
-      {VIDEOS.map((video) => (
-        <figure key={video.src} className={styles.videoFrame}>
-          <video
-            className={styles.video}
-            src={video.src}
-            poster={video.poster}
-            width={video.width}
-            height={video.height}
-            muted
-            loop
-            playsInline
-            preload="none"
-            aria-label={video.label}
-          />
-        </figure>
-      ))}
+    <div className={styles.showcase} ref={rootRef} aria-label="SUMM product recordings">
+      <figure className={`${styles.videoFrame} ${styles.heroFrame}`}>
+        <RecordingVideo recording={HERO} preload="metadata" />
+      </figure>
+      <div className={styles.videoRow}>
+        {TILES.map((recording) => (
+          <figure key={recording.src} className={styles.videoFrame}>
+            <RecordingVideo recording={recording} />
+          </figure>
+        ))}
+      </div>
     </div>
   );
 }

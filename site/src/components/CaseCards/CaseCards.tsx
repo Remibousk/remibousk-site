@@ -1,14 +1,13 @@
 import Link from 'next/link';
 import type { ReactElement } from 'react';
 import CaseStudiesAccordion from '@/components/CaseStudiesAccordion/CaseStudiesAccordion';
-import DeviceTabs from '@/components/DeviceTabs/DeviceTabs';
 import SummVideos from './SummVideos';
 import VersionHistoryTile from './VersionHistoryTile';
 import styles from './CaseCards.module.css';
 
 /**
- * "SUMM" header block + tabbed device showcase + product recordings +
- * collapsed "Other case studies" accordion (card grid is unchanged once opened).
+ * "SUMM" header block + product recordings + collapsed "Other case studies"
+ * accordion (card grid is unchanged once opened).
  * Source: reference/mirror/home.html, the (unnamed) wrapper div that holds
  * both the "SUMM"/"Formerly Crypto Tax Calculator"/"Lead product designer"
  * heading (framer-1a9z7v2, no data-framer-name of its own) and, immediately
@@ -17,10 +16,9 @@ import styles from './CaseCards.module.css';
  * contain the "Portfolio" section (data-framer-name="Portfolio") with the
  * "Case studies" heading and the three "Onboarding card" links.
  *
- * DeviceTabs is a standalone, separately-exported component (own folder),
- * but this component is what actually places it in the page — it renders
- * between the heading and the case-study accordion. SummVideos sits
- * immediately under the device hero. Text verbatim from content/home.md.
+ * The original tabbed device mockup is no longer shown. SummVideos places
+ * the clickthrough as the section hero, then the remaining product loops.
+ * Text verbatim from content/home.md.
  *
  * No entrance animation: the original homepage carries no Framer appear
  * effects at all (`/` has zero `data-framer-appear-id` nodes in the mirror).
@@ -137,10 +135,7 @@ export default function CaseCards() {
         </div>
       </div>
 
-      <div className={styles.showcase}>
-        <DeviceTabs />
-        <SummVideos />
-      </div>
+      <SummVideos />
 
       <VersionHistoryTile />
 

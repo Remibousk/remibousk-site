@@ -2,7 +2,6 @@
 
 import { useEffect, useRef } from 'react';
 import { useReducedMotion } from 'motion/react';
-import { readTheme, subscribeTheme } from '@/lib/theme';
 import { ParticleField, type ParticleScene } from './particles';
 import styles from './HeroParticles.module.css';
 
@@ -13,7 +12,7 @@ type Props = {
 
 /**
  * Fills its positioned parent with a canvas and drives a ParticleField in it.
- * Owns the wiring the engine needs from the DOM: element size, theme,
+ * Owns the wiring the engine needs from the DOM: element size,
  * reduced-motion preference, pointer position, and in-view / tab visibility.
  */
 export default function HeroParticles({ scene }: Props) {
@@ -29,9 +28,6 @@ export default function HeroParticles({ scene }: Props) {
 
     const field = new ParticleField(canvas);
     fieldRef.current = field;
-
-    field.setTheme(readTheme());
-    const unsubscribeTheme = subscribeTheme(() => field.setTheme(readTheme()));
 
     field.resize(root.clientWidth, root.clientHeight);
     const resizeObserver = new ResizeObserver((entries) => {
@@ -67,7 +63,6 @@ export default function HeroParticles({ scene }: Props) {
       root.removeEventListener('pointerup', onPointerEnd);
       viewObserver.disconnect();
       resizeObserver.disconnect();
-      unsubscribeTheme();
       field.destroy();
       fieldRef.current = null;
     };

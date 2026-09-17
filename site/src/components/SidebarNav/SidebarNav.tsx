@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
-import ThemeToggle from '@/components/ThemeToggle/ThemeToggle';
 import styles from './SidebarNav.module.css';
 
 /**
@@ -82,14 +81,14 @@ function useAnchorHref(isHome: boolean) {
   return (id: string) => (isHome ? `#${id}` : `/#${id}`);
 }
 
-const SECTION_IDS = ['work', 'experience', 'side-projects'] as const;
+const SECTION_IDS = ['work', 'side-projects', 'experience'] as const;
 type SectionId = (typeof SECTION_IDS)[number];
 
 /**
  * Homepage section anchors. Each link maps to an id; the active item is
  * the last section whose top has crossed the spy line (70% from the top
  * of the viewport). #work is only the intro statement, so Work stays
- * active through the following case-study block until Experience takes
+ * active through the following case-study block until Side Projects takes
  * over — we do not require the section's bottom to still be on screen.
  */
 function NavLinks({
@@ -116,16 +115,6 @@ function NavLinks({
         <span className={styles.navLabel}>Work</span>
       </a>
       <a
-        href={anchorHref('experience')}
-        className={styles.navLink}
-        data-inview={activeId === 'experience' || undefined}
-        aria-current={activeId === 'experience' ? 'true' : undefined}
-        onClick={onNavigate}
-      >
-        <span className={styles.dot} aria-hidden="true" />
-        <span className={styles.navLabel}>Experience</span>
-      </a>
-      <a
         href={anchorHref('side-projects')}
         className={styles.navLink}
         data-inview={activeId === 'side-projects' || undefined}
@@ -134,6 +123,16 @@ function NavLinks({
       >
         <span className={styles.dot} aria-hidden="true" />
         <span className={styles.navLabel}>Side Projects</span>
+      </a>
+      <a
+        href={anchorHref('experience')}
+        className={styles.navLink}
+        data-inview={activeId === 'experience' || undefined}
+        aria-current={activeId === 'experience' ? 'true' : undefined}
+        onClick={onNavigate}
+      >
+        <span className={styles.dot} aria-hidden="true" />
+        <span className={styles.navLabel}>Experience</span>
       </a>
     </>
   );
@@ -174,8 +173,8 @@ function SmallLinks({ onNavigate }: { onNavigate?: () => void }) {
 
 /**
  * Primary site navigation. Desktop/tablet (>809px): a floating card in the
- * top-left corner with the "remi." wordmark, Work / Experience / Side
- * Projects anchors, a divider, then smaller Linkedin/Email/Resume links.
+ * top-left corner with the "remi." wordmark, Work / Side Projects /
+ * Experience anchors, a divider, then smaller Linkedin/Email/Resume links.
  *
  * Mobile (<=809px): collapses to a small top-left icon button that expands a
  * dropdown panel with the same content (see BUILD_SPEC.md breakpoints) —
@@ -236,7 +235,6 @@ export default function SidebarNav() {
         </div>
         <div className={styles.divider} />
         <SmallLinks />
-        <ThemeToggle />
       </div>
 
       {/* Mobile: <=809px, collapses to a top bar with an expandable menu */}
@@ -271,7 +269,6 @@ export default function SidebarNav() {
             </div>
             <div className={styles.divider} />
             <SmallLinks onNavigate={closeMobile} />
-            <ThemeToggle />
           </div>
         )}
       </div>

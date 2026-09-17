@@ -19,9 +19,9 @@ import styles from './page.module.css';
  *                                  gap 200px / 120px mobile, padding 4/16px)
  *   .framer-1ug5js3 (footer)   -> ContactSection (full-bleed, outside the row)
  *
- * Section order: work, cases, experience, side projects. LogoRow carries
- * id="work", ExperienceTimeline carries id="experience", SideProjects
- * carries id="side-projects".
+ * Section order: work, cases, side projects, experience. LogoRow carries
+ * id="work", SideProjects carries id="side-projects", ExperienceTimeline
+ * carries id="experience".
  */
 export default function HomePage() {
   return (
@@ -34,8 +34,8 @@ export default function HomePage() {
           <CaseCards />
           <SiteMinderTile />
           <IbmSection />
-          <ExperienceTimeline />
           <SideProjects />
+          <ExperienceTimeline />
         </main>
       </div>
       <ContactSection />
