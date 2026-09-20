@@ -112,7 +112,7 @@ export default function SiteMinderTile() {
         />
       </div>
 
-      <CaseStudiesAccordion>
+      <CaseStudiesAccordion id="siteminder-case-studies">
         <div className={styles.grid}>
           <Link href="/siteminder-pay" className={styles.card}>
             <div className={styles.mediaFrame}>

@@ -4,6 +4,7 @@ import CaseCta from '@/components/CaseStudy/CaseCta';
 import Reveal from '@/components/CaseStudy/Reveal';
 import s from '@/components/CaseStudy/CaseStudy.module.css';
 import p from '@/components/CaseStudy/OnboardingPage.module.css';
+import AhaVideo from './AhaVideo';
 
 /**
  * /onboardingtoctc — Crypto Tax Calculator onboarding redesign case study.
@@ -268,17 +269,7 @@ export default function OnboardingToCtcPage() {
             <em>their own data</em> in the app. So we gated the platform
           </h5>
         </Reveal>
-        <figure className={p.ahaVideo}>
-          <video
-            src="/videos/NSLY0rYWQDcSL4ZL9R5htfctNs.mp4"
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            aria-label="Screen recording of the gated onboarding flow connecting a first exchange"
-          />
-        </figure>
+        <AhaVideo />
       </section>
 
       {/* 06 - The result */}

@@ -1,4 +1,5 @@
 import styles from './CaseStudy.module.css';
+import BackLink from './BackLink';
 
 /**
  * "remi." wordmark used on case-study pages ("Remi Purprledot" in the
@@ -26,28 +27,12 @@ function RemiPurpleDotLogo() {
   );
 }
 
-/** Tabler chevron-left, exact copy of symbol #svg139064711_302 in the mirror. */
-function ChevronLeftIcon() {
-  return (
-    <svg
-      className={styles.backIcon}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="m15 6-6 6 6 6" />
-    </svg>
-  );
-}
-
 /**
  * Sticky top-left nav card shown on every case-study page: purple-dot
  * "remi." logo linking home, a hairline divider, and a "Go back" link.
  * (The homepage's full sidebar nav does not appear on case pages.)
+ * The logo always goes to `/`; Go back returns to the homepage case-study
+ * accordion the page belongs to (see BackLink).
  */
 export default function CaseNav() {
   return (
@@ -58,10 +43,7 @@ export default function CaseNav() {
             <RemiPurpleDotLogo />
           </a>
           <div className={styles.navDivider} />
-          <a href="/" className={styles.backLink}>
-            <ChevronLeftIcon />
-            <span>Go back</span>
-          </a>
+          <BackLink />
         </div>
       </div>
     </nav>

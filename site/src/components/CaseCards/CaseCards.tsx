@@ -139,7 +139,7 @@ export default function CaseCards() {
 
       <VersionHistoryTile />
 
-      <CaseStudiesAccordion label="Other case studies">
+      <CaseStudiesAccordion id="summ-case-studies" label="Other case studies">
         <div className={styles.grid}>
           {CARDS.map((card) => {
             const Media = CARD_MEDIA[card.key];

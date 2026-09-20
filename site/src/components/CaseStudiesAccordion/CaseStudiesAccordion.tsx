@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useId, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useId, useLayoutEffect, useRef, useState, type ReactNode } from 'react';
 import styles from './CaseStudiesAccordion.module.css';
 
 /**
@@ -15,14 +15,42 @@ import styles from './CaseStudiesAccordion.module.css';
 export default function CaseStudiesAccordion({
   children,
   label = 'Case studies',
+  id,
 }: {
   children: ReactNode;
   label?: string;
+  /** Homepage hash target so case-study "Go back" can reopen this listing. */
+  id?: string;
 }) {
   const [open, setOpen] = useState(false);
   const panelId = useId();
   const headingId = useId();
   const panelRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    if (!id) return;
+    const sync = () => {
+      if (window.location.hash === `#${id}`) setOpen(true);
+    };
+    sync();
+    window.addEventListener('hashchange', sync);
+    return () => window.removeEventListener('hashchange', sync);
+  }, [id]);
+
+  useEffect(() => {
+    if (!id || !open) return;
+    if (window.location.hash !== `#${id}`) return;
+    const node = document.getElementById(id);
+    if (!node) return;
+    const scrollTo = () => node.scrollIntoView({ block: 'start' });
+    scrollTo();
+    const raf = requestAnimationFrame(scrollTo);
+    window.addEventListener('load', scrollTo, { once: true });
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener('load', scrollTo);
+    };
+  }, [id, open]);
 
   useEffect(() => {
     const videos = panelRef.current?.querySelectorAll('video');
@@ -37,7 +65,7 @@ export default function CaseStudiesAccordion({
   }, [open]);
 
   return (
-    <div className={styles.root}>
+    <div className={styles.root} id={id}>
       <h3 id={headingId} className={styles.heading}>
         <button
           type="button"
