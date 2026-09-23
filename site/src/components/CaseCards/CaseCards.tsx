@@ -48,7 +48,7 @@ const CARDS: CardDef[] = [
     key: 'mobile-experience',
     href: '/mobileweb',
     title: 'Mobile experience',
-    subtitle: 'Show the tax number first. Reports conversion +28%.',
+    subtitle: 'Optimising the end-to-end mobile journey for conversion.',
   },
 ];
 
