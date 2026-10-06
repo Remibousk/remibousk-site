@@ -21,6 +21,7 @@ export default function VersionHistoryTile() {
             width={1152}
             height={666}
             decoding="async"
+            loading="lazy"
             alt=""
           />
         </div>

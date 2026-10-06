@@ -35,7 +35,7 @@
 .title {
   margin: 0;
   font-family: var(--font-gt-walsheim-bold);
-  font-size: clamp(34px, calc(8.4cqi - 4px), 72px);
+  font-size: clamp(34px, calc(6.65cqi + 4px), 72px);
   font-weight: 700;
   line-height: 0.98;
   letter-spacing: -0.05em;

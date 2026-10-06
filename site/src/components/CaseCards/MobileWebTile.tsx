@@ -22,6 +22,7 @@ export default function MobileWebTile() {
             width={804}
             height={1662}
             decoding="async"
+            loading="lazy"
             alt=""
           />
           <img
@@ -30,6 +31,7 @@ export default function MobileWebTile() {
             width={804}
             height={1650}
             decoding="async"
+            loading="lazy"
             alt=""
           />
         </div>

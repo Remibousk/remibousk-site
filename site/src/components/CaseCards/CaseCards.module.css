@@ -117,7 +117,7 @@
   justify-content: center;
   gap: 10px;
   flex: 1 0 0;
-  width: 1px; /* flex-basis trick so the three cards stay equal width */
+  width: 1px; /* flex-basis trick so the cards stay equal width */
   padding: 12px;
   background-color: var(--bg-1);
   border: 1px solid var(--surface);
