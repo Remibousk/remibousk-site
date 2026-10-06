@@ -37,7 +37,7 @@ Side Projects
 
 <!-- media: 6ck8xwcUoFJP6SVsYfqCjZLeW4.svg -->
 
-### For just about a decade, I've been leading design for founders, and global companies on new ventures, strategy and company defining experiences.
+### For over a decade, I've been leading design for founders, and global companies on new ventures, strategy and company defining experiences.
 
 # SUMM
 

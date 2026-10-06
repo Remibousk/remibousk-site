@@ -19,7 +19,7 @@ export default function LogoRow() {
     <section className={styles.section} id="work">
       <h3 className={styles.statement}>
         {/* Verbatim from content/home.md — do not re-wrap or "fix". */}
-        {"For just about a decade, I've been leading design for founders, and global companies on new ventures, strategy and company defining experiences."}
+        {"For over a decade, I've been leading design for founders, and global companies on new ventures, strategy and company defining experiences."}
       </h3>
     </section>
   );
