@@ -1,12 +1,14 @@
 import Link from 'next/link';
 import type { ReactElement } from 'react';
 import CaseStudiesAccordion from '@/components/CaseStudiesAccordion/CaseStudiesAccordion';
+import MobileWebTile from './MobileWebTile';
 import SummVideos from './SummVideos';
 import VersionHistoryTile from './VersionHistoryTile';
 import styles from './CaseCards.module.css';
 
 /**
- * "SUMM" header block + product recordings + collapsed "Other case studies"
+ * "SUMM" header block + product recordings + featured case-study banners
+ * (Mobile web, then Version History) + collapsed "Other case studies"
  * accordion (card grid is unchanged once opened).
  * Source: reference/mirror/home.html, the (unnamed) wrapper div that holds
  * both the "SUMM"/"Formerly Crypto Tax Calculator"/"Lead product designer"
@@ -44,20 +46,13 @@ const CARDS: CardDef[] = [
     title: 'Design System',
     subtitle: 'Complete multi-theme, fully tokenised white label design system.',
   },
-  {
-    key: 'mobile-experience',
-    href: '/mobileweb',
-    title: 'Mobile experience',
-    subtitle: 'Optimising the end-to-end mobile journey for conversion.',
-  },
 ];
 
 /**
  * Onboarding card's media: a looping mp4 that plays once the accordion
  * opens (BVBw6HPmvDBjrHViefERyskIw8.mp4 — confirmed via
- * reference/mirror/home.html; the other two cards use
- * LjAF6ttW1OyRFF8BptAITS4wDJ8.png and
- * 7wxvhyqQBQnK74KbhtDilqlok.png/aalz0wO0iak5HKwo88fdr62dk.png).
+ * reference/mirror/home.html). The design-system card uses
+ * LjAF6ttW1OyRFF8BptAITS4wDJ8.png.
  */
 function OnboardingMedia() {
   return (
@@ -86,40 +81,9 @@ function DesignSystemMedia() {
   );
 }
 
-/**
- * Mobile experience card's media swaps source image at the same
- * tablet/desktop breakpoint as the original (desktop: 7wxvhyqQBQnK74KbhtDilqlok.png
- * 968x589, tablet+mobile: aalz0wO0iak5HKwo88fdr62dk.png 968x612 — verified via
- * the ssr-variant wrappers in reference/mirror/home.html, not two stacked
- * layers as the flattened markdown might suggest).
- */
-function MobileExperienceMedia() {
-  return (
-    <>
-      <img
-        className={`${styles.media} ${styles.mediaDesktopOnly}`}
-        src="/images/7wxvhyqQBQnK74KbhtDilqlok.png"
-        width={968}
-        height={589}
-        alt="Mobile portfolio app screen with balance chart"
-        loading="lazy"
-      />
-      <img
-        className={`${styles.media} ${styles.mediaTabletMobileOnly}`}
-        src="/images/aalz0wO0iak5HKwo88fdr62dk.png"
-        width={968}
-        height={612}
-        alt="Mobile portfolio app screen with balance chart"
-        loading="lazy"
-      />
-    </>
-  );
-}
-
 const CARD_MEDIA: Record<string, () => ReactElement> = {
   onboarding: OnboardingMedia,
   'design-system': DesignSystemMedia,
-  'mobile-experience': MobileExperienceMedia,
 };
 
 export default function CaseCards() {
@@ -137,7 +101,13 @@ export default function CaseCards() {
 
       <SummVideos />
 
-      <VersionHistoryTile />
+      <div className={styles.featured}>
+        <p className={styles.featuredLabel}>Featured case studies</p>
+        <div className={styles.featuredBanners}>
+          <MobileWebTile />
+          <VersionHistoryTile />
+        </div>
+      </div>
 
       <CaseStudiesAccordion id="summ-case-studies" label="Other case studies">
         <div className={styles.grid}>

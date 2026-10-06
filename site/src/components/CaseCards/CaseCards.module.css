@@ -117,7 +117,7 @@
   justify-content: center;
   gap: 10px;
   flex: 1 0 0;
-  width: 1px; /* flex-basis trick so the three cards stay equal width */
+  width: 1px; /* flex-basis trick so the cards stay equal width */
   padding: 12px;
   background-color: var(--bg-1);
   border: 1px solid var(--surface);
@@ -152,12 +152,28 @@
   border-radius: inherit;
 }
 
-.mediaDesktopOnly {
-  display: block;
+/* Featured banners sit above the collapsed case-study list. */
+.featured {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 100%;
 }
 
-.mediaTabletMobileOnly {
-  display: none;
+.featuredLabel {
+  margin: 0;
+  font-family: var(--font-gt-walsheim-bold);
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1.2em;
+  color: var(--text-eyebrow);
+}
+
+.featuredBanners {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
 }
 
 .cardText {
@@ -203,14 +219,6 @@
   .card {
     width: 100%;
   }
-
-  .mediaDesktopOnly {
-    display: none;
-  }
-
-  .mediaTabletMobileOnly {
-    display: block;
-  }
 }
 
 /* ---------- Mobile (<=809px) ---------- */
@@ -240,14 +248,6 @@
 
   .card {
     width: 100%;
-  }
-
-  .mediaDesktopOnly {
-    display: none;
-  }
-
-  .mediaTabletMobileOnly {
-    display: block;
   }
 }
 

@@ -9,8 +9,8 @@ import styles from './CaseStudiesAccordion.module.css';
  * inside are unchanged and only shown once opened.
  *
  * `label` overrides the trigger text. SUMM passes "Other case studies"
- * because the Version History tile above it is already a featured case
- * study; SiteMinder has no such tile and keeps the default.
+ * because Mobile web and Version History sit above it as featured case
+ * studies; SiteMinder has no such tile and keeps the default.
  */
 export default function CaseStudiesAccordion({
   children,
