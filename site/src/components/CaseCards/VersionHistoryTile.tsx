@@ -3,7 +3,6 @@ import styles from './VersionHistoryTile.module.css';
 export default function VersionHistoryTile() {
   return (
     <div className={styles.wrapper}>
-      <p className={styles.label}>Featured case study</p>
       <a
         id="version-history"
         className={styles.tile}
@@ -11,13 +10,7 @@ export default function VersionHistoryTile() {
         aria-label="Version History — read the SUMM case study"
       >
         <div className={styles.copy}>
-          <h3 className={styles.title}>
-            <span className={styles.versionWord}>
-              <span>V</span>
-              <span className={styles.ersion}>ersion</span>
-            </span>
-            <span>History</span>
-          </h3>
+          <h3 className={styles.title}>Version History</h3>
           <p className={styles.description}>
             Helping users understand changes and safely restore their work.
           </p>

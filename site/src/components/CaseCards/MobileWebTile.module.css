@@ -3,7 +3,11 @@
   width: 100%;
 }
 
-/* Paper: Version History — Desktop (1200×260) and Mobile (390×260). */
+/*
+ * Paper banner. The gradient is sized directly: 16px from the right, 8px
+ * radius, and tall enough that the tile crops it at the bottom. The phones
+ * are a percentage of that box, with the hero overlap.
+ */
 .tile {
   position: relative;
   display: flex;
@@ -43,41 +47,53 @@
 }
 
 .description {
-  max-width: min(480px, calc(100cqi - 16px - (min(560px, 52cqi) - 60px) - 72px));
+  max-width: min(520px, calc(100cqi - 16px - min(560px, 52cqi) - 56px));
   padding-left: 8px;
   margin: 0;
   font-family: var(--font-gt-walsheim-regular);
   font-size: clamp(15px, 1.65cqi, 19px);
   font-weight: 400;
   line-height: 1.47;
-  color: #6b6c65;
+  color: #656760;
   text-wrap: pretty;
 }
 
-/* Same field as the Mobile web banner: 16px from the right, cropped at the bottom. */
 .productPreview {
   position: absolute;
   top: 16px;
   right: 16px;
   z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: calc(min(560px, 52cqi) - 60px);
   height: calc(2 * (100% - 32px));
   overflow: hidden;
   border-radius: 8px;
   pointer-events: none;
-  background: #fc714a url('/images/version-history-gradient.webp') center / cover no-repeat;
+  background: #999bfd url('/images/mobile-web-hero-art.webp') center / cover no-repeat;
 }
 
-.productPreview img {
+.phone {
   position: absolute;
-  top: 14%;
-  left: 7%;
-  width: 86%;
-  height: auto;
-  border: 1px solid #f0eedc;
-  border-radius: 8px;
-  box-shadow: 0 16px 26px #29292429;
+  top: 50%;
+  left: 50%;
+  height: 80%;
+  width: auto;
+  border: 1px solid #d5d5c9;
+  border-radius: 12px;
+  box-shadow: 0 16px 26px #29292416;
   user-select: none;
+}
+
+.phoneOnboarding {
+  z-index: 1;
+  transform: translate(calc(-50% - 34%), calc(-50% - 3%)) rotate(-9deg);
+}
+
+.phoneReports {
+  z-index: 2;
+  transform: translate(calc(-50% + 36%), calc(-50% + 5%)) rotate(8deg);
 }
 
 @media (hover: hover) and (pointer: fine) {
