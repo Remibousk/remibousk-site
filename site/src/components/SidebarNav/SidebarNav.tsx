@@ -159,7 +159,7 @@ function SmallLinks({ onNavigate }: { onNavigate?: () => void }) {
       </a>
       {/* Resume href is a Google Drive share link — not a self-hosted PDF. */}
       <a
-        href="https://drive.google.com/file/d/1TcnjDDrr47pN9WyHbY0zCI--o_iosgSV/view?usp=sharing"
+        href="https://drive.google.com/file/d/1ezxdLGWdbPysvOBvxK8kmGaLY6Og5kWX/view?usp=sharing"
         target="_blank"
         rel="noopener noreferrer"
         className={styles.smallLink}

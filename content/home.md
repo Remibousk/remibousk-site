@@ -21,7 +21,7 @@ Side Projects
 
 [Email](mailto:remi.bouskila@gmail.com)
 
-[Resume](https://drive.google.com/file/d/1TcnjDDrr47pN9WyHbY0zCI--o_iosgSV/view?usp=sharing)
+[Resume](https://drive.google.com/file/d/1ezxdLGWdbPysvOBvxK8kmGaLY6Og5kWX/view?usp=sharing)
 
 ### Hi, i'm Remi, a product designer with passion
 
