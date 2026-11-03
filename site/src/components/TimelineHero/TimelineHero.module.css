@@ -1,0 +1,299 @@
+/*
+ * Timeline hero — first-viewport scrubber. Tokens from PR 22.
+ * Motion stays minimal here; choreographed motion lands in PR 3.
+ */
+
+.section {
+  width: 100%;
+}
+
+.stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 98vh;
+  padding: 48px 24px 120px;
+  border-radius: var(--radius);
+  overflow: clip;
+  background-color: var(--bg);
+  background-image: radial-gradient(
+    circle at center,
+    var(--dot-grid-color) 1px,
+    transparent 1px
+  );
+  background-size: var(--dot-grid-size) var(--dot-grid-size);
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  width: min(860px, 100%);
+  text-align: center;
+}
+
+.headline {
+  margin: 0;
+  max-width: 18ch;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: clamp(36px, 5.2vw, 64px);
+  line-height: 1.1;
+  letter-spacing: var(--type-h1-tracking);
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.logos {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 28px 48px;
+  min-height: 33px;
+}
+
+.logoItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 1;
+  transition: opacity 160ms ease;
+  color: var(--ink);
+}
+
+.logoItem[data-dimmed='true'] {
+  opacity: 0.2;
+}
+
+.logoImg {
+  display: block;
+  height: 20px;
+  width: auto;
+  object-fit: contain;
+}
+
+.logoWord {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.2;
+  letter-spacing: 0;
+  color: var(--ink);
+}
+
+.card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 14px;
+  width: min(420px, 100%);
+  padding: 10px;
+  background: var(--surface);
+  border: none;
+  border-radius: var(--radius);
+  text-align: left;
+  text-decoration: none;
+  color: inherit;
+  transition: opacity 160ms ease;
+}
+
+.cardThumb {
+  flex: none;
+  width: 128px;
+  height: 80px;
+  border-radius: var(--radius-inner);
+  overflow: hidden;
+  background: var(--soft);
+}
+
+.cardThumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cardText {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  min-width: 0;
+  padding-right: 6px;
+}
+
+.cardMeta {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: var(--type-small-size);
+  line-height: var(--type-small-leading);
+  letter-spacing: 0;
+  color: var(--grey-text);
+  font-variant-numeric: tabular-nums;
+}
+
+.cardTitle {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.25;
+  color: var(--ink);
+}
+
+.cardOneLiner {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: var(--type-small-size);
+  line-height: var(--type-small-leading);
+  color: var(--grey-text);
+}
+
+/* ---------- Scrubber pill ---------- */
+
+.scrubberDock {
+  position: absolute;
+  left: 50%;
+  bottom: max(24px, env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  z-index: 5;
+  display: flex;
+  justify-content: center;
+  width: max-content;
+  max-width: calc(100% - 32px);
+}
+
+.scrubber {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+  padding: 6px;
+  background: var(--surface);
+  border: none;
+  border-radius: var(--radius-pill);
+  box-shadow: none;
+  /* Soft chips are labels only — selected stops use ink, never soft. */
+}
+
+.stop {
+  appearance: none;
+  margin: 0;
+  padding: 8px 12px;
+  border: none;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--grey-text);
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: var(--type-small-size);
+  line-height: var(--type-small-leading);
+  letter-spacing: 0;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.stop[aria-checked='true'] {
+  background: var(--ink);
+  color: var(--surface);
+}
+
+.stop:focus-visible,
+.reset:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.reset {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  flex: none;
+}
+
+.reset:disabled {
+  opacity: 0.28;
+  cursor: default;
+}
+
+.resetIcon {
+  width: 14px;
+  height: 14px;
+  display: block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logoItem,
+  .card {
+    transition: none;
+  }
+}
+
+/* Mobile: stack content; pin scrubber to the viewport bottom. */
+@media (max-width: 600px) {
+  .stage {
+    justify-content: flex-start;
+    min-height: 100svh;
+    padding: 72px 20px calc(96px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .main {
+    gap: 22px;
+    width: 100%;
+  }
+
+  .headline {
+    max-width: 14ch;
+    font-size: clamp(32px, 9vw, 40px);
+  }
+
+  .logos {
+    gap: 18px 28px;
+  }
+
+  .card {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .cardThumb {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 10;
+  }
+
+  .scrubberDock {
+    position: fixed;
+    left: 50%;
+    bottom: max(16px, env(safe-area-inset-bottom, 0px));
+    transform: translateX(-50%);
+    /* Stay above page content while scrolling past the hero */
+    z-index: 40;
+  }
+
+  .scrubber {
+    max-width: calc(100vw - 24px);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
