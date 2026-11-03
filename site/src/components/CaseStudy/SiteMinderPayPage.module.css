@@ -114,6 +114,8 @@
   font-size: var(--type-meta-label-size);
   line-height: var(--type-meta-label-leading);
   letter-spacing: var(--type-meta-label-tracking);
+  text-transform: none;
+  font-variant-numeric: tabular-nums;
   color: var(--text-muted);
 }
 
@@ -149,6 +151,8 @@
   font-size: var(--type-caption-size);
   line-height: var(--type-caption-leading);
   letter-spacing: var(--type-caption-tracking);
+  text-transform: none;
+  font-variant-numeric: tabular-nums;
   color: var(--text-muted);
 }
 

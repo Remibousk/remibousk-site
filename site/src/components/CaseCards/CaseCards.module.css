@@ -123,26 +123,23 @@
   padding: 12px;
   background-color: var(--surface);
   border: 1px solid var(--dim);
-  border-radius: var(--radius-sm);
-  box-shadow: var(--shadow-soft);
+  border-radius: var(--radius);
+  box-shadow: none;
   text-decoration: none;
-  /* Hover softens into --soft; spring-like settle on background-color. */
-  transition:
-    background-color 0.45s cubic-bezier(0.22, 1.2, 0.36, 1),
-    box-shadow 0.45s cubic-bezier(0.22, 1.2, 0.36, 1);
+  /* Hover softens into --soft (tone step; no resting shadow). */
+  transition: background-color 0.45s cubic-bezier(0.22, 1.2, 0.36, 1);
 }
 
 .card:hover,
 .card:focus-visible {
   background-color: var(--soft);
-  box-shadow: var(--shadow-lift);
 }
 
 .mediaFrame {
   position: relative;
   width: 100%;
   aspect-ratio: 1.6 / 1;
-  border-radius: 8px;
+  border-radius: var(--radius);
   overflow: hidden;
   background-color: var(--bg-1);
   flex: none;

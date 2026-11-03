@@ -129,7 +129,8 @@
   font-size: var(--type-caption-size);
   line-height: var(--type-caption-leading);
   letter-spacing: var(--type-caption-tracking);
-  text-transform: uppercase;
+  text-transform: none;
+  font-variant-numeric: tabular-nums;
   color: var(--grey-text);
 }
 

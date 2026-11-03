@@ -26,30 +26,34 @@
   --reading-max: 720px;
   --content-max: 1200px;
 
-  /* --- Radii (cards/surfaces live in the 16–28px range) --- */
-  --radius-sm: 16px;
-  --radius-md: 20px;
-  --radius-lg: 24px;
-  --radius-xl: 28px;
-  --radius-card: 24px;
-  --radius-chip: 16px;
-  --radius-full: 9999px;
-  /* Back-compat aliases used across modules */
+  /* --- Radii: one panel radius + fully round pills --- */
+  --radius: 28px;
+  --radius-pill: 999px;
+  /* Back-compat: all former panel steps collapse to the single card radius */
+  --radius-sm: var(--radius);
+  --radius-md: var(--radius);
+  --radius-lg: var(--radius);
+  --radius-xl: var(--radius);
+  --radius-card: var(--radius);
+  --radius-chip: var(--radius-pill);
+  --radius-full: var(--radius-pill);
   --radius-none: 0px;
-  --radius: var(--radius-sm);
-  --radius-window-sm: var(--radius-sm);
-  --radius-window-md: var(--radius-md);
-  --radius-window-lg: var(--radius-lg);
-  --radius-window: var(--radius-md);
+  --radius-window-sm: var(--radius);
+  --radius-window-md: var(--radius);
+  --radius-window-lg: var(--radius);
+  --radius-window: var(--radius);
 
-  /* --- Soft, low-opacity elevation --- */
-  --shadow-card: 0 12px 40px rgba(21, 20, 18, 0.06);
-  --shadow-soft: 0 4px 16px rgba(21, 20, 18, 0.05);
-  --shadow-lift: 0 8px 24px rgba(21, 20, 18, 0.08);
-  --shadow-elevation-1: var(--shadow-soft);
-  --shadow-elevation-2: var(--shadow-card);
-  --shadow-elevation-3: var(--shadow-lift);
-  --shadow-elevation-4: 0 2px 8px rgba(21, 20, 18, 0.06);
+  /* --- Shadows: no resting elevation; float reserved, unused for now --- */
+  --shadow-float: 0 12px 40px rgba(21, 20, 18, 0.08);
+  --shadow-none: none;
+  /* Legacy names → none so modules stop casting resting shadows */
+  --shadow-card: var(--shadow-none);
+  --shadow-soft: var(--shadow-none);
+  --shadow-lift: var(--shadow-none);
+  --shadow-elevation-1: var(--shadow-none);
+  --shadow-elevation-2: var(--shadow-none);
+  --shadow-elevation-3: var(--shadow-none);
+  --shadow-elevation-4: var(--shadow-none);
 
   /* --- Dot grid (hero utility) --- */
   --dot-grid-color: color-mix(in srgb, var(--dim) 55%, transparent);
@@ -90,7 +94,7 @@
   --nav-link: var(--ink);
   --nav-dot: var(--dim);
   --nav-dot-active: var(--ink);
-  --nav-shadow: var(--shadow-soft);
+  --nav-shadow: var(--shadow-none);
 
   --hero-border: var(--dim);
   --hero-grad-0: var(--bg);
@@ -103,9 +107,9 @@
   --btn-glass-border: color-mix(in srgb, var(--ink) 6%, transparent);
   --btn-glass-bg: var(--surface);
   --btn-glass-bg-hover: var(--soft);
-  --btn-glass-shadow: var(--shadow-soft);
-  --btn-glass-shadow-hover: var(--shadow-lift);
-  --chip-border: var(--dim);
+  --btn-glass-shadow: var(--shadow-none);
+  --btn-glass-shadow-hover: var(--shadow-none);
+  --chip-border: transparent;
 
   --accent-blue: #0659c3;
   --accent-navy: #020843;
@@ -148,7 +152,6 @@
   --gray-6: var(--surface);
   --gray-7: var(--dim);
   --gray-8: var(--dim);
-  /* Mid gray steps: non-text chrome stays on --grey; text-adjacent steps use --grey-text. */
   --gray-9: var(--grey);
   --gray-10: var(--grey-text);
   --gray-11: var(--grey-text);

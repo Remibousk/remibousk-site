@@ -58,7 +58,7 @@
   width: 100%;
   padding: 40px 30px 60px 20px;
   border: 1px solid var(--dim);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius);
   overflow: hidden;
   background-color: var(--surface);
   box-shadow: var(--shadow-soft);

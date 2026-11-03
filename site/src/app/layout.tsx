@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Figtree, DM_Mono } from 'next/font/google';
+import { Figtree } from 'next/font/google';
 import '@/styles/tokens.css';
 import '@/styles/fonts.css';
 import '@/styles/type.css';
@@ -11,14 +11,6 @@ const figtree = Figtree({
   variable: '--font-figtree-face',
   display: 'swap',
   fallback: ['Segoe UI', 'system-ui', 'sans-serif'],
-});
-
-const dmMono = DM_Mono({
-  subsets: ['latin'],
-  weight: ['400', '500'],
-  variable: '--font-dm-mono-face',
-  display: 'swap',
-  fallback: ['IBM Plex Mono', 'ui-monospace', 'monospace'],
 });
 
 const SITE_URL = 'https://remibousk.com';
@@ -58,7 +50,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${figtree.variable} ${dmMono.variable}`}>
+    <html lang="en" className={figtree.variable}>
       <body>{children}</body>
     </html>
   );

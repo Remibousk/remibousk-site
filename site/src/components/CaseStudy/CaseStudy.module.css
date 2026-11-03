@@ -111,7 +111,7 @@
 .navCard {
   background-color: var(--nav-bg);
   border: 1px solid var(--nav-border);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius);
   box-shadow: var(--nav-shadow);
   padding: 8px;
   display: flex;
@@ -185,7 +185,7 @@
   max-width: 100%;
   background-color: var(--surface);
   border: 1px solid var(--dim);
-  border-radius: var(--radius-card);
+  border-radius: var(--radius);
   box-shadow: var(--shadow-card);
   padding: 32px;
   display: flex;
@@ -252,20 +252,19 @@
    label goes rgb(118,114,130) -> rgb(223,222,227), on the component's own
    `{type:'spring', bounce:0.2, duration:0.4}` transition. */
 .tagChip {
-  /* Plain labels (not links) — surface + dim border, no hover. */
-  background-color: var(--surface);
-  border: 1px solid var(--dim);
-  border-radius: var(--radius-chip);
-  padding: 8px;
+  /* Plain labels (not links) — soft fill, ink text, pill, no border/hover. */
+  background-color: var(--soft);
+  border: none;
+  border-radius: var(--radius-pill);
+  padding: 8px 14px;
   flex: none;
-  box-shadow: none;
 }
 
 .tagChip h4 {
   font-family: var(--font-sans);
   font-weight: 400;
-  font-size: 14px;
-  line-height: 1.2;
+  font-size: var(--type-small-size);
+  line-height: var(--type-small-leading);
   color: var(--ink);
   white-space: pre;
 }
@@ -317,7 +316,7 @@
   font-size: var(--type-meta-label-size);
   line-height: var(--type-meta-label-leading);
   letter-spacing: var(--type-meta-label-tracking);
-  text-transform: uppercase;
+  text-transform: none;
   color: var(--grey-text);
 }
 
@@ -328,6 +327,7 @@
   font-size: var(--type-meta-size);
   line-height: var(--type-meta-leading);
   letter-spacing: var(--type-meta-tracking);
+  font-variant-numeric: tabular-nums;
   color: var(--ink);
 }
 
@@ -496,7 +496,7 @@ ul.bodyList > li::before {
   align-items: flex-start;
   gap: 8px;
   padding: 8px;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius);
   max-width: 100%;
 }
 
@@ -553,7 +553,7 @@ ul.bodyList > li::before {
   align-items: center;
   gap: 50px;
   padding: 8px;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius);
 }
 
 .sectionCenter {
@@ -577,7 +577,7 @@ ul.bodyList > li::before {
 .card {
   background-color: var(--surface);
   border: 1px solid var(--dim);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius);
   box-shadow: var(--shadow-soft);
   padding: 20px;
   display: flex;
@@ -656,7 +656,7 @@ ul.bodyList > li::before {
   width: 100%;
   background-color: var(--surface);
   border: 1px solid var(--dim);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius);
   box-shadow: var(--shadow-card);
   padding: 60px;
   display: flex;
@@ -690,10 +690,10 @@ ul.bodyList > li::before {
   justify-content: center;
   align-items: center;
   padding: 18px;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-pill);
   border: 1px solid var(--btn-glass-border);
   background: var(--btn-glass-bg);
-  box-shadow: var(--btn-glass-shadow);
+  box-shadow: none;
   /* CardButton transition: tween 0.1s, ease [1, -0.13, 0.3, 1.35]. */
   transition:
     background 0.1s cubic-bezier(1, -0.13, 0.3, 1.35),

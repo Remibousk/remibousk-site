@@ -94,7 +94,7 @@
   bottom: 10px;
   gap: 12px;
   padding: 6px;
-  border-radius: 200px;
+  border-radius: var(--radius-pill);
   background: rgba(0, 0, 0, 0.2);
 }
 

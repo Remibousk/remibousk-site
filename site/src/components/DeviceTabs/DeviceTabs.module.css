@@ -128,7 +128,7 @@
   height: 24px;
   padding: 4px;
   border: none;
-  border-radius: 30px;
+  border-radius: var(--radius-pill);
   background-color: rgb(53, 60, 105); /* "Off" / night */
   cursor: pointer;
   overflow: hidden;
@@ -148,7 +148,7 @@
   width: 16px;
   height: 16px;
   flex: none;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   background-color: #fff;
   border: 0.5px solid #ededed;
   box-shadow:

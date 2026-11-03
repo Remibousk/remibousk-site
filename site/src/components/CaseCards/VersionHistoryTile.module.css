@@ -14,7 +14,7 @@
   height: 260px;
   padding: 24px clamp(24px, 5cqi, 60px);
   overflow: hidden;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius);
   border-top: 1px solid var(--soft);
   background: var(--surface);
   color: var(--ink);
@@ -64,7 +64,7 @@
   width: calc(min(560px, 52cqi) - 60px);
   height: calc(2 * (100% - 32px));
   overflow: hidden;
-  border-radius: 8px;
+  border-radius: var(--radius);
   pointer-events: none;
   background: #fc714a url('/images/version-history-gradient.webp') center / cover no-repeat;
 }
@@ -76,7 +76,7 @@
   width: 86%;
   height: auto;
   border: 1px solid var(--dim);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius);
   box-shadow: var(--shadow-lift);
   user-select: none;
 }

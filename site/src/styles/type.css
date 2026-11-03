@@ -1,7 +1,7 @@
 /*
- * Type scale tokens — Display / H1–H3 / Lead / Body / Small / Label.
+ * Type scale tokens — Display / H1–H3 / Lead / Body / Small.
  * Figtree SemiBold (600) for display & headings; Regular (400) for body.
- * DM Mono for Label (11px, uppercase, slight tracking).
+ * Labels use Figtree Small (15px), sentence case — no mono, no caps tracking.
  *
  * Existing role names (--type-display-*, --type-title-*, …) map onto the
  * new scale so case-study and homepage modules inherit without a rewrite.
@@ -14,21 +14,22 @@
   --type-h3-size: 24px;
   --type-lead-size: 22px;
   --type-small-size: 15px;
-  --type-label-size: 11px;
+  /* Label = Small (Figtree); kept as alias for former mono label role */
+  --type-label-size: var(--type-small-size);
 
   --type-h1-leading: 1.1;
   --type-h2-leading: 1.15;
   --type-h3-leading: 1.25;
   --type-lead-leading: 1.4;
   --type-small-leading: 1.45;
-  --type-label-leading: 1.3;
+  --type-label-leading: var(--type-small-leading);
 
   --type-h1-tracking: -0.015em;
   --type-h2-tracking: -0.01em;
   --type-h3-tracking: -0.01em;
   --type-lead-tracking: 0;
   --type-small-tracking: 0;
-  --type-label-tracking: 0.06em;
+  --type-label-tracking: 0;
 
   --type-heading-weight: 600;
   --type-label-weight: 400;
@@ -71,11 +72,11 @@
   --type-quote-leading: 30px;
   --type-quote-tracking: 0;
 
-  --type-meta-label-family: var(--font-mono);
+  --type-meta-label-family: var(--font-sans);
   --type-meta-label-weight: 400;
-  --type-meta-label-size: var(--type-label-size);
-  --type-meta-label-leading: var(--type-label-leading);
-  --type-meta-label-tracking: var(--type-label-tracking);
+  --type-meta-label-size: var(--type-small-size);
+  --type-meta-label-leading: var(--type-small-leading);
+  --type-meta-label-tracking: 0;
 
   --type-meta-family: var(--font-sans);
   --type-meta-weight: 400;
@@ -84,11 +85,11 @@
   --type-meta-tracking: 0;
   --type-meta-gap: 16px;
 
-  --type-caption-family: var(--font-mono);
+  --type-caption-family: var(--font-sans);
   --type-caption-weight: 400;
-  --type-caption-size: var(--type-label-size);
-  --type-caption-leading: var(--type-label-leading);
-  --type-caption-tracking: var(--type-label-tracking);
+  --type-caption-size: var(--type-small-size);
+  --type-caption-leading: var(--type-small-leading);
+  --type-caption-tracking: 0;
 }
 
 @media (max-width: 1199px) and (min-width: 810px) {
@@ -112,13 +113,18 @@
   }
 }
 
-/* Utility: DM Mono labels / eyebrows */
+/* Utility: Figtree Small labels (sentence case) */
 .typeLabel {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-weight: var(--type-label-weight);
-  font-size: var(--type-label-size);
-  line-height: var(--type-label-leading);
-  letter-spacing: var(--type-label-tracking);
-  text-transform: uppercase;
+  font-size: var(--type-small-size);
+  line-height: var(--type-small-leading);
+  letter-spacing: 0;
+  text-transform: none;
   color: var(--grey-text);
+}
+
+/* Align years / dates / counters / metrics */
+.tabularNums {
+  font-variant-numeric: tabular-nums;
 }

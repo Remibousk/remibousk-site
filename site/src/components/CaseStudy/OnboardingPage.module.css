@@ -41,7 +41,7 @@
   height: 100%;
   object-fit: cover;
   object-position: 50% 50%;
-  border-radius: 6px;
+  border-radius: var(--radius);
 }
 
 /* Two-up onboarding screens (framer-dglga6 grid; images aspect 1.46823) */
@@ -112,7 +112,7 @@
 /* A/B test results chart (framer-52qnhz): full width, radius 7 */
 .resultImage {
   width: 100%;
-  border-radius: 7px;
+  border-radius: var(--radius);
   overflow: hidden;
 }
 

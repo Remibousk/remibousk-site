@@ -150,6 +150,7 @@
 .dates {
   flex: none;
   white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
 
 .hiddenNote {
