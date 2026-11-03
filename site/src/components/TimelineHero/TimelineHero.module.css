@@ -152,14 +152,14 @@
   border-radius: var(--radius-inner); /* 8px */
   overflow: hidden;
   background: var(--soft);
+  /* Soft rim so near-white UIs don't dissolve into --surface */
+  border: 3px solid var(--soft);
+  box-sizing: border-box;
 }
 
 .cardThumb {
   width: 128px;
   height: 80px;
-  /* Soft rim so near-white UIs (Version History) don't dissolve into --surface */
-  border: 3px solid var(--soft);
-  box-sizing: border-box;
 }
 
 .cardThumb img,
