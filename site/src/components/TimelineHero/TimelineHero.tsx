@@ -20,6 +20,7 @@ import {
   DEFAULT_HEADLINE,
   ERAS,
   LOGO_STRIP,
+  MAX_COMPACT_WIDGETS,
   MAX_DESKTOP_WIDGETS,
   MAX_MOBILE_WIDGETS,
   SIDE_WIDGETS,
@@ -47,14 +48,31 @@ type WidgetModel = {
   media: EraMedia;
 };
 
-/** Corner slots — keep clear of headline / logos / active card / pill. */
-const DESKTOP_SLOTS = [
-  // Keep clear of the sticky remi. nav card (top-left ~160×240).
-  { top: '28%', left: '3%', right: 'auto', bottom: 'auto' },
-  { top: '10%', left: 'auto', right: '3%', bottom: 'auto' },
-  { top: 'auto', left: '4%', right: 'auto', bottom: '22%' },
-  { top: 'auto', left: 'auto', right: '5%', bottom: '24%' },
-] as const;
+type Slot = {
+  top?: string;
+  left?: string;
+  right?: string;
+  bottom?: string;
+};
+
+/**
+ * Corner slots — ≥32px clear of the remi. nav card (≈160×240 at ~40,4),
+ * and clear of headline / logos / active card / pill.
+ */
+const SLOTS_WIDE: Slot[] = [
+  // Below the nav card (nav bottom ~244 + 32px safe = 276)
+  { top: '276px', left: '40px', right: 'auto', bottom: 'auto' },
+  { top: '72px', left: 'auto', right: '40px', bottom: 'auto' },
+  { top: 'auto', left: '40px', right: 'auto', bottom: '120px' },
+  { top: 'auto', left: 'auto', right: '48px', bottom: '140px' },
+];
+
+/** ≤1280: drop top-left (near nav) — three widgets only. */
+const SLOTS_COMPACT: Slot[] = [
+  { top: '72px', left: 'auto', right: '28px', bottom: 'auto' },
+  { top: 'auto', left: '28px', right: 'auto', bottom: '120px' },
+  { top: 'auto', left: 'auto', right: '36px', bottom: '140px' },
+];
 
 function UndoIcon() {
   return (
@@ -89,12 +107,17 @@ function MediaBlock({
   sizes,
   reduceMotion,
   eager,
+  allowVideo = true,
+  imageClassName,
 }: {
   media: EraMedia;
   className: string;
   sizes: string;
   reduceMotion: boolean;
   eager?: boolean;
+  /** When false, video media never mounts (no network load). */
+  allowVideo?: boolean;
+  imageClassName?: string;
 }) {
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -114,6 +137,7 @@ function MediaBlock({
   }, [media, reduceMotion]);
 
   if (media.kind === 'video') {
+    if (!allowVideo) return null;
     return (
       <div className={className}>
         <video
@@ -137,6 +161,7 @@ function MediaBlock({
   return (
     <div className={className}>
       <Image
+        className={imageClassName}
         src={media.src}
         alt={media.alt}
         width={256}
@@ -155,13 +180,16 @@ function EraCard({
   era: Era;
   reduceMotion: boolean;
 }) {
+  const tightCrop = era.id === 'now-2026';
   const body = (
     <>
       <MediaBlock
         media={era.card.media}
         className={styles.cardThumb}
+        imageClassName={tightCrop ? styles.cardThumbTight : undefined}
         sizes="(max-width: 600px) 100vw, 128px"
         reduceMotion={reduceMotion}
+        allowVideo={false}
         eager
       />
       <div className={styles.cardText}>
@@ -204,7 +232,7 @@ function SettledWidget({
   reduceMotion,
 }: {
   widget: WidgetModel;
-  slot: (typeof DESKTOP_SLOTS)[number];
+  slot: Slot;
   tilt: number;
   reduceMotion: boolean;
 }) {
@@ -215,6 +243,7 @@ function SettledWidget({
         className={styles.widgetMedia}
         sizes="180px"
         reduceMotion={reduceMotion}
+        allowVideo
       />
       <div className={styles.widgetText}>
         <p className={styles.widgetMeta}>{widget.meta}</p>
@@ -314,6 +343,7 @@ export default function TimelineHero() {
   const [index, setIndex] = useState<number | null>(null);
   const [committed, setCommitted] = useState<number | null>(null);
   const [isNarrow, setIsNarrow] = useState(false);
+  const [isCompact, setIsCompact] = useState(false);
   const groupRef = useRef<HTMLDivElement>(null);
   const dragging = useRef(false);
   const dwellTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -323,11 +353,19 @@ export default function TimelineHero() {
   const headline = selected?.headline ?? DEFAULT_HEADLINE;
 
   useEffect(() => {
-    const mq = window.matchMedia('(max-width: 600px)');
-    const sync = () => setIsNarrow(mq.matches);
+    const mobileMq = window.matchMedia('(max-width: 600px)');
+    const compactMq = window.matchMedia('(max-width: 1280px)');
+    const sync = () => {
+      setIsNarrow(mobileMq.matches);
+      setIsCompact(compactMq.matches);
+    };
     sync();
-    mq.addEventListener('change', sync);
-    return () => mq.removeEventListener('change', sync);
+    mobileMq.addEventListener('change', sync);
+    compactMq.addEventListener('change', sync);
+    return () => {
+      mobileMq.removeEventListener('change', sync);
+      compactMq.removeEventListener('change', sync);
+    };
   }, []);
 
   const commitIndex = useCallback((next: number | null, immediate: boolean) => {
@@ -474,8 +512,14 @@ export default function TimelineHero() {
     [],
   );
 
-  const maxWidgets = isNarrow ? MAX_MOBILE_WIDGETS : MAX_DESKTOP_WIDGETS;
-  const allWidgets = collectWidgets(committed);
+  // Mobile: zero widgets — no RemOS / Symbol Morph video elements mount.
+  const maxWidgets = isNarrow
+    ? MAX_MOBILE_WIDGETS
+    : isCompact
+      ? MAX_COMPACT_WIDGETS
+      : MAX_DESKTOP_WIDGETS;
+  const slots = isCompact ? SLOTS_COMPACT : SLOTS_WIDE;
+  const allWidgets = isNarrow ? [] : collectWidgets(committed);
   const visibleWidgets = allWidgets.slice(-maxWidgets);
 
   return (
@@ -485,19 +529,20 @@ export default function TimelineHero() {
       id="home-hero"
     >
       <div className={styles.stage}>
-        <div className={styles.widgetLayer} aria-hidden={visibleWidgets.length === 0}>
+        <div
+          className={styles.widgetLayer}
+          aria-hidden={visibleWidgets.length === 0}
+        >
           <AnimatePresence initial={false}>
-            {!isNarrow
-              ? visibleWidgets.map((w, i) => (
-                  <SettledWidget
-                    key={w.id}
-                    widget={w}
-                    slot={DESKTOP_SLOTS[i % DESKTOP_SLOTS.length]}
-                    tilt={i % 2 === 0 ? -2 : 2}
-                    reduceMotion={reduceMotion}
-                  />
-                ))
-              : null}
+            {visibleWidgets.map((w, i) => (
+              <SettledWidget
+                key={w.id}
+                widget={w}
+                slot={slots[i % slots.length]}
+                tilt={i % 2 === 0 ? -2 : 2}
+                reduceMotion={reduceMotion}
+              />
+            ))}
           </AnimatePresence>
         </div>
 
@@ -600,30 +645,6 @@ export default function TimelineHero() {
             </AnimatePresence>
           </div>
 
-          {isNarrow && visibleWidgets.length > 0 ? (
-            <div className={styles.mobileWidgets} aria-label="Past projects">
-              <AnimatePresence initial={false}>
-                {visibleWidgets.map((w) => (
-                  <motion.div
-                    key={w.id}
-                    className={styles.mobileWidget}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: reduceMotion ? 0 : 0.2 }}
-                  >
-                    <MediaBlock
-                      media={w.media}
-                      className={styles.mobileWidgetMedia}
-                      sizes="72px"
-                      reduceMotion={reduceMotion}
-                    />
-                    <span className={styles.mobileWidgetTitle}>{w.title}</span>
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-            </div>
-          ) : null}
         </div>
 
         <div className={styles.scrubberDock}>

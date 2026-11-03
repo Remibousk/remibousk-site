@@ -147,10 +147,9 @@
 }
 
 .cardThumb,
-.widgetMedia,
-.mobileWidgetMedia {
+.widgetMedia {
   flex: none;
-  border-radius: var(--radius-inner);
+  border-radius: var(--radius-inner); /* 8px */
   overflow: hidden;
   background: var(--soft);
 }
@@ -158,18 +157,27 @@
 .cardThumb {
   width: 128px;
   height: 80px;
+  /* Soft rim so near-white UIs (Version History) don't dissolve into --surface */
+  padding: 3px;
+  box-sizing: border-box;
 }
 
 .cardThumb img,
 .cardThumb .mediaVideo,
 .widgetMedia img,
-.widgetMedia .mediaVideo,
-.mobileWidgetMedia img,
-.mobileWidgetMedia .mediaVideo {
+.widgetMedia .mediaVideo {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: calc(var(--radius-inner) - 2px);
+}
+
+/* Tighter crop focus for Version History (near-white UI). */
+.cardThumbTight {
+  object-position: 50% 42%;
+  transform: scale(1.08);
+  transform-origin: center center;
 }
 
 .mediaVideo {
@@ -273,10 +281,6 @@
   font-size: 13px;
   line-height: 1.25;
   color: var(--ink);
-}
-
-.mobileWidgets {
-  display: none;
 }
 
 /* ---------- Scrubber pill ---------- */
@@ -383,43 +387,9 @@
     padding: 72px 20px calc(96px + env(safe-area-inset-bottom, 0px));
   }
 
+  /* No corner widgets / no video widgets on phone. */
   .widgetLayer {
     display: none;
-  }
-
-  .mobileWidgets {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    gap: 10px;
-    width: 100%;
-  }
-
-  .mobileWidget {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-    width: 72px;
-  }
-
-  .mobileWidgetMedia {
-    width: 72px;
-    height: 48px;
-    box-shadow: var(--shadow-float);
-  }
-
-  .mobileWidgetTitle {
-    font-family: var(--font-sans);
-    font-weight: 500;
-    font-size: 11px;
-    line-height: 1.2;
-    color: var(--grey-text);
-    text-align: center;
-    max-width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
   }
 
   .main {

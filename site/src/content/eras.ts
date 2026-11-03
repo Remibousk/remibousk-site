@@ -276,6 +276,8 @@ export const SIDE_WIDGETS: SideWidget[] = [
   },
 ];
 
-/** Max settled widgets on desktop; mobile shows at most one. */
+/** Max settled widgets. Mobile shows none (stacked era card is enough). */
 export const MAX_DESKTOP_WIDGETS = 4;
-export const MAX_MOBILE_WIDGETS = 1;
+/** ≤1280: drop the crowded top-left slot — three widgets reads cleaner. */
+export const MAX_COMPACT_WIDGETS = 3;
+export const MAX_MOBILE_WIDGETS = 0;
