@@ -44,8 +44,8 @@ export default function CtcPage() {
         tightLeft
         left={
           <>
-            <MetaGroup label="Role:">Lead Designer and PM</MetaGroup>
-            <MetaGroup label="When:">Q4 2023</MetaGroup>
+            <MetaGroup label="Role">Lead Designer and PM</MetaGroup>
+            <MetaGroup label="When">Q4 2023</MetaGroup>
             <a
               className={caseStyles.viewLive}
               href="https://cryptotaxcalculator.io"
@@ -58,7 +58,7 @@ export default function CtcPage() {
           </>
         }
         right={
-          <MetaGroup label="Overview:" wide>
+          <MetaGroup label="Overview" wide>
             <>
               <p className={caseStyles.metaValue}>
                 Following a strategic shift in our target market toward crypto

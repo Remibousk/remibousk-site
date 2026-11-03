@@ -36,7 +36,8 @@
   flex-direction: column;
   gap: 8px;
   width: 160px;
-  padding: 8px;
+  /* Match mobile dropdown: 16px padding clears the 16px radius */
+  padding: 16px;
   background-color: var(--nav-bg);
   border: none;
   border-radius: var(--radius);
