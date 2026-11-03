@@ -10,3 +10,5 @@ node_modules/
 
 # Self-hosted Framer font dumps — unused; Figtree/DM Mono via next/font/google.
 /site/public/fonts/
+
+/artifacts/
