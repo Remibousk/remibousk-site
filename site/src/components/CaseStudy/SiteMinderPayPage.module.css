@@ -20,9 +20,9 @@
 
 .shot {
   width: 100%;
-  background-color: var(--bg-2);
-  border: 1px solid var(--surface);
-  border-radius: 16px;
+  background-color: var(--surface);
+  border: 1px solid var(--dim);
+  border-radius: var(--radius-sm);
   padding: 8px;
   overflow: hidden;
 }
@@ -31,7 +31,7 @@
   display: block;
   width: 100%;
   height: auto;
-  border-radius: 12px;
+  border-radius: var(--radius-md);
 }
 
 .caption {
@@ -85,9 +85,9 @@
   flex-direction: column;
   gap: 10px;
   min-width: 0;
-  background-color: var(--bg-2);
-  border: 1px solid var(--surface);
-  border-radius: 16px;
+  background-color: var(--surface);
+  border: 1px solid var(--dim);
+  border-radius: var(--radius-sm);
   padding: 8px 8px 12px;
   overflow: hidden;
 }
@@ -96,7 +96,7 @@
   display: block;
   width: 100%;
   height: auto;
-  border-radius: 12px;
+  border-radius: var(--radius-md);
 }
 
 .split .caption {

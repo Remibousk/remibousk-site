@@ -42,8 +42,8 @@
   background-color: var(--bg-1);
   /* Hardcoded in the original (not one of the shared tokens). */
   border: 1px solid var(--hero-border);
-  border-radius: 8px;
-  box-shadow: 0 2px 7px 1px rgba(0, 0, 0, 0.25);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
   overflow: hidden;
   overflow: clip;
 }
@@ -81,20 +81,21 @@
 
 .eyebrow {
   width: 100%;
-  font-family: var(--font-gt-walsheim-bold);
-  font-size: 28px;
-  font-weight: 700;
-  line-height: 1.2;
-  color: var(--text-eyebrow);
+  font-family: var(--font-sans);
+  font-size: var(--type-h3-size);
+  font-weight: var(--type-heading-weight);
+  line-height: var(--type-h3-leading);
+  color: var(--ink);
 }
 
 .title {
   width: 100%;
-  font-family: var(--font-gt-walsheim-bold);
-  font-size: 72px;
-  font-weight: 700;
-  line-height: 1.2;
-  color: var(--text-heading);
+  font-family: var(--type-display-family);
+  font-size: var(--type-display-size);
+  font-weight: var(--type-display-weight);
+  line-height: var(--type-display-leading);
+  letter-spacing: var(--type-display-tracking);
+  color: var(--ink);
 }
 
 .love {
@@ -107,11 +108,12 @@
 
 .loveLabel {
   white-space: pre;
-  font-family: var(--font-gt-walsheim-regular);
-  font-size: 20px;
-  font-weight: 400;
-  line-height: 1.1;
-  color: var(--text-secondary);
+  font-family: var(--font-sans);
+  font-size: var(--type-lead-size);
+  font-weight: var(--type-body-weight);
+  line-height: var(--type-lead-leading);
+  /* Body-sized copy: --grey on --bg fails WCAG AA, so use --ink. */
+  color: var(--ink);
 }
 
 .chips {
@@ -147,12 +149,12 @@
   color: inherit;
   font: inherit;
   cursor: pointer;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
 }
 
 .chipButton:focus-visible {
-  outline: 2px solid var(--border-focus);
-  outline-offset: 3px;
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
 }
 
 .chipButton[aria-pressed='true'] {
@@ -211,15 +213,25 @@
 .bgBase {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    180deg,
-    var(--hero-grad-0) 0%,
-    var(--hero-grad-0) 44%,
-    var(--hero-grad-1) 58%,
-    var(--hero-grad-2) 72%,
-    var(--hero-grad-3) 86%,
-    var(--hero-grad-3) 100%
-  );
+  /* Dot grid + soft vertical wash — palette only; layout unchanged. */
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(
+      circle at center,
+      var(--dot-grid-color) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      180deg,
+      var(--hero-grad-0) 0%,
+      var(--hero-grad-0) 44%,
+      var(--hero-grad-1) 58%,
+      var(--hero-grad-2) 72%,
+      var(--hero-grad-3) 86%,
+      var(--hero-grad-3) 100%
+    );
+  background-size: var(--dot-grid-size) var(--dot-grid-size), auto;
+  background-repeat: repeat, no-repeat;
 }
 
 .bgBlobLeft,
@@ -282,20 +294,6 @@
   }
 }
 
-/* Tablet + small desktop: the original's h1 preset drops to 58px <=1023px. */
-@media (max-width: 1023px) {
-  .title {
-    font-size: 58px;
-  }
-}
-
-/* Tablet (810-1199px). */
-@media (min-width: 810px) and (max-width: 1199px) {
-  .loveLabel {
-    font-size: 18px;
-  }
-}
-
 /* Phone (<=809px). */
 @media (max-width: 809px) {
   .blurb {
@@ -307,18 +305,14 @@
   }
 
   .eyebrow {
-    font-family: var(--font-gt-walsheim-medium);
-    font-size: 15px;
-    font-weight: 500;
-    color: var(--text-primary);
-  }
-
-  .title {
-    font-size: 42px;
+    font-family: var(--font-sans);
+    font-size: var(--type-small-size);
+    font-weight: var(--type-heading-weight);
+    color: var(--ink);
   }
 
   .loveLabel {
-    font-size: 16px;
+    font-size: var(--type-body-size);
   }
 
   .chipProduct {

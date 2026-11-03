@@ -39,12 +39,12 @@
 .main {
   flex: 1 0 0;
   min-width: 0;
-  max-width: 1200px;
+  max-width: var(--content-max);
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 200px;
-  padding: 4px;
+  padding: 4px var(--page-margin);
 }
 
 /* /ctc variant (framer-1ju56dc): gap 16, sections stacked tight. Original
@@ -59,19 +59,19 @@
   flex-direction: column;
   align-items: center;
   gap: 16px;
-  padding: 4px;
+  padding: 4px var(--page-margin);
 }
 
 /* Tighter chapter gap used by /siteminder-pay. */
 .mainTight {
   flex: 1 0 0;
   min-width: 0;
-  max-width: 1200px;
+  max-width: var(--content-max);
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 80px;
-  padding: 4px;
+  padding: 4px var(--page-margin);
 }
 
 @media (max-width: 809px) {
@@ -83,7 +83,7 @@
   .mainTight {
     flex: none;
     width: 100%;
-    padding: 4px 8px;
+    padding: 4px var(--page-margin);
   }
 }
 
@@ -111,7 +111,7 @@
 .navCard {
   background-color: var(--nav-bg);
   border: 1px solid var(--nav-border);
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   box-shadow: var(--nav-shadow);
   padding: 8px;
   display: flex;
@@ -154,18 +154,18 @@
   flex-direction: row;
   align-items: center;
   gap: 4px;
-  font-family: var(--font-gt-walsheim-regular);
+  font-family: var(--font-sans);
   font-weight: 400;
   font-size: 13px;
   letter-spacing: -0.01em;
   line-height: 1.2;
-  color: var(--text-muted);
+  color: var(--grey);
   white-space: pre;
 }
 
 .backLink:hover,
 .backLink:focus-visible {
-  color: var(--text-hover);
+  color: var(--ink);
 }
 
 .backIcon {
@@ -183,9 +183,10 @@
   width: 100%;
   min-width: 0;
   max-width: 100%;
-  background-color: var(--bg-1);
-  border: 1px solid var(--bg-4);
-  border-radius: 8px;
+  background-color: var(--surface);
+  border: 1px solid var(--dim);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
   padding: 32px;
   display: flex;
   flex-direction: column;
@@ -210,7 +211,7 @@
   font-size: var(--type-body-size);
   line-height: var(--type-body-leading);
   letter-spacing: var(--type-body-tracking);
-  color: var(--text-secondary);
+  color: var(--ink);
 }
 
 /* Title role (Figma: Title). */
@@ -251,9 +252,9 @@
    label goes rgb(118,114,130) -> rgb(223,222,227), on the component's own
    `{type:'spring', bounce:0.2, duration:0.4}` transition. */
 .tagChip {
-  background-color: var(--bg-3);
+  background-color: var(--soft);
   border: 1px solid var(--chip-border);
-  border-radius: 8px;
+  border-radius: var(--radius-chip);
   padding: 8px;
   flex: none;
   box-shadow: none;
@@ -261,11 +262,11 @@
 }
 
 .tagChip:hover {
-  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.25);
+  box-shadow: var(--shadow-soft);
 }
 
 .tagChip h4 {
-  font-family: var(--font-gt-walsheim-regular);
+  font-family: var(--font-sans);
   font-weight: 400;
   font-size: 14px;
   line-height: 1.2;
@@ -325,7 +326,8 @@
   font-size: var(--type-meta-label-size);
   line-height: var(--type-meta-label-leading);
   letter-spacing: var(--type-meta-label-tracking);
-  color: var(--text-muted);
+  text-transform: uppercase;
+  color: var(--grey);
 }
 
 /* Meta/Value role (Figma: Meta/Value). */
@@ -335,11 +337,11 @@
   font-size: var(--type-meta-size);
   line-height: var(--type-meta-leading);
   letter-spacing: var(--type-meta-tracking);
-  color: var(--text-meta);
+  color: var(--ink);
 }
 
 .metaValue strong {
-  font-weight: 700;
+  font-weight: var(--type-heading-weight);
 }
 
 .metaValue:not(:first-child) {
@@ -358,7 +360,7 @@
   flex-direction: row;
   align-items: center;
   gap: 4px;
-  font-family: var(--font-gt-walsheim-regular);
+  font-family: var(--font-sans);
   font-weight: 400;
   font-size: 13px;
   letter-spacing: -0.01em;
@@ -389,7 +391,7 @@
   font-size: var(--type-section-size);
   line-height: var(--type-section-leading);
   letter-spacing: var(--type-section-tracking);
-  color: var(--text-eyebrow);
+  color: var(--ink);
 }
 
 /* Body role (Figma: Body). */
@@ -399,16 +401,18 @@
   font-size: var(--type-body-size);
   line-height: var(--type-body-leading);
   letter-spacing: var(--type-body-tracking);
-  color: var(--text-secondary);
+  max-width: var(--reading-max);
+  /* --grey on --bg ≈ 3.2:1 — fails AA for body; use --ink. */
+  color: var(--ink);
 }
 
 .body strong {
-  font-family: var(--font-gt-walsheim-medium);
+  font-family: var(--font-sans);
   font-weight: 500;
 }
 
 .body em {
-  font-family: var(--font-gt-walsheim-regular-oblique);
+  font-family: var(--font-sans);
   font-style: italic;
 }
 
@@ -455,7 +459,8 @@ ul.bodyList > li::before {
   font-size: var(--type-quote-size);
   line-height: var(--type-quote-leading);
   letter-spacing: var(--type-quote-tracking);
-  color: var(--text-muted);
+  max-width: var(--reading-max);
+  color: var(--ink);
 }
 
 /* Card role (Figma: Card). */
@@ -499,7 +504,7 @@ ul.bodyList > li::before {
   align-items: flex-start;
   gap: 8px;
   padding: 8px;
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   max-width: 100%;
 }
 
@@ -556,7 +561,7 @@ ul.bodyList > li::before {
   align-items: center;
   gap: 50px;
   padding: 8px;
-  border-radius: 12px;
+  border-radius: var(--radius-md);
 }
 
 .sectionCenter {
@@ -578,9 +583,10 @@ ul.bodyList > li::before {
 /* Titled card (framer-rbvlj2 / framer-1wfdb6d ...): bg #231f2d, border
    #231f2d, radius 10, padding 20, column gap 20. */
 .card {
-  background-color: var(--bg-4);
-  border: 1px solid var(--bg-4);
-  border-radius: 10px;
+  background-color: var(--surface);
+  border: 1px solid var(--dim);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-soft);
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -656,9 +662,10 @@ ul.bodyList > li::before {
    bg #1e1b27, border #2a2537, radius 10, padding 60, column gap 24. */
 .cta {
   width: 100%;
-  background-color: var(--bg-2);
-  border: 1px solid var(--surface);
-  border-radius: 10px;
+  background-color: var(--surface);
+  border: 1px solid var(--dim);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
   padding: 60px;
   display: flex;
   flex-direction: column;
@@ -691,7 +698,7 @@ ul.bodyList > li::before {
   justify-content: center;
   align-items: center;
   padding: 18px;
-  border-radius: 16px;
+  border-radius: var(--radius-sm);
   border: 1px solid var(--btn-glass-border);
   background: var(--btn-glass-bg);
   box-shadow: var(--btn-glass-shadow);
@@ -715,7 +722,7 @@ ul.bodyList > li::before {
   font-size: var(--type-section-size);
   line-height: var(--type-section-leading);
   letter-spacing: var(--type-section-tracking);
-  color: var(--text-glass);
+  color: var(--ink);
   white-space: pre;
   transition: color 0.1s cubic-bezier(1, -0.13, 0.3, 1.35);
 }
@@ -732,7 +739,7 @@ ul.bodyList > li::before {
   align-items: center;
   gap: 10px;
   height: 22px;
-  color: var(--text-secondary);
+  color: var(--ink);
 }
 
 .backToTop h5 {

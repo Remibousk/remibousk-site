@@ -7,9 +7,9 @@
    #2a2537, radius 20, padding 10, column gap 10 */
 .galleryCard {
   width: 100%;
-  background-color: var(--bg-3);
-  border: 1px solid var(--surface);
-  border-radius: 20px;
+  background-color: var(--surface);
+  border: 1px solid var(--dim);
+  border-radius: var(--radius-lg);
   padding: 10px;
   display: flex;
   flex-direction: column;
@@ -29,7 +29,7 @@
 }
 
 .caption {
-  font-family: var(--font-gt-walsheim-medium);
+  font-family: var(--font-sans);
   font-weight: 500;
   font-size: 13px;
   line-height: 1.1;
@@ -40,8 +40,8 @@
 /* Gallery images: radius 10, hairline #2f2b23 border */
 .shot {
   width: 100%;
-  border: 1px solid #2f2b23;
-  border-radius: 10px;
+  border: 1px solid var(--dim);
+  border-radius: var(--radius-md);
   overflow: hidden;
 }
 
@@ -54,7 +54,7 @@
 /* Borderless full-width image (framer-1wa1vsu / framer-1vi850m) */
 .shotPlain {
   width: 100%;
-  border-radius: 10px;
+  border-radius: var(--radius-md);
   overflow: hidden;
 }
 
@@ -94,16 +94,16 @@
 
 .gridQuad .shot {
   border: none;
-  border-radius: 10px;
+  border-radius: var(--radius-md);
 }
 
 /* Storybook card (framer-1jb82xp): bg #1e1b27, border #2a2537, radius 20,
    padding 20 10 10, centered, gap 24 */
 .storybookCard {
   width: 100%;
-  background-color: var(--bg-2);
-  border: 1px solid var(--surface);
-  border-radius: 20px;
+  background-color: var(--surface);
+  border: 1px solid var(--dim);
+  border-radius: var(--radius-lg);
   padding: 20px 10px 10px;
   display: flex;
   flex-direction: column;
@@ -130,7 +130,7 @@
   height: 100%;
   object-fit: cover;
   object-position: 50% 50%;
-  border-radius: 10px;
+  border-radius: var(--radius-md);
 }
 
 @media (max-width: 809px) {

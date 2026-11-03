@@ -15,7 +15,7 @@
   padding: 16px;
   background: var(--bg-1);
   border: 1px solid var(--bg-3);
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   box-sizing: border-box;
 }
 
@@ -36,7 +36,7 @@
 .label {
   flex: none;
   margin: 0;
-  font-family: var(--font-inter);
+  font-family: var(--font-sans);
   font-weight: 400;
   font-size: 16px;
   color: var(--text-muted);
@@ -57,7 +57,7 @@
   display: flex;
   flex: 1 1 0;
   min-height: 0;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   overflow: hidden;
 }
 
@@ -83,7 +83,7 @@
   height: 100%;
   object-fit: cover;
   object-position: center;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   user-select: none;
   pointer-events: none;
 }

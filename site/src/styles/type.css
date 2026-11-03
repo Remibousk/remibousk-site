@@ -1,89 +1,124 @@
 /*
- * Type roles — one place to tune size, leading, tracking, and paragraph gap.
- * Figma Text Styles in Rem-Site map 1:1 to these names (Typography collection).
+ * Type scale tokens — Display / H1–H3 / Lead / Body / Small / Label.
+ * Figtree SemiBold (600) for display & headings; Regular (400) for body.
+ * DM Mono for Label (11px, uppercase, slight tracking).
  *
- * Desktop on :root. Tablet/phone override size, and Body/Quote leading + gap.
- * Body/Quote leading is px to match Figma (line-height variables resolve in px).
+ * Existing role names (--type-display-*, --type-title-*, …) map onto the
+ * new scale so case-study and homepage modules inherit without a rewrite.
  */
 
 :root {
-  --type-display-family: var(--font-gt-walsheim-bold);
-  --type-display-weight: 700;
-  --type-display-size: 72px;
-  --type-display-leading: 1.2;
-  --type-display-tracking: 0;
+  /* --- Named scale --- */
+  --type-h1-size: clamp(40px, 6vw, 64px);
+  --type-h2-size: clamp(28px, 4vw, 40px);
+  --type-h3-size: 24px;
+  --type-lead-size: 22px;
+  --type-small-size: 15px;
+  --type-label-size: 11px;
 
-  --type-title-family: var(--font-gt-walsheim-bold);
-  --type-title-weight: 400;
-  --type-title-size: 42px;
-  --type-title-leading: 1.2;
-  --type-title-tracking: 0;
+  --type-h1-leading: 1.1;
+  --type-h2-leading: 1.15;
+  --type-h3-leading: 1.25;
+  --type-lead-leading: 1.4;
+  --type-small-leading: 1.45;
+  --type-label-leading: 1.3;
 
-  --type-section-family: var(--font-gt-walsheim-bold);
-  --type-section-weight: 700;
-  --type-section-size: 28px;
-  --type-section-leading: 1.2;
-  --type-section-tracking: 0;
+  --type-h1-tracking: -0.015em;
+  --type-h2-tracking: -0.01em;
+  --type-h3-tracking: -0.01em;
+  --type-lead-tracking: 0;
+  --type-small-tracking: 0;
+  --type-label-tracking: 0.06em;
 
-  --type-card-family: var(--font-gt-walsheim-medium);
-  --type-card-weight: 500;
-  --type-card-size: 24px;
-  --type-card-leading: 1.2;
-  --type-card-tracking: 0;
+  --type-heading-weight: 600;
+  --type-label-weight: 400;
 
-  --type-body-family: var(--font-gt-walsheim-regular);
+  /* --- Role aliases (existing modules) --- */
+  --type-display-family: var(--font-sans);
+  --type-display-weight: 600;
+  --type-display-size: clamp(48px, 8vw, 84px);
+  --type-display-leading: 1.05;
+  --type-display-tracking: -0.02em;
+
+  --type-title-family: var(--font-sans);
+  --type-title-weight: 600;
+  --type-title-size: var(--type-h1-size);
+  --type-title-leading: var(--type-h1-leading);
+  --type-title-tracking: var(--type-h1-tracking);
+
+  --type-section-family: var(--font-sans);
+  --type-section-weight: 600;
+  --type-section-size: var(--type-h2-size);
+  --type-section-leading: var(--type-h2-leading);
+  --type-section-tracking: var(--type-h2-tracking);
+
+  --type-card-family: var(--font-sans);
+  --type-card-weight: 600;
+  --type-card-size: var(--type-h3-size);
+  --type-card-leading: var(--type-h3-leading);
+  --type-card-tracking: var(--type-h3-tracking);
+
+  --type-body-family: var(--font-sans);
   --type-body-weight: 400;
   --type-body-size: 18px;
-  --type-body-leading: 26px;
+  --type-body-leading: 28px;
   --type-body-tracking: 0;
   --type-body-gap: 20px;
 
-  --type-quote-family: var(--font-gt-walsheim-medium-oblique);
-  --type-quote-weight: 500;
-  --type-quote-size: 18px;
-  --type-quote-leading: 22px;
+  --type-quote-family: var(--font-sans);
+  --type-quote-weight: 400;
+  --type-quote-size: var(--type-lead-size);
+  --type-quote-leading: 30px;
   --type-quote-tracking: 0;
 
-  --type-meta-label-family: var(--font-gt-walsheim-medium);
-  --type-meta-label-weight: 500;
-  --type-meta-label-size: 13px;
-  --type-meta-label-leading: 1.1;
-  --type-meta-label-tracking: -0.01em;
+  --type-meta-label-family: var(--font-mono);
+  --type-meta-label-weight: 400;
+  --type-meta-label-size: var(--type-label-size);
+  --type-meta-label-leading: var(--type-label-leading);
+  --type-meta-label-tracking: var(--type-label-tracking);
 
-  --type-meta-family: var(--font-figtree);
-  --type-meta-weight: 500;
-  --type-meta-size: 16px;
-  --type-meta-leading: 1.1;
+  --type-meta-family: var(--font-sans);
+  --type-meta-weight: 400;
+  --type-meta-size: var(--type-small-size);
+  --type-meta-leading: var(--type-small-leading);
   --type-meta-tracking: 0;
-  --type-meta-gap: 20px;
+  --type-meta-gap: 16px;
 
-  --type-caption-family: var(--font-gt-walsheim-medium);
-  --type-caption-weight: 500;
-  --type-caption-size: 13px;
-  --type-caption-leading: 1.3;
-  --type-caption-tracking: -0.01em;
+  --type-caption-family: var(--font-mono);
+  --type-caption-weight: 400;
+  --type-caption-size: var(--type-label-size);
+  --type-caption-leading: var(--type-label-leading);
+  --type-caption-tracking: var(--type-label-tracking);
 }
 
 @media (max-width: 1199px) and (min-width: 810px) {
   :root {
-    --type-display-size: 58px;
-    --type-body-size: 18px;
-    --type-body-leading: 22px;
-    --type-body-gap: 25px;
-    --type-quote-size: 18px;
-    --type-quote-leading: 19.8px;
-    --type-card-size: 19px;
+    --type-body-leading: 26px;
+    --type-body-gap: 18px;
+    --type-quote-leading: 28px;
   }
 }
 
 @media (max-width: 809px) {
   :root {
-    --type-display-size: 42px;
+    --type-h3-size: 20px;
+    --type-lead-size: 18px;
     --type-body-size: 16px;
-    --type-body-leading: 20px;
-    --type-body-gap: 25px;
-    --type-quote-size: 16px;
-    --type-quote-leading: 17.6px;
-    --type-card-size: 15px;
+    --type-body-leading: 24px;
+    --type-body-gap: 16px;
+    --type-small-size: 14px;
+    --type-quote-size: 18px;
+    --type-quote-leading: 26px;
   }
+}
+
+/* Utility: DM Mono labels / eyebrows */
+.typeLabel {
+  font-family: var(--font-mono);
+  font-weight: var(--type-label-weight);
+  font-size: var(--type-label-size);
+  line-height: var(--type-label-leading);
+  letter-spacing: var(--type-label-tracking);
+  text-transform: uppercase;
+  color: var(--grey);
 }

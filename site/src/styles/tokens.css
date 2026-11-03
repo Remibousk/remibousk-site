@@ -1,232 +1,223 @@
 /*
- * RemOS two-tier tokens — Velvet Folio (dark). Ported from remos-ui.
- *
- * Tier 1 — gray / accent / status scales (1–12 + alpha). Velvet gray is
- * pinned to the folio's measured hexes.
- *
- * Tier 2 — remos semantic roles (bg-*, text-*, border-*, accent-*) plus
- * folio aliases (--bg-0, --surface, --border, …) so existing CSS modules
- * track the look without a rewrite.
+ * Design tokens — single source of truth for Remi's portfolio redesign.
+ * Primary palette/type/layout from the Realwork direction; folio semantic
+ * aliases (--bg-0, --text-primary, …) remap so existing CSS modules inherit
+ * the new look without a layout rewrite.
  */
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 
-  /* --- Tier 1: gray (Velvet, pinned) --- */
-  --gray-1: #18161e;
-  --gray-2: #1c1924;
-  --gray-3: #1e1b27;
-  --gray-4: #201d2a;
-  --gray-5: #231f2d;
-  --gray-6: #2a2537;
-  --gray-7: #352e47;
-  --gray-8: #413857;
-  --gray-9: #5b546c;
-  --gray-10: #767282;
-  --gray-11: #adaab5;
-  --gray-12: #f4f4f6;
-  --gray-a1: rgba(0, 0, 0, 0);
-  --gray-a2: rgba(174, 134, 255, 0.027);
-  --gray-a3: rgba(174, 147, 255, 0.04);
-  --gray-a4: rgba(174, 153, 255, 0.053);
-  --gray-a5: rgba(189, 157, 255, 0.067);
-  --gray-a6: rgba(186, 157, 255, 0.111);
-  --gray-a7: rgba(183, 154, 255, 0.182);
-  --gray-a8: rgba(186, 156, 255, 0.253);
-  --gray-a9: rgba(217, 201, 255, 0.347);
-  --gray-a10: rgba(236, 229, 255, 0.444);
-  --gray-a11: rgba(246, 243, 255, 0.671);
-  --gray-a12: rgba(253, 253, 255, 0.96);
+  /* --- Primary palette --- */
+  --ink: #151412;
+  --bg: #f4f4f2;
+  --surface: #ffffff;
+  --soft: #eae9e4;
+  --grey: #8c8a83;
+  --dim: #cfcbc2;
+  --accent: #d4f25a;
 
-  /* --- Tier 1: accent (Heather) --- */
-  --accent-1: #100f11;
-  --accent-2: #16151a;
-  --accent-3: #201e27;
-  --accent-4: #2a2634;
-  --accent-5: #373246;
-  --accent-6: #47405b;
-  --accent-7: #5b5273;
-  --accent-8: #72678f;
-  --accent-9: #a296c2;
-  --accent-10: #a89dc6;
-  --accent-11: #cac2e2;
-  --accent-12: #f0ebff;
-  --accent-a1: rgba(0, 0, 0, 0);
-  --accent-a2: rgba(175, 174, 255, 0.038);
-  --accent-a3: rgba(189, 177, 255, 0.092);
-  --accent-a4: rgba(193, 171, 255, 0.147);
-  --accent-a5: rgba(191, 172, 255, 0.223);
-  --accent-a6: rgba(193, 173, 255, 0.311);
-  --accent-a7: rgba(198, 178, 255, 0.412);
-  --accent-a8: rgba(201, 181, 255, 0.529);
-  --accent-a9: rgba(212, 197, 255, 0.744);
-  --accent-a10: rgba(216, 202, 255, 0.761);
-  --accent-a11: rgba(228, 219, 255, 0.878);
-  --accent-a12: rgba(240, 235, 255, 1);
-  --accent-foreground: #111a28;
+  /* --- Layout --- */
+  --page-margin: 80px;
+  --page-margin-mobile: 20px;
+  --reading-max: 720px;
+  --content-max: 1200px;
 
-  /* --- Tier 1: status (blue / green / amber / red) --- */
-  --blue-1: #0c1016;
-  --blue-2: #0e1624;
-  --blue-3: #101f38;
-  --blue-4: #11284d;
-  --blue-5: #113369;
-  --blue-6: #13418a;
-  --blue-7: #1852af;
-  --blue-8: #2669d4;
-  --blue-9: #3b82f6;
-  --blue-10: #60a2ff;
-  --blue-11: #94c8ff;
-  --blue-12: #cef0ff;
-  --green-1: #0b110c;
-  --green-2: #0b1a0e;
-  --green-3: #082611;
-  --green-4: #013312;
-  --green-5: #004313;
-  --green-6: #005715;
-  --green-7: #006f1a;
-  --green-8: #008929;
-  --green-9: #00b851;
-  --green-10: #3ac264;
-  --green-11: #84e097;
-  --green-12: #c6ffd0;
-  --amber-1: #130e09;
-  --amber-2: #1e1408;
-  --amber-3: #2d1b04;
-  --amber-4: #3d2200;
-  --amber-5: #522a00;
-  --amber-6: #6a3600;
-  --amber-7: #874500;
-  --amber-8: #a65900;
-  --amber-9: #e18b00;
-  --amber-10: #e09115;
-  --amber-11: #f7ba70;
-  --amber-12: #ffe7b9;
-  --red-1: #160d0c;
-  --red-2: #23100e;
-  --red-3: #361210;
-  --red-4: #4a1312;
-  --red-5: #631214;
-  --red-6: #811117;
-  --red-7: #a4121d;
-  --red-8: #c8252b;
-  --red-9: #ed4142;
-  --red-10: #ff6a64;
-  --red-11: #ffa096;
-  --red-12: #ffd7cf;
-
-  /* --- Tier 2: remos semantic --- */
-  --bg-desktop: var(--gray-1);
-  --bg-window: color-mix(in srgb, var(--gray-1) 94%, transparent);
-  --bg-panel: color-mix(in srgb, var(--gray-2) 88%, transparent);
-  --bg-surface: var(--gray-3);
-  --bg-surface-hover: var(--gray-4);
-  --bg-surface-active: var(--gray-5);
-  --bg-inverse: var(--gray-12);
-  --bg-overlay: var(--gray-a6);
-
-  --text-primary: var(--gray-12);
-  --text-secondary: var(--gray-11);
-  --text-tertiary: var(--gray-10);
-  --text-disabled: var(--gray-8);
-  --text-inverse: var(--gray-1);
-  --text-accent: var(--accent-11);
-  --text-high: var(--text-primary);
-  --text-low: var(--text-tertiary);
-
-  --icon-primary: var(--gray-12);
-  --icon-secondary: var(--gray-11);
-  --icon-tertiary: var(--gray-10);
-  --icon-disabled: var(--gray-8);
-  --icon-inverse: var(--gray-1);
-  --icon-accent: var(--accent-10);
-
-  --border-subtle: var(--gray-a4);
-  --border-default: var(--gray-a6);
-  --border-strong: var(--gray-a7);
-  --border-active: var(--gray-a8);
-  --border-focus: var(--accent-9);
-
-  --accent-bg: var(--accent-2);
-  --accent-border: var(--accent-6);
-  --accent-solid: var(--accent-9);
-  --accent-solid-hover: var(--accent-10);
-
-  --success-bg: var(--green-2);
-  --success-border: var(--green-6);
-  --success-solid: var(--green-9);
-  --success-text: var(--green-11);
-  --warning-bg: var(--amber-2);
-  --warning-border: var(--amber-6);
-  --warning-solid: var(--amber-9);
-  --warning-text: var(--amber-11);
-  --danger-bg: var(--red-2);
-  --danger-border: var(--red-6);
-  --danger-solid: var(--red-9);
-  --danger-text: var(--red-11);
-
-  --shadow-elevation-1: 0 8px 30px var(--gray-a3);
-  --shadow-elevation-2: 0 12px 40px var(--gray-a4);
-  --shadow-elevation-3: 0 4px 14px var(--gray-a5);
-  --shadow-elevation-4: 0 2px 10px var(--gray-a6);
-
-  --radius-none: 0px;
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 10px;
+  /* --- Radii (cards/surfaces live in the 16–28px range) --- */
+  --radius-sm: 16px;
+  --radius-md: 20px;
+  --radius-lg: 24px;
+  --radius-xl: 28px;
+  --radius-card: 24px;
+  --radius-chip: 16px;
   --radius-full: 9999px;
-  --radius-window-sm: 8px;
-  --radius-window-md: 12px;
-  --radius-window-lg: 16px;
-  --radius: 8px;
-  --radius-window: 12px;
+  /* Back-compat aliases used across modules */
+  --radius-none: 0px;
+  --radius: var(--radius-sm);
+  --radius-window-sm: var(--radius-sm);
+  --radius-window-md: var(--radius-md);
+  --radius-window-lg: var(--radius-lg);
+  --radius-window: var(--radius-md);
 
-  /* --- Folio aliases (existing names → remos gray) --- */
-  --bg-0: var(--gray-1);
-  --bg-1: var(--gray-2);
-  --bg-2: var(--gray-3);
-  --bg-3: var(--gray-4);
-  --bg-4: var(--gray-5);
-  --surface: var(--gray-6);
-  --border: var(--gray-8);
-  --text-muted: var(--gray-10);
+  /* --- Soft, low-opacity elevation --- */
+  --shadow-card: 0 12px 40px rgba(21, 20, 18, 0.06);
+  --shadow-soft: 0 4px 16px rgba(21, 20, 18, 0.05);
+  --shadow-lift: 0 8px 24px rgba(21, 20, 18, 0.08);
+  --shadow-elevation-1: var(--shadow-soft);
+  --shadow-elevation-2: var(--shadow-card);
+  --shadow-elevation-3: var(--shadow-lift);
+  --shadow-elevation-4: 0 2px 8px rgba(21, 20, 18, 0.06);
+
+  /* --- Dot grid (hero utility) --- */
+  --dot-grid-color: color-mix(in srgb, var(--dim) 55%, transparent);
+  --dot-grid-size: 24px;
+
+  /* --- Focus (accent used sparingly) --- */
+  --focus-ring: 2px solid var(--accent);
+  --focus-ring-offset: 2px;
+
+  /* --- Folio / remos semantic aliases → new palette --- */
+  --bg-0: var(--bg);
+  --bg-1: var(--surface);
+  --bg-2: var(--soft);
+  --bg-3: var(--soft);
+  --bg-4: var(--dim);
+  --border: var(--dim);
+
+  --text-primary: var(--ink);
+  --text-secondary: var(--grey);
+  --text-tertiary: var(--grey);
+  --text-disabled: var(--dim);
+  --text-inverse: var(--surface);
+  --text-muted: var(--grey);
+  --text-heading: var(--ink);
+  --text-eyebrow: var(--ink);
+  --text-card-title: var(--ink);
+  --text-meta: var(--grey);
+  --text-hover: var(--ink);
+  --text-glass: var(--ink);
+  --text-high: var(--ink);
+  --text-low: var(--grey);
+  --text-accent: var(--ink);
+
+  --logo: var(--ink);
+  --nav-bg: var(--surface);
+  --nav-border: var(--dim);
+  --nav-divider: var(--dim);
+  --nav-link: var(--ink);
+  --nav-dot: var(--dim);
+  --nav-dot-active: var(--ink);
+  --nav-shadow: var(--shadow-soft);
+
+  --hero-border: var(--dim);
+  --hero-grad-0: var(--bg);
+  --hero-grad-1: var(--bg);
+  --hero-grad-2: var(--soft);
+  --hero-grad-3: var(--soft);
+  --hero-blob-a: color-mix(in srgb, var(--dim) 35%, transparent);
+  --hero-blob-b: color-mix(in srgb, var(--soft) 80%, transparent);
+
+  --btn-glass-border: color-mix(in srgb, var(--ink) 6%, transparent);
+  --btn-glass-bg: var(--surface);
+  --btn-glass-bg-hover: var(--soft);
+  --btn-glass-shadow: var(--shadow-soft);
+  --btn-glass-shadow-hover: var(--shadow-lift);
+  --chip-border: var(--dim);
+
   --accent-blue: #0659c3;
   --accent-navy: #020843;
 
-  /* --- Folio chrome: measured dark values that sit beside the 10-token set --- */
-  --text-heading: #e5e5e6;
-  --text-eyebrow: #ccc;
-  --text-card-title: #dfdee3;
-  --text-meta: #bebec1;
-  --text-hover: #dfdee3;
-  --text-glass: rgb(171, 168, 179);
-  --logo: #e0e0e0;
-  --nav-bg: var(--gray-3);
-  --nav-border: #262130;
-  --nav-divider: #211d2a;
-  --nav-link: #dedede;
-  --nav-dot: #2a2735;
-  --nav-dot-active: #3b5bff;
-  --nav-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.25);
-  --hero-border: #251f2e;
-  --hero-grad-0: #1c1924;
-  --hero-grad-1: #221e2d;
-  --hero-grad-2: #292339;
-  --hero-grad-3: #2d2640;
-  --hero-blob-a: rgba(72, 61, 104, 0.4);
-  --hero-blob-b: rgba(56, 47, 82, 0.35);
-  --btn-glass-border: rgba(0, 0, 0, 0.05);
-  --btn-glass-bg: linear-gradient(
-    180deg,
-    rgba(122, 122, 122, 0.05) 0%,
-    rgba(38, 38, 38, 0.3) 100%
+  /* RemOS-style roles kept for HeroTuner / misc modules */
+  --bg-desktop: var(--bg);
+  --bg-window: var(--surface);
+  --bg-panel: var(--surface);
+  --bg-surface: var(--surface);
+  --bg-surface-hover: var(--soft);
+  --bg-surface-active: var(--soft);
+  --bg-inverse: var(--ink);
+  --bg-overlay: color-mix(in srgb, var(--ink) 12%, transparent);
+
+  --icon-primary: var(--ink);
+  --icon-secondary: var(--grey);
+  --icon-tertiary: var(--grey);
+  --icon-disabled: var(--dim);
+  --icon-inverse: var(--surface);
+  --icon-accent: var(--ink);
+
+  --border-subtle: color-mix(in srgb, var(--dim) 70%, transparent);
+  --border-default: var(--dim);
+  --border-strong: color-mix(in srgb, var(--ink) 18%, var(--dim));
+  --border-active: var(--ink);
+  --border-focus: var(--accent);
+
+  --accent-bg: color-mix(in srgb, var(--accent) 35%, var(--bg));
+  --accent-border: color-mix(in srgb, var(--accent) 55%, var(--dim));
+  --accent-solid: var(--accent);
+  --accent-solid-hover: color-mix(in srgb, var(--accent) 85%, var(--ink));
+  --accent-foreground: var(--ink);
+
+  /* Legacy gray / accent scales collapsed onto the new palette */
+  --gray-1: var(--bg);
+  --gray-2: var(--surface);
+  --gray-3: var(--soft);
+  --gray-4: var(--soft);
+  --gray-5: var(--dim);
+  --gray-6: var(--surface);
+  --gray-7: var(--dim);
+  --gray-8: var(--dim);
+  --gray-9: var(--grey);
+  --gray-10: var(--grey);
+  --gray-11: var(--grey);
+  --gray-12: var(--ink);
+  --gray-a1: transparent;
+  --gray-a2: color-mix(in srgb, var(--ink) 2%, transparent);
+  --gray-a3: color-mix(in srgb, var(--ink) 4%, transparent);
+  --gray-a4: color-mix(in srgb, var(--ink) 6%, transparent);
+  --gray-a5: color-mix(in srgb, var(--ink) 8%, transparent);
+  --gray-a6: color-mix(in srgb, var(--ink) 10%, transparent);
+  --gray-a7: color-mix(in srgb, var(--ink) 14%, transparent);
+  --gray-a8: color-mix(in srgb, var(--ink) 18%, transparent);
+  --gray-a9: color-mix(in srgb, var(--ink) 28%, transparent);
+  --gray-a10: color-mix(in srgb, var(--ink) 40%, transparent);
+  --gray-a11: color-mix(in srgb, var(--ink) 55%, transparent);
+  --gray-a12: color-mix(in srgb, var(--ink) 92%, transparent);
+
+  --accent-1: var(--bg);
+  --accent-2: var(--soft);
+  --accent-3: var(--soft);
+  --accent-4: var(--dim);
+  --accent-5: var(--dim);
+  --accent-6: var(--grey);
+  --accent-7: var(--grey);
+  --accent-8: var(--grey);
+  --accent-9: var(--accent);
+  --accent-10: var(--accent);
+  --accent-11: var(--ink);
+  --accent-12: var(--ink);
+  --accent-a1: transparent;
+  --accent-a2: color-mix(in srgb, var(--accent) 8%, transparent);
+  --accent-a3: color-mix(in srgb, var(--accent) 14%, transparent);
+  --accent-a4: color-mix(in srgb, var(--accent) 22%, transparent);
+  --accent-a5: color-mix(in srgb, var(--accent) 30%, transparent);
+  --accent-a6: color-mix(in srgb, var(--accent) 40%, transparent);
+  --accent-a7: color-mix(in srgb, var(--accent) 50%, transparent);
+  --accent-a8: color-mix(in srgb, var(--accent) 60%, transparent);
+  --accent-a9: color-mix(in srgb, var(--accent) 75%, transparent);
+  --accent-a10: color-mix(in srgb, var(--accent) 85%, transparent);
+  --accent-a11: color-mix(in srgb, var(--accent) 92%, transparent);
+  --accent-a12: var(--accent);
+
+  --blue-9: var(--accent-blue);
+  --green-9: #00b851;
+  --amber-9: #e18b00;
+  --red-9: #ed4142;
+  --success-bg: color-mix(in srgb, #00b851 12%, var(--bg));
+  --success-border: color-mix(in srgb, #00b851 35%, var(--dim));
+  --success-solid: #00b851;
+  --success-text: #0d6b32;
+  --warning-bg: color-mix(in srgb, #e18b00 12%, var(--bg));
+  --warning-border: color-mix(in srgb, #e18b00 35%, var(--dim));
+  --warning-solid: #e18b00;
+  --warning-text: #8a5200;
+  --danger-bg: color-mix(in srgb, #ed4142 12%, var(--bg));
+  --danger-border: color-mix(in srgb, #ed4142 35%, var(--dim));
+  --danger-solid: #ed4142;
+  --danger-text: #a1191f;
+}
+
+@media (max-width: 809px) {
+  :root {
+    --page-margin: var(--page-margin-mobile);
+  }
+}
+
+/* Subtle low-contrast dot grid on --bg — apply to hero (or any surface). */
+.dotGrid {
+  background-color: var(--bg);
+  background-image: radial-gradient(
+    circle at center,
+    var(--dot-grid-color) 1px,
+    transparent 1px
   );
-  --btn-glass-bg-hover: linear-gradient(
-    180deg,
-    rgba(122, 122, 122, 0.05) 5%,
-    rgba(38, 38, 38, 0.6) 100%
-  );
-  --btn-glass-shadow: inset 0 1px 2px 0 rgb(51, 51, 51);
-  --btn-glass-shadow-hover: inset 0 0 2px 0 rgb(31, 31, 31);
-  --chip-border: rgb(37, 33, 48);
+  background-size: var(--dot-grid-size) var(--dot-grid-size);
 }

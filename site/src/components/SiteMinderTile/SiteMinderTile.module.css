@@ -46,21 +46,21 @@
 
 .title {
   margin: 0;
-  font-family: var(--font-gt-walsheim-bold);
-  font-size: 72px;
-  font-weight: 700;
-  line-height: 1.2em;
-  letter-spacing: 0em;
-  color: var(--text-heading);
+  font-family: var(--type-display-family);
+  font-size: var(--type-display-size);
+  font-weight: var(--type-display-weight);
+  line-height: var(--type-display-leading);
+  letter-spacing: var(--type-display-tracking);
+  color: var(--ink);
 }
 
 .role {
   margin: 0;
-  font-family: var(--font-gt-walsheim-regular);
-  font-size: 18px;
-  font-weight: 400;
+  font-family: var(--font-sans);
+  font-size: var(--type-body-size);
+  font-weight: var(--type-body-weight);
   line-height: 1.1em;
-  color: var(--text-secondary);
+  color: var(--ink);
 }
 
 /* ---------- Tile ---------- */
@@ -72,8 +72,8 @@
   justify-content: center;
   width: 100%;
   padding: 80px;
-  border: 1px solid var(--surface);
-  border-radius: 12px;
+  border: 1px solid var(--dim);
+  border-radius: var(--radius-md);
   overflow: hidden;
   background-color: var(--bg-1);
 }
@@ -133,7 +133,7 @@
 .dot {
   width: 6px;
   height: 6px;
-  background-color: #fff;
+  background-color: var(--surface);
   opacity: 0.4;
 }
 
@@ -149,9 +149,6 @@
 /* ---------- Tablet: 810px - 1199px ---------- */
 
 @media (max-width: 1199px) {
-  .title {
-    font-size: 58px;
-  }
 
   .tile {
     padding: 40px 40px 70px;
@@ -183,16 +180,20 @@
   width: 1px;
   max-width: calc((100% - 40px) / 3);
   padding: 12px;
-  background-color: var(--bg-1);
-  border: 1px solid var(--surface);
-  border-radius: 16px;
+  background-color: var(--surface);
+  border: 1px solid var(--dim);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-soft);
   text-decoration: none;
-  transition: background-color 0.45s cubic-bezier(0.22, 1.2, 0.36, 1);
+  transition:
+    background-color 0.45s cubic-bezier(0.22, 1.2, 0.36, 1),
+    box-shadow 0.45s cubic-bezier(0.22, 1.2, 0.36, 1);
 }
 
 .card:hover,
 .card:focus-visible {
-  background-color: var(--surface);
+  background-color: var(--soft);
+  box-shadow: var(--shadow-lift);
 }
 
 .mediaFrame {
@@ -224,19 +225,19 @@
 }
 
 .cardTitle {
-  font-family: var(--font-gt-walsheim-bold);
-  font-weight: 700;
-  font-size: 28px;
-  line-height: 1.2em;
-  color: var(--text-eyebrow);
+  font-family: var(--font-sans);
+  font-weight: var(--type-heading-weight);
+  font-size: var(--type-h3-size);
+  line-height: var(--type-h3-leading);
+  color: var(--ink);
 }
 
 .cardSubtitle {
-  font-family: var(--font-gt-walsheim-regular);
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 1.1em;
-  color: var(--text-secondary);
+  font-family: var(--font-sans);
+  font-weight: var(--type-body-weight);
+  font-size: var(--type-lead-size);
+  line-height: var(--type-lead-leading);
+  color: var(--ink);
 }
 
 /* ---------- Mobile: <=809px ---------- */

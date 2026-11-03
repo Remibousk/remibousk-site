@@ -27,7 +27,7 @@
   margin: 0 auto;
   padding: 40px 60px 60px;
   border: 1px solid var(--surface);
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   overflow: hidden;
 }
 
