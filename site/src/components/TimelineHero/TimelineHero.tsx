@@ -70,7 +70,8 @@ const SLOTS_WIDE: Slot[] = [
 /** ≤1280: drop top-left (near nav) — three widgets only. */
 const SLOTS_COMPACT: Slot[] = [
   { top: '72px', left: 'auto', right: '28px', bottom: 'auto' },
-  { top: 'auto', left: '28px', right: 'auto', bottom: '120px' },
+  // Sit fully below the nav card; keep ≥32px from its bottom edge.
+  { top: '276px', left: '40px', right: 'auto', bottom: 'auto' },
   { top: 'auto', left: 'auto', right: '36px', bottom: '140px' },
 ];
 
