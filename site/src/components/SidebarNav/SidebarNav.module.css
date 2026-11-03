@@ -194,7 +194,8 @@
     flex-direction: column;
     gap: 8px;
     width: 160px;
-    padding: 8px;
+    /* Match the 16px card radius so logo/links clear the curve */
+    padding: 16px;
     background-color: var(--nav-bg);
     border: none;
     border-radius: var(--radius);

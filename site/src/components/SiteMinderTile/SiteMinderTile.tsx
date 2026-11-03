@@ -54,7 +54,7 @@ const SLIDES = [
  * (buttons sit *below* the frame: `arrowPosition 'bottom-mid'`,
  * `arrowPaddingBottom` -60 on desktop / -36 on phone, `arrowSize` 40 / 30,
  * `arrowRadius` 8, `arrowGap` 10, fill rgba(0,0,0,0.2)), dragging still
- * pages, and `borderRadius: 10`.
+ * pages, and `borderRadius: var(--radius-inner)`.
  *
  * Second departure: the frame no longer clips (`clip={false}`). Slides glide
  * across the tile's padding, over the beach photo, and are cut by the tile's
@@ -89,7 +89,7 @@ export default function SiteMinderTile() {
           ariaLabel="SiteMinder product screenshots"
           trackClassName={styles.track}
           clip={false}
-          borderRadius={8}
+          borderRadius="var(--radius-inner)"
           autoPlaySeconds={6}
           arrows
           arrowsClassName={styles.arrows}

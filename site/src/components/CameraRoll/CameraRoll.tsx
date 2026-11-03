@@ -92,7 +92,7 @@ export default function CameraRoll() {
           frameClassName={styles.frame}
           ariaLabel="Camera roll photos"
           gap={10}
-          borderRadius={8}
+          borderRadius="var(--radius-inner)"
           autoPlaySeconds={5}
           dots
           dotsClassName={styles.dots}

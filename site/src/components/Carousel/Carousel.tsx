@@ -60,7 +60,7 @@ export default function Carousel({
   slides,
   ariaLabel,
   gap,
-  borderRadius = 8,
+  borderRadius = 'var(--radius-inner)',
   clip = true,
   autoPlaySeconds,
   arrows = false,
@@ -79,7 +79,8 @@ export default function Carousel({
   ariaLabel: string;
   /** Slide gap in px, set inline. Omit to control it from `trackClassName`. */
   gap?: number;
-  borderRadius?: number;
+  /** Slide corner radius. Defaults to the nested-inner token. */
+  borderRadius?: number | string;
   /** Clip slides at the frame's edge (`overflow: hidden`). */
   clip?: boolean;
   /** Seconds between automatic advances; omit for a manual-only carousel. */

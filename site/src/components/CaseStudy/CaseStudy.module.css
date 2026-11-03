@@ -525,7 +525,8 @@ ul.bodyList > li::before {
   }
 }
 
-/* Phone: Role / When sit side-by-side above a full-width Overview column. */
+/* Phone: Role / When sit side-by-side above a full-width Overview column.
+   Role may wrap within its column (minmax(0,1fr)); When stays auto-sized. */
 @media (max-width: 600px) {
   .metaRow,
   .metaRowStack {
@@ -536,10 +537,10 @@ ul.bodyList > li::before {
 
   .metaLeft,
   .metaRowStack .metaLeft {
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    gap: 16px 28px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+    gap: 16px 20px;
     width: 100%;
   }
 
@@ -551,8 +552,6 @@ ul.bodyList > li::before {
   }
 
   .metaLeft .metaGroup {
-    /* Don't grow — otherwise each group fills the row and wraps alone */
-    flex: 0 1 auto;
     min-width: 0;
     max-width: none;
     width: auto;
@@ -560,7 +559,7 @@ ul.bodyList > li::before {
 
   /* Keep "View live" on its own row under Role / When */
   .metaLeft .viewLive {
-    flex: 1 0 100%;
+    grid-column: 1 / -1;
   }
 }
 
