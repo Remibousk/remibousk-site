@@ -551,9 +551,11 @@ ul.bodyList > li::before {
   }
 
   .metaLeft .metaGroup {
-    flex: 1 1 auto;
+    /* Don't grow — otherwise each group fills the row and wraps alone */
+    flex: 0 1 auto;
     min-width: 0;
     max-width: none;
+    width: auto;
   }
 
   /* Keep "View live" on its own row under Role / When */
