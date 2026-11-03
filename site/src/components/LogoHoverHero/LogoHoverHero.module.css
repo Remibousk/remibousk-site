@@ -1,0 +1,284 @@
+/*
+ * Logo-hover hero — static headline + logo row with hover/focus preview.
+ */
+
+.section {
+  width: 100%;
+}
+
+.stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 98vh;
+  padding: 48px 24px 80px;
+  border-radius: var(--radius);
+  overflow: clip;
+  background-color: var(--bg);
+  background-image: radial-gradient(
+    circle at center,
+    var(--dot-grid-color) 1px,
+    transparent 1px
+  );
+  background-size: var(--dot-grid-size) var(--dot-grid-size);
+}
+
+.main {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  width: min(860px, 100%);
+  text-align: center;
+}
+
+.headline {
+  margin: 0;
+  max-width: 18ch;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: clamp(36px, 5.2vw, 64px);
+  line-height: 1.1;
+  letter-spacing: var(--type-h1-tracking);
+  color: var(--ink);
+  text-wrap: balance;
+  text-align: center;
+}
+
+.logoRow {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  gap: 20px 36px;
+  min-height: 22px;
+  width: 100%;
+}
+
+.logoButton {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  padding: 8px;
+  border: none;
+  border-radius: var(--radius-inner);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  flex: none;
+  opacity: 1;
+  transition: opacity 160ms ease;
+}
+
+.logoButton[data-dimmed='true'] {
+  opacity: 0.4;
+}
+
+.logoButton:focus {
+  outline: none;
+}
+
+.logoButton:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* Optical sizes — balance visual weight (SUMM reads heavy). */
+.logoImg {
+  display: block;
+  height: 16px;
+  width: auto;
+  object-fit: contain;
+}
+
+.logoButton[data-logo='ibm'] .logoImg {
+  height: 18px;
+}
+
+.logoButton[data-logo='siteminder'] .logoImg {
+  height: 18px;
+}
+
+.logoButton[data-logo='summ'] .logoImg {
+  height: 12px;
+}
+
+.logoWord {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.2;
+  letter-spacing: 0;
+  color: var(--ink);
+}
+
+.logoWordmark {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+/* Desktop hover card — positioned under the row, aligned to logo. */
+.previewLayer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.previewCard {
+  position: absolute;
+  width: min(440px, calc(100vw - 48px));
+  padding: 8px;
+  background: var(--surface);
+  border-radius: var(--radius); /* 16px */
+  box-shadow: var(--shadow-float);
+  text-align: left;
+  pointer-events: none;
+}
+
+.previewMedia {
+  display: block;
+  width: 100%;
+  border-radius: var(--radius-inner);
+  overflow: hidden;
+  background: var(--soft);
+}
+
+.previewVideo,
+.previewPoster {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-inner);
+}
+
+.previewCaption {
+  margin: 8px 2px 2px;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: var(--type-small-size);
+  line-height: var(--type-small-leading);
+  letter-spacing: 0;
+  color: var(--grey-text);
+}
+
+/* Touch / narrow — in-flow preview under the logo row. */
+.inlinePreview {
+  display: none;
+  width: 100%;
+}
+
+.inlineCard {
+  width: 100%;
+  padding: 8px;
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-float);
+  text-align: left;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logoButton {
+    transition: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .stage {
+    justify-content: flex-start;
+    min-height: 100svh;
+    padding: 72px 20px 64px;
+  }
+
+  .main {
+    gap: 22px;
+    width: 100%;
+  }
+
+  .headline {
+    max-width: 14ch;
+    font-size: clamp(32px, 9vw, 40px);
+  }
+
+  .logoRow {
+    gap: 10px 14px;
+  }
+
+  .logoImg {
+    height: 14px;
+  }
+
+  .logoButton[data-logo='ibm'] .logoImg {
+    height: 16px;
+  }
+
+  .logoButton[data-logo='siteminder'] .logoImg {
+    height: 16px;
+  }
+
+  .logoButton[data-logo='summ'] .logoImg {
+    height: 10px;
+  }
+
+  .logoWord {
+    font-size: 12px;
+  }
+
+  .logoWordmark {
+    font-size: 14px;
+  }
+
+  .logoButton {
+    gap: 4px;
+    padding: 6px;
+  }
+
+  .previewLayer {
+    display: none;
+  }
+
+  .inlinePreview {
+    display: block;
+  }
+}
+
+/* Fine phones */
+@media (max-width: 400px) {
+  .logoRow {
+    gap: 8px 10px;
+  }
+
+  .logoWordmark {
+    font-size: 13px;
+  }
+
+  .logoWord {
+    font-size: 11px;
+  }
+}
+
+/* Coarse / no-hover: force inline preview even on wider screens. */
+@media (hover: none) {
+  .previewLayer {
+    display: none;
+  }
+
+  .inlinePreview {
+    display: block;
+  }
+}

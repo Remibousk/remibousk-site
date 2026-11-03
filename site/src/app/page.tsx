@@ -1,4 +1,4 @@
-import TimelineHero from '@/components/TimelineHero/TimelineHero';
+import LogoHoverHero from '@/components/LogoHoverHero/LogoHoverHero';
 import LogoRow from '@/components/LogoRow/LogoRow';
 import CaseCards from '@/components/CaseCards/CaseCards';
 import SiteMinderTile from '@/components/SiteMinderTile/SiteMinderTile';
@@ -10,8 +10,8 @@ import SidebarNav from '@/components/SidebarNav/SidebarNav';
 import styles from './page.module.css';
 
 /**
- * Homepage. First screen is the timeline scrubber hero (PR 2). Remaining
- * sections keep the prior structure: work, cases, side projects, experience.
+ * Homepage. First screen is the logo-hover hero (PR 2). Remaining sections
+ * keep the prior structure: work, cases, side projects, experience.
  * LogoRow carries id="work", SideProjects id="side-projects",
  * ExperienceTimeline id="experience".
  */
@@ -21,7 +21,7 @@ export default function HomePage() {
       <div className={styles.content}>
         <SidebarNav />
         <main className={styles.column}>
-          <TimelineHero />
+          <LogoHoverHero />
           <LogoRow />
           <CaseCards />
           <SiteMinderTile />
