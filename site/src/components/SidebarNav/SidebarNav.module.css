@@ -83,7 +83,7 @@
   font-size: var(--type-small-size);
   line-height: var(--type-small-leading);
   letter-spacing: var(--type-small-tracking);
-  color: var(--ink);
+  color: var(--grey-text);
   border-radius: var(--radius-sm);
   overflow: hidden;
   transition: color 0.4s cubic-bezier(0.22, 1.1, 0.36, 1);

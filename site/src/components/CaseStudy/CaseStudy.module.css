@@ -252,18 +252,13 @@
    label goes rgb(118,114,130) -> rgb(223,222,227), on the component's own
    `{type:'spring', bounce:0.2, duration:0.4}` transition. */
 .tagChip {
-  /* Surface + dim border keeps chip text AA (~16:1 ink on white). */
+  /* Plain labels (not links) — surface + dim border, no hover. */
   background-color: var(--surface);
   border: 1px solid var(--dim);
   border-radius: var(--radius-chip);
   padding: 8px;
   flex: none;
   box-shadow: none;
-  transition: box-shadow 0.4s cubic-bezier(0.22, 1.1, 0.36, 1);
-}
-
-.tagChip:hover {
-  box-shadow: var(--shadow-soft);
 }
 
 .tagChip h4 {
@@ -273,11 +268,6 @@
   line-height: 1.2;
   color: var(--ink);
   white-space: pre;
-  transition: color 0.4s cubic-bezier(0.22, 1.1, 0.36, 1);
-}
-
-.tagChip:hover h4 {
-  color: var(--ink);
 }
 
 /* Meta grid (framer-skaojp / framer-lbl6hx): row, gap 32 */
@@ -784,9 +774,7 @@ ul.bodyList > li::before {
 
 @media (prefers-reduced-motion: reduce) {
   .backToTop,
-  .backToTopIcon,
-  .tagChip,
-  .tagChip h4 {
+  .backToTopIcon {
     transition: none;
   }
 }
