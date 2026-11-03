@@ -22,7 +22,7 @@ const EASE_OUT: [number, number, number, number] = [0.22, 1, 0.36, 1];
 const ENTER_MS = 0.2;
 const EXIT_MS = 0.12;
 const GUTTER = 24;
-const CARD_MAX = 440;
+const CARD_MAX = 400;
 
 type PreviewMode = 'hover' | 'touch';
 
@@ -290,6 +290,7 @@ export default function LogoHoverHero() {
                   className={styles.logoButton}
                   data-logo={logo.id}
                   data-dimmed={dimmed ? 'true' : 'false'}
+                  data-active={activeId === logo.id ? 'true' : 'false'}
                   aria-label={`${logo.label} — ${logo.caption}`}
                   aria-expanded={activeId === logo.id}
                   aria-controls={

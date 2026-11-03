@@ -11,10 +11,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  /* Bias up so headline + logos + open card fit short folds (1280×720)
+     with ≥32px bottom spare; closed block sits slightly above true centre. */
+  justify-content: flex-start;
   width: 100%;
-  min-height: 98vh;
-  padding: 48px 24px 80px;
+  min-height: 100svh;
+  padding: clamp(48px, 9.5vh, 88px) 24px 40px;
   border-radius: var(--radius);
   overflow: clip;
   background-color: var(--bg);
@@ -35,6 +37,7 @@
   gap: 28px;
   width: min(860px, 100%);
   text-align: center;
+  /* Absolute desktop preview must not shift this block. */
 }
 
 .headline {
@@ -42,7 +45,7 @@
   max-width: 18ch;
   font-family: var(--font-sans);
   font-weight: 600;
-  font-size: clamp(36px, 5.2vw, 64px);
+  font-size: clamp(36px, 5.2vw, 56px);
   line-height: 1.1;
   letter-spacing: var(--type-h1-tracking);
   color: var(--ink);
@@ -56,8 +59,8 @@
   flex-wrap: nowrap;
   align-items: center;
   justify-content: center;
-  gap: 20px 36px;
-  min-height: 22px;
+  gap: 40px;
+  min-height: 32px;
   width: 100%;
 }
 
@@ -65,7 +68,7 @@
   appearance: none;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   margin: 0;
   padding: 8px;
   border: none;
@@ -75,11 +78,20 @@
   cursor: pointer;
   flex: none;
   opacity: 1;
-  transition: opacity 160ms ease;
+  transform: translateY(0);
+  transition:
+    opacity 160ms ease,
+    transform 150ms ease;
 }
 
 .logoButton[data-dimmed='true'] {
   opacity: 0.4;
+}
+
+.logoButton:hover,
+.logoButton:focus-visible,
+.logoButton[data-active='true'] {
+  transform: translateY(-2px);
 }
 
 .logoButton:focus {
@@ -91,30 +103,30 @@
   outline-offset: var(--focus-ring-offset);
 }
 
-/* Optical sizes — balance visual weight (SUMM reads heavy). */
+/* Optical sizes — ~22–24px desktop; SUMM reads heavy so slightly smaller. */
 .logoImg {
   display: block;
-  height: 16px;
+  height: 22px;
   width: auto;
   object-fit: contain;
 }
 
 .logoButton[data-logo='ibm'] .logoImg {
-  height: 18px;
+  height: 24px;
 }
 
 .logoButton[data-logo='siteminder'] .logoImg {
-  height: 18px;
+  height: 24px;
 }
 
 .logoButton[data-logo='summ'] .logoImg {
-  height: 12px;
+  height: 18px;
 }
 
 .logoWord {
   font-family: var(--font-sans);
   font-weight: 600;
-  font-size: 14px;
+  font-size: 20px;
   line-height: 1.2;
   letter-spacing: 0;
   color: var(--ink);
@@ -123,7 +135,7 @@
 .logoWordmark {
   font-family: var(--font-sans);
   font-weight: 600;
-  font-size: 16px;
+  font-size: 22px;
   line-height: 1.1;
   letter-spacing: -0.01em;
   color: var(--ink);
@@ -142,7 +154,7 @@
 
 .previewCard {
   position: absolute;
-  width: min(440px, calc(100vw - 48px));
+  width: min(400px, calc(100vw - 48px));
   padding: 8px;
   background: var(--surface);
   border-radius: var(--radius); /* 16px */
@@ -168,7 +180,8 @@
 }
 
 .previewCaption {
-  margin: 8px 2px 2px;
+  margin: 0;
+  padding: 8px 4px 0;
   font-family: var(--font-sans);
   font-weight: 400;
   font-size: var(--type-small-size);
@@ -194,7 +207,13 @@
 
 @media (prefers-reduced-motion: reduce) {
   .logoButton {
-    transition: none;
+    transition: opacity 160ms ease;
+  }
+
+  .logoButton:hover,
+  .logoButton:focus-visible,
+  .logoButton[data-active='true'] {
+    transform: none;
   }
 }
 
@@ -216,35 +235,37 @@
   }
 
   .logoRow {
-    gap: 10px 14px;
+    gap: 18px;
+    min-height: 28px;
   }
 
+  /* ~18px optical on phone; keep one row at 375/390. */
   .logoImg {
-    height: 14px;
+    height: 16px;
   }
 
   .logoButton[data-logo='ibm'] .logoImg {
-    height: 16px;
+    height: 18px;
   }
 
   .logoButton[data-logo='siteminder'] .logoImg {
-    height: 16px;
+    height: 18px;
   }
 
   .logoButton[data-logo='summ'] .logoImg {
-    height: 10px;
+    height: 13px;
   }
 
   .logoWord {
-    font-size: 12px;
+    font-size: 15px;
   }
 
   .logoWordmark {
-    font-size: 14px;
+    font-size: 17px;
   }
 
   .logoButton {
-    gap: 4px;
+    gap: 5px;
     padding: 6px;
   }
 
@@ -260,15 +281,15 @@
 /* Fine phones */
 @media (max-width: 400px) {
   .logoRow {
-    gap: 8px 10px;
+    gap: 12px;
   }
 
   .logoWordmark {
-    font-size: 13px;
+    font-size: 16px;
   }
 
   .logoWord {
-    font-size: 11px;
+    font-size: 14px;
   }
 }
 
