@@ -107,13 +107,14 @@
   align-items: center;
 }
 
-/* NavContent (framer-tpi2j1) */
+/* NavContent (framer-tpi2j1) — 16px padding matches mobile dropdown /
+ * home sidebar card so remi. clears the 16px radius. */
 .navCard {
   background-color: var(--nav-bg);
   border: none;
   border-radius: var(--radius);
   box-shadow: none;
-  padding: 8px;
+  padding: 16px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
