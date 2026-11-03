@@ -130,7 +130,7 @@
   line-height: var(--type-caption-leading);
   letter-spacing: var(--type-caption-tracking);
   text-transform: uppercase;
-  color: var(--grey);
+  color: var(--grey-text);
 }
 
 @media (max-width: 809px) {

@@ -159,7 +159,7 @@
   font-size: 13px;
   letter-spacing: -0.01em;
   line-height: 1.2;
-  color: var(--grey);
+  color: var(--grey-text);
   white-space: pre;
 }
 
@@ -252,8 +252,9 @@
    label goes rgb(118,114,130) -> rgb(223,222,227), on the component's own
    `{type:'spring', bounce:0.2, duration:0.4}` transition. */
 .tagChip {
-  background-color: var(--soft);
-  border: 1px solid var(--chip-border);
+  /* Surface + dim border keeps chip text AA (~16:1 ink on white). */
+  background-color: var(--surface);
+  border: 1px solid var(--dim);
   border-radius: var(--radius-chip);
   padding: 8px;
   flex: none;
@@ -270,13 +271,13 @@
   font-weight: 400;
   font-size: 14px;
   line-height: 1.2;
-  color: var(--text-muted);
+  color: var(--ink);
   white-space: pre;
   transition: color 0.4s cubic-bezier(0.22, 1.1, 0.36, 1);
 }
 
 .tagChip:hover h4 {
-  color: var(--text-hover);
+  color: var(--ink);
 }
 
 /* Meta grid (framer-skaojp / framer-lbl6hx): row, gap 32 */
@@ -327,7 +328,7 @@
   line-height: var(--type-meta-label-leading);
   letter-spacing: var(--type-meta-label-tracking);
   text-transform: uppercase;
-  color: var(--grey);
+  color: var(--grey-text);
 }
 
 /* Meta/Value role (Figma: Meta/Value). */
@@ -362,11 +363,12 @@
   gap: 4px;
   font-family: var(--font-sans);
   font-weight: 400;
-  font-size: 13px;
-  letter-spacing: -0.01em;
+  font-size: var(--type-small-size);
+  letter-spacing: 0;
+  word-spacing: normal;
   line-height: 1.2;
-  color: var(--text-muted);
-  white-space: pre;
+  color: var(--grey-text);
+  white-space: normal;
 }
 
 /* `VziN9FW1F-hover`: label + arrow icon go to rgb(223,222,227), instantly. */
@@ -408,7 +410,7 @@
 
 .body strong {
   font-family: var(--font-sans);
-  font-weight: 500;
+  font-weight: var(--type-heading-weight);
 }
 
 .body em {

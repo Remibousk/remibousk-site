@@ -78,11 +78,12 @@
   padding: 4px;
   cursor: pointer;
   font-family: var(--font-sans);
-  font-style: italic;
-  font-weight: 800;
-  font-size: 15px;
-  line-height: 1.2em;
-  color: var(--text-low);
+  font-style: normal;
+  font-weight: 400;
+  font-size: var(--type-small-size);
+  line-height: var(--type-small-leading);
+  letter-spacing: var(--type-small-tracking);
+  color: var(--ink);
   border-radius: var(--radius-sm);
   overflow: hidden;
   transition: color 0.4s cubic-bezier(0.22, 1.1, 0.36, 1);
@@ -91,7 +92,7 @@
 .navLink:hover,
 .navLink:focus-visible,
 .navLink[data-inview] {
-  color: var(--text-high);
+  color: var(--ink);
 }
 
 .navLabel {
@@ -123,15 +124,18 @@
   display: block;
   width: 100%;
   font-family: var(--font-sans);
-  font-size: 13px;
-  letter-spacing: -0.01em;
-  line-height: 20px;
-  color: var(--text-muted);
+  font-style: normal;
+  font-weight: 400;
+  font-size: var(--type-small-size);
+  letter-spacing: var(--type-small-tracking);
+  line-height: var(--type-small-leading);
+  /* --grey-text ≈ 5.2:1 on --surface — AA for secondary links. */
+  color: var(--grey-text);
 }
 
 .smallLink:hover,
 .smallLink:focus-visible {
-  color: var(--text-primary);
+  color: var(--ink);
 }
 
 .mobileBar {
@@ -176,7 +180,7 @@
     border: 1px solid var(--nav-border);
     border-radius: var(--radius-sm);
     box-shadow: var(--nav-shadow);
-    color: var(--text-secondary);
+    color: var(--ink);
   }
 
   .hamburgerIcon {

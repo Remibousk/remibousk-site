@@ -52,7 +52,7 @@ export default function CtcPage() {
               target="_blank"
               rel="noopener"
             >
-              <span>View live</span>
+              <span>View{"\u00A0"}live</span>
               <ArrowUpRightIcon />
             </a>
           </>

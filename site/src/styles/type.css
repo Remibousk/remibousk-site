@@ -120,5 +120,5 @@
   line-height: var(--type-label-leading);
   letter-spacing: var(--type-label-tracking);
   text-transform: uppercase;
-  color: var(--grey);
+  color: var(--grey-text);
 }

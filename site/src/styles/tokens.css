@@ -13,7 +13,10 @@
   --bg: #f4f4f2;
   --surface: #ffffff;
   --soft: #eae9e4;
+  /* --grey is non-text only (borders/dots/icons). Text uses --grey-text. */
   --grey: #8c8a83;
+  /* ~4.7:1 on --bg, ~5.2:1 on --surface — WCAG AA for normal text. */
+  --grey-text: #6f6d66;
   --dim: #cfcbc2;
   --accent: #d4f25a;
 
@@ -52,8 +55,8 @@
   --dot-grid-color: color-mix(in srgb, var(--dim) 55%, transparent);
   --dot-grid-size: 24px;
 
-  /* --- Focus (accent used sparingly) --- */
-  --focus-ring: 2px solid var(--accent);
+  /* --- Focus: ink ring meets 3:1+; lime is decorative only --- */
+  --focus-ring: 2px solid var(--ink);
   --focus-ring-offset: 2px;
 
   /* --- Folio / remos semantic aliases → new palette --- */
@@ -65,19 +68,19 @@
   --border: var(--dim);
 
   --text-primary: var(--ink);
-  --text-secondary: var(--grey);
-  --text-tertiary: var(--grey);
+  --text-secondary: var(--grey-text);
+  --text-tertiary: var(--grey-text);
   --text-disabled: var(--dim);
   --text-inverse: var(--surface);
-  --text-muted: var(--grey);
+  --text-muted: var(--grey-text);
   --text-heading: var(--ink);
   --text-eyebrow: var(--ink);
   --text-card-title: var(--ink);
-  --text-meta: var(--grey);
+  --text-meta: var(--grey-text);
   --text-hover: var(--ink);
   --text-glass: var(--ink);
   --text-high: var(--ink);
-  --text-low: var(--grey);
+  --text-low: var(--grey-text);
   --text-accent: var(--ink);
 
   --logo: var(--ink);
@@ -128,7 +131,7 @@
   --border-default: var(--dim);
   --border-strong: color-mix(in srgb, var(--ink) 18%, var(--dim));
   --border-active: var(--ink);
-  --border-focus: var(--accent);
+  --border-focus: var(--ink);
 
   --accent-bg: color-mix(in srgb, var(--accent) 35%, var(--bg));
   --accent-border: color-mix(in srgb, var(--accent) 55%, var(--dim));
@@ -145,9 +148,10 @@
   --gray-6: var(--surface);
   --gray-7: var(--dim);
   --gray-8: var(--dim);
+  /* Mid gray steps: non-text chrome stays on --grey; text-adjacent steps use --grey-text. */
   --gray-9: var(--grey);
-  --gray-10: var(--grey);
-  --gray-11: var(--grey);
+  --gray-10: var(--grey-text);
+  --gray-11: var(--grey-text);
   --gray-12: var(--ink);
   --gray-a1: transparent;
   --gray-a2: color-mix(in srgb, var(--ink) 2%, transparent);
