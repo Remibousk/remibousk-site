@@ -49,10 +49,11 @@ type WidgetModel = {
 
 /** Corner slots — keep clear of headline / logos / active card / pill. */
 const DESKTOP_SLOTS = [
-  { top: '10%', left: '3%', right: 'auto', bottom: 'auto' },
-  { top: '12%', left: 'auto', right: '3%', bottom: 'auto' },
+  // Keep clear of the sticky remi. nav card (top-left ~160×240).
+  { top: '28%', left: '3%', right: 'auto', bottom: 'auto' },
+  { top: '10%', left: 'auto', right: '3%', bottom: 'auto' },
   { top: 'auto', left: '4%', right: 'auto', bottom: '22%' },
-  { top: 'auto', left: 'auto', right: '4%', bottom: '26%' },
+  { top: 'auto', left: 'auto', right: '5%', bottom: '24%' },
 ] as const;
 
 function UndoIcon() {
