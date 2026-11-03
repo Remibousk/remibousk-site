@@ -89,7 +89,7 @@ export default function SiteMinderTile() {
           ariaLabel="SiteMinder product screenshots"
           trackClassName={styles.track}
           clip={false}
-          borderRadius={10}
+          borderRadius={8}
           autoPlaySeconds={6}
           arrows
           arrowsClassName={styles.arrows}

@@ -60,7 +60,7 @@ export default function Carousel({
   slides,
   ariaLabel,
   gap,
-  borderRadius = 10,
+  borderRadius = 8,
   clip = true,
   autoPlaySeconds,
   arrows = false,
