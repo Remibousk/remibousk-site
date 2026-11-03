@@ -139,7 +139,8 @@
   position: relative;
   width: 100%;
   aspect-ratio: 1.6 / 1;
-  border-radius: var(--radius);
+  /* Nested inside .card (28px + 12px pad) → inner nesting radius */
+  border-radius: var(--radius-inner);
   overflow: hidden;
   background-color: var(--bg-1);
   flex: none;

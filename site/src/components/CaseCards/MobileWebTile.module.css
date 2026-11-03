@@ -70,7 +70,7 @@
   width: calc(min(560px, 52cqi) - 60px);
   height: calc(2 * (100% - 32px));
   overflow: hidden;
-  border-radius: var(--radius);
+  border-radius: var(--radius-inner);
   pointer-events: none;
   background: #999bfd url('/images/mobile-web-hero-art.webp') center / cover no-repeat;
 }
@@ -82,8 +82,8 @@
   width: 35%;
   height: auto;
   border: 1px solid var(--dim);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-lift);
+  border-radius: var(--radius-inner);
+  box-shadow: var(--shadow-float);
   user-select: none;
 }
 

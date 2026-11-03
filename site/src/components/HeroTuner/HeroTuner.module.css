@@ -45,7 +45,7 @@
   color: var(--text-primary);
   background: var(--gray-4);
   border: 1px solid var(--border-default);
-  border-radius: var(--radius);
+  border-radius: var(--radius-pill);
   cursor: pointer;
 }
 
@@ -130,7 +130,7 @@
   color: var(--text-primary);
   background: var(--gray-3);
   border: 1px solid var(--border-default);
-  border-radius: var(--radius);
+  border-radius: var(--radius-pill);
 }
 
 .hint {

@@ -26,8 +26,10 @@
   --reading-max: 720px;
   --content-max: 1200px;
 
-  /* --- Radii: one panel radius + fully round pills --- */
+  /* --- Radii: panel + nested-inner + fully round pills --- */
   --radius: 28px;
+  /* Nesting only: children inside a 28px card with ~12px padding (28 − 12 = 16) */
+  --radius-inner: 16px;
   --radius-pill: 999px;
   /* Back-compat: all former panel steps collapse to the single card radius */
   --radius-sm: var(--radius);
@@ -43,13 +45,12 @@
   --radius-window-lg: var(--radius);
   --radius-window: var(--radius);
 
-  /* --- Shadows: no resting elevation; float reserved, unused for now --- */
+  /* --- Shadows: no resting elevation; --shadow-float for floating device shots --- */
   --shadow-float: 0 12px 40px rgba(21, 20, 18, 0.08);
   --shadow-none: none;
   /* Legacy names → none so modules stop casting resting shadows */
   --shadow-card: var(--shadow-none);
   --shadow-soft: var(--shadow-none);
-  --shadow-lift: var(--shadow-none);
   --shadow-elevation-1: var(--shadow-none);
   --shadow-elevation-2: var(--shadow-none);
   --shadow-elevation-3: var(--shadow-none);

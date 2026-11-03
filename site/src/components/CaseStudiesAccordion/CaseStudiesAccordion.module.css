@@ -35,9 +35,10 @@
 }
 
 .trigger:focus-visible {
+  /* Text trigger — ring follows the inline control, not the card radius */
   outline: var(--focus-ring);
   outline-offset: 4px;
-  border-radius: var(--radius);
+  border-radius: var(--radius-pill);
 }
 
 .chevron {
