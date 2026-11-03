@@ -158,7 +158,7 @@
   width: 128px;
   height: 80px;
   /* Soft rim so near-white UIs (Version History) don't dissolve into --surface */
-  padding: 3px;
+  border: 3px solid var(--soft);
   box-sizing: border-box;
 }
 
@@ -170,14 +170,12 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: calc(var(--radius-inner) - 2px);
+  border-radius: calc(var(--radius-inner) - 3px);
 }
 
 /* Tighter crop focus for Version History (near-white UI). */
 .cardThumbTight {
-  object-position: 50% 42%;
-  transform: scale(1.08);
-  transform-origin: center center;
+  object-position: 48% 40%;
 }
 
 .mediaVideo {
