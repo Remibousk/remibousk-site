@@ -10,12 +10,13 @@
 
   /* --- Primary palette --- */
   --ink: #151412;
-  --bg: #f4f4f2;
+  --bg: #efeeea;
   --surface: #ffffff;
-  --soft: #eae9e4;
+  /* Darkened from #EAE9E4 so soft chips still read on --bg (~1.10:1 / ΔE≈18). */
+  --soft: #e5e4de;
   /* --grey is non-text only (borders/dots/icons). Text uses --grey-text. */
   --grey: #8c8a83;
-  /* ~4.8:1 on --soft, ~5.3:1 on --bg, ~5.8:1 on --surface — AA. */
+  /* ~4.58:1 on --soft, ~5.03:1 on --bg, ~5.83:1 on --surface — AA. */
   --grey-text: #67655e;
   --dim: #cfcbc2;
   --accent: #d4f25a;
@@ -28,7 +29,9 @@
 
   /* --- Radii: panel + nested-inner + fully round pills --- */
   --radius: 16px;
-  /* Nesting only: children inside a 16px card (16 − ~8px pad = 8) */
+  /* Nesting rule: media nested inside a 16px card uses 8px so its corners
+     sit optically inside the parent curve (not a literal pad subtraction —
+     card padding varies; 8px is the fixed inner step for a 16px outer). */
   --radius-inner: 8px;
   --radius-pill: 999px;
   /* Back-compat: all former panel steps collapse to the single card radius */
@@ -45,7 +48,8 @@
   --radius-window-lg: var(--radius);
   --radius-window: var(--radius);
 
-  /* --- Shadows: no resting elevation; --shadow-float for floating device shots --- */
+  /* --- Shadows: no resting elevation. --shadow-float exceptions:
+       floating device shots (Mobile web / Version History) + mobile nav dropdown --- */
   --shadow-float: 0 12px 40px rgba(21, 20, 18, 0.08);
   --shadow-none: none;
   /* Legacy names → none so modules stop casting resting shadows */

@@ -198,7 +198,7 @@
     background-color: var(--nav-bg);
     border: none;
     border-radius: var(--radius);
-    box-shadow: none;
+    box-shadow: var(--shadow-float);
   }
 }
 

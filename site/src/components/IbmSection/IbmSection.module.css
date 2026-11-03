@@ -74,7 +74,10 @@
   position: relative;
   z-index: 1;
   width: 100%;
-  height: 100%;
+  /* Intrinsic box — % height collapses when the tile has no definite height
+     (desktop used to render as an empty white panel). */
+  height: auto;
+  aspect-ratio: 5233 / 3320;
 }
 
 .fgImg {
@@ -92,13 +95,7 @@
     padding: 30px 30px 30px 20px;
   }
 
-  .fgWrap {
-    height: auto;
-    aspect-ratio: 1.5762048192771085;
-  }
-
   .fgImg {
-    height: auto;
     object-fit: contain;
   }
 }

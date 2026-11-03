@@ -525,6 +525,43 @@ ul.bodyList > li::before {
   }
 }
 
+/* Phone: Role / When sit side-by-side above a full-width Overview column. */
+@media (max-width: 600px) {
+  .metaRow,
+  .metaRowStack {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+  }
+
+  .metaLeft,
+  .metaRowStack .metaLeft {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 16px 28px;
+    width: 100%;
+  }
+
+  .metaRight,
+  .metaRowStack .metaRight {
+    flex: none;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .metaLeft .metaGroup {
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: none;
+  }
+
+  /* Keep "View live" on its own row under Role / When */
+  .metaLeft .viewLive {
+    flex: 1 0 100%;
+  }
+}
+
 /* Wide centered section (framer-rk2gq1 / framer-1xk7iva): full width,
    centered children */
 .sectionWide {
