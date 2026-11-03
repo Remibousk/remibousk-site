@@ -72,8 +72,8 @@
   justify-content: center;
   width: 100%;
   padding: 80px;
-  border: 1px solid var(--dim);
-  border-radius: var(--radius-md);
+  border: none;
+  border-radius: var(--radius);
   overflow: hidden;
   background-color: var(--bg-1);
 }
@@ -181,7 +181,7 @@
   max-width: calc((100% - 40px) / 3);
   padding: 12px;
   background-color: var(--surface);
-  border: 1px solid var(--dim);
+  border: none;
   border-radius: var(--radius);
   box-shadow: none;
   text-decoration: none;
@@ -197,7 +197,7 @@
   position: relative;
   width: 100%;
   aspect-ratio: 1.6 / 1;
-  /* Nested inside .card (28px + 12px pad) → inner nesting radius */
+  /* Nested inside .card (16px) → inner nesting radius */
   border-radius: var(--radius-inner);
   overflow: hidden;
   background-color: var(--bg-1);

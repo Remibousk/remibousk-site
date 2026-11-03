@@ -27,9 +27,9 @@
   --content-max: 1200px;
 
   /* --- Radii: panel + nested-inner + fully round pills --- */
-  --radius: 28px;
-  /* Nesting only: children inside a 28px card with ~12px padding (28 − 12 = 16) */
-  --radius-inner: 16px;
+  --radius: 16px;
+  /* Nesting only: children inside a 16px card (16 − ~8px pad = 8) */
+  --radius-inner: 8px;
   --radius-pill: 999px;
   /* Back-compat: all former panel steps collapse to the single card radius */
   --radius-sm: var(--radius);

@@ -148,7 +148,7 @@ function SmallLinks({ onNavigate }: { onNavigate?: () => void }) {
         className={styles.smallLink}
         onClick={onNavigate}
       >
-        Linkedin
+        LinkedIn
       </a>
       <a
         href="mailto:remi.bouskila@gmail.com"
@@ -174,7 +174,7 @@ function SmallLinks({ onNavigate }: { onNavigate?: () => void }) {
 /**
  * Primary site navigation. Desktop/tablet (>809px): a floating card in the
  * top-left corner with the "remi." wordmark, Work / Side Projects /
- * Experience anchors, a divider, then smaller Linkedin/Email/Resume links.
+ * Experience anchors, then smaller LinkedIn/Email/Resume links.
  *
  * Mobile (<=809px): collapses to a small top-left icon button that expands a
  * dropdown panel with the same content (see BUILD_SPEC.md breakpoints) —

@@ -7,8 +7,9 @@
  */
 
 :root {
-  --font-sans: var(--font-figtree-face), "Figtree", "Segoe UI", system-ui,
-    sans-serif;
+  /* Figtree → metric-adjusted next/font fallback → humanist/geometric sanses */
+  --font-sans: var(--font-figtree-face), "Figtree", "Segoe UI", "Helvetica Neue",
+    Arial, system-ui, sans-serif;
   /* Mono removed — former mono roles use Figtree */
   --font-mono: var(--font-sans);
 

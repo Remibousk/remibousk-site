@@ -110,9 +110,9 @@
 /* NavContent (framer-tpi2j1) */
 .navCard {
   background-color: var(--nav-bg);
-  border: 1px solid var(--nav-border);
+  border: none;
   border-radius: var(--radius);
-  box-shadow: var(--nav-shadow);
+  box-shadow: none;
   padding: 8px;
   display: flex;
   flex-direction: column;
@@ -136,12 +136,9 @@
   height: 100%;
 }
 
-/* Divider (framer-1eitj8x): 124x1 */
+/* Dividers removed — spacing only. */
 .navDivider {
-  width: 124px;
-  height: 1px;
-  background-color: var(--nav-divider);
-  flex: none;
+  display: none;
 }
 
 /* "Go back" link (framer-lHcQo "Text link" Variant 2): 13px GT Walsheim
@@ -184,7 +181,7 @@
   min-width: 0;
   max-width: 100%;
   background-color: var(--surface);
-  border: 1px solid var(--dim);
+  border: none;
   border-radius: var(--radius);
   box-shadow: var(--shadow-card);
   padding: 32px;
@@ -562,9 +559,9 @@ ul.bodyList > li::before {
    #231f2d, radius 10, padding 20, column gap 20. */
 .card {
   background-color: var(--surface);
-  border: 1px solid var(--dim);
+  border: none;
   border-radius: var(--radius);
-  box-shadow: var(--shadow-soft);
+  box-shadow: none;
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -641,9 +638,9 @@ ul.bodyList > li::before {
 .cta {
   width: 100%;
   background-color: var(--surface);
-  border: 1px solid var(--dim);
+  border: none;
   border-radius: var(--radius);
-  box-shadow: var(--shadow-card);
+  box-shadow: none;
   padding: 60px;
   display: flex;
   flex-direction: column;

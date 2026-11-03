@@ -40,10 +40,10 @@
   height: 98vh;
   padding: 4px 4px 32px;
   background-color: var(--bg-1);
-  /* Hardcoded in the original (not one of the shared tokens). */
-  border: 1px solid var(--hero-border);
+  /* Tone step vs page --bg; no outline. */
+  border: none;
   border-radius: var(--radius-card);
-  box-shadow: var(--shadow-card);
+  box-shadow: none;
   overflow: hidden;
   overflow: clip;
 }

@@ -106,8 +106,8 @@
    padding 20 (14 on tablet), gap 20 */
 .impactCard {
   background-color: var(--soft);
-  border: 1px solid var(--bg-4);
-  border-radius: var(--radius-md);
+  border: none;
+  border-radius: var(--radius);
   padding: 20px;
   display: flex;
   flex-direction: column;

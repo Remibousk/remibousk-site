@@ -121,7 +121,7 @@
 }
 
 /*
- * Both go to #f4f4f6 on hover with no transition: the Linkedin link inherits
+ * Both go to #f4f4f6 on hover with no transition: the LinkedIn link inherits
  * the `framer-styles-preset-1ks6grl` rule (--framer-link-hover-text-color:
  * #f4f4f6, plain CSS :hover), and the Clipboard component's `hoverOptions`
  * are `{color: rgb(244,244,246), transition: {type:'tween', duration: 0}}`.

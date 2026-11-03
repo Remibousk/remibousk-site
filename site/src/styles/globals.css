@@ -38,6 +38,7 @@ body {
   font-size: var(--type-body-size);
   font-weight: var(--type-body-weight);
   line-height: var(--type-body-leading);
+  letter-spacing: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;

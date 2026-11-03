@@ -152,7 +152,7 @@ function CopyEmailButton() {
 
 /**
  * Closing "Get in touch" section of the homepage: remi. wordmark, closing
- * blurb, a "Get in touch" mailto CTA, Linkedin + copy-email links, and the
+ * blurb, a "Get in touch" mailto CTA, LinkedIn + copy-email links, and the
  * Camera roll photo strip.
  *
  * Measured from reference/mirror/home.html:
@@ -175,7 +175,7 @@ function CopyEmailButton() {
  *   16px, subtle gradient + inset highlight, padding 18px), text GT Walsheim
  *   Pro Bold 700 28px at ALL breakpoints (no mobile shrink) — same shared
  *   style preset as the "Exprience" heading.
- * - Linkedin / copy email row: 13px GT Walsheim Pro Regular, color
+ * - LinkedIn / copy email row: 13px GT Walsheim Pro Regular, color
  *   var(--text-muted), href copied verbatim from the mirror.
  */
 export default function ContactSection() {
@@ -212,7 +212,7 @@ export default function ContactSection() {
               rel="noopener noreferrer"
               className={styles.smallLink}
             >
-              Linkedin
+              LinkedIn
             </a>
             <CopyEmailButton />
           </div>

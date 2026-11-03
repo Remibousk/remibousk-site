@@ -10,7 +10,9 @@ const figtree = Figtree({
   weight: ['400', '600'],
   variable: '--font-figtree-face',
   display: 'swap',
-  fallback: ['Segoe UI', 'system-ui', 'sans-serif'],
+  // Metric-adjusted local fallback when Figtree is blocked / still loading.
+  adjustFontFallback: true,
+  fallback: ['Segoe UI', 'Helvetica Neue', 'Arial', 'sans-serif'],
 });
 
 const SITE_URL = 'https://remibousk.com';

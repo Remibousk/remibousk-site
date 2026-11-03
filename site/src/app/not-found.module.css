@@ -33,8 +33,8 @@
   line-height: 1.2;
   color: var(--text-primary);
   padding: 12px 20px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
+  border: none;
+  border-radius: var(--radius);
   background: var(--bg-2);
   transition: background-color 0.15s ease-out;
 }

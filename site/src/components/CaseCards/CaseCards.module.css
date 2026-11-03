@@ -122,11 +122,11 @@
   width: 1px; /* flex-basis trick so the cards stay equal width */
   padding: 12px;
   background-color: var(--surface);
-  border: 1px solid var(--dim);
+  border: none;
   border-radius: var(--radius);
   box-shadow: none;
   text-decoration: none;
-  /* Hover softens into --soft (tone step; no resting shadow). */
+  /* Hover softens into --soft (tone step; no border/shadow). */
   transition: background-color 0.45s cubic-bezier(0.22, 1.2, 0.36, 1);
 }
 
@@ -139,7 +139,7 @@
   position: relative;
   width: 100%;
   aspect-ratio: 1.6 / 1;
-  /* Nested inside .card (28px + 12px pad) → inner nesting radius */
+  /* Nested inside .card (16px) → inner nesting radius */
   border-radius: var(--radius-inner);
   overflow: hidden;
   background-color: var(--bg-1);
