@@ -36,9 +36,14 @@
   text-align: center;
 }
 
+/* Reserve 3-line height so 2-line eras don't shift logos/card. */
 .headline {
   margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   max-width: 18ch;
+  min-height: 3.3em; /* 3 × line-height 1.1 */
   font-family: var(--font-sans);
   font-weight: 600;
   font-size: clamp(36px, 5.2vw, 64px);
@@ -46,44 +51,68 @@
   letter-spacing: var(--type-h1-tracking);
   color: var(--ink);
   text-wrap: balance;
+  text-align: center;
 }
 
 .logos {
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
   justify-content: center;
-  gap: 28px 48px;
-  min-height: 33px;
+  gap: 20px 36px;
+  min-height: 22px;
 }
 
 .logoItem {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   opacity: 1;
   transition: opacity 160ms ease;
   color: var(--ink);
+  flex: none;
 }
 
 .logoItem[data-dimmed='true'] {
-  opacity: 0.2;
+  opacity: 0.38;
 }
 
+/* Optical sizes — balance visual weight, not box height. SUMM reads heavy. */
 .logoImg {
   display: block;
-  height: 20px;
+  height: 16px;
   width: auto;
   object-fit: contain;
+}
+
+.logoItem[data-logo='ibm'] .logoImg {
+  height: 18px;
+}
+
+.logoItem[data-logo='siteminder'] .logoImg {
+  height: 18px;
+}
+
+.logoItem[data-logo='summ'] .logoImg {
+  height: 12px;
 }
 
 .logoWord {
   font-family: var(--font-sans);
   font-weight: 600;
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.2;
   letter-spacing: 0;
+  color: var(--ink);
+}
+
+.logoWordmark {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
   color: var(--ink);
 }
 
@@ -175,8 +204,8 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 4px;
-  padding: 6px;
+  gap: 2px;
+  padding: 4px;
   background: var(--surface);
   border: none;
   border-radius: var(--radius-pill);
@@ -200,11 +229,22 @@
   font-variant-numeric: tabular-nums;
   cursor: pointer;
   white-space: nowrap;
+  flex: none;
+}
+
+.stopShort {
+  display: none;
 }
 
 .stop[aria-checked='true'] {
   background: var(--ink);
   color: var(--surface);
+}
+
+/* Mouse click / programmatic focus must not leave a ring — ink fill alone. */
+.stop:focus,
+.reset:focus {
+  outline: none;
 }
 
 .stop:focus-visible,
@@ -264,10 +304,42 @@
   .headline {
     max-width: 14ch;
     font-size: clamp(32px, 9vw, 40px);
+    min-height: 3.3em;
   }
 
   .logos {
-    gap: 18px 28px;
+    flex-wrap: nowrap;
+    gap: 10px 14px;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .logoImg {
+    height: 14px;
+  }
+
+  .logoItem[data-logo='ibm'] .logoImg {
+    height: 16px;
+  }
+
+  .logoItem[data-logo='siteminder'] .logoImg {
+    height: 16px;
+  }
+
+  .logoItem[data-logo='summ'] .logoImg {
+    height: 10px;
+  }
+
+  .logoWord {
+    font-size: 12px;
+  }
+
+  .logoWordmark {
+    font-size: 14px;
+  }
+
+  .logoItem {
+    gap: 4px;
   }
 
   .card {
@@ -289,11 +361,59 @@
     transform: translateX(-50%);
     /* Stay above page content while scrolling past the hero */
     z-index: 40;
+    width: auto;
+    max-width: calc(100vw - 32px);
   }
 
   .scrubber {
-    max-width: calc(100vw - 24px);
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+    width: max-content;
+    max-width: 100%;
+    gap: 0;
+    padding: 3px;
+    /* Must fit all stops + undo inside the dock — no horizontal scroll */
+    overflow: visible;
+  }
+
+  .stop {
+    padding: 6px 7px;
+    font-size: 14px;
+  }
+
+  .stopFull {
+    display: none;
+  }
+
+  .stopShort {
+    display: inline;
+  }
+
+  .reset {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+/* Extra-tight phones (375): keep logos + scrubber fully in-bounds. */
+@media (max-width: 400px) {
+  .logos {
+    gap: 8px 10px;
+  }
+
+  .logoWordmark {
+    font-size: 13px;
+  }
+
+  .logoWord {
+    font-size: 11px;
+  }
+
+  .stop {
+    padding: 5px 6px;
+    font-size: 13px;
+  }
+
+  .reset {
+    width: 26px;
+    height: 26px;
   }
 }

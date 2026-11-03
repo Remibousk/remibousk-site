@@ -6,16 +6,34 @@
  * swap for brand assets when available.
  */
 
-export type LogoId = 'summ' | 'siteminder' | 'ibm';
+export type LogoId = 'vivant' | 'ibm' | 'siteminder' | 'summ';
+
+export type LogoMark =
+  | {
+      id: LogoId;
+      label: string;
+      /** Image mark under /public/logos */
+      src: string;
+      width: number;
+      height: number;
+    }
+  | {
+      id: LogoId;
+      label: string;
+      /** Figtree 600 text placeholder until a real mark exists */
+      wordmark: true;
+    };
 
 export type Era = {
   id: string;
-  /** Short stop label on the scrubber (tabular-nums). */
+  /** Full stop label on the scrubber (desktop). */
   yearLabel: string;
+  /** Narrow-screen stop label; aria still uses the full year + company. */
+  yearLabelShort: string;
   year: number;
   company: string;
-  /** Which logo strip mark to highlight; null = dim all (e.g. Vivant). */
-  logoId: LogoId | null;
+  /** Which logo strip mark to highlight. */
+  logoId: LogoId;
   headline: string;
   card: {
     meta: string;
@@ -30,19 +48,19 @@ export type Era = {
 export const DEFAULT_HEADLINE =
   'Remi is a product designer who loves building.';
 
-export const LOGO_STRIP: {
-  id: LogoId;
-  label: string;
-  src: string;
-  width: number;
-  height: number;
-}[] = [
+export const LOGO_STRIP: LogoMark[] = [
+  // TODO: replace Vivant wordmark with a real logo asset when available.
   {
-    id: 'summ',
-    label: 'SUMM',
-    src: '/logos/summ-logo.svg',
-    width: 104,
-    height: 19,
+    id: 'vivant',
+    label: 'Vivant',
+    wordmark: true,
+  },
+  {
+    id: 'ibm',
+    label: 'IBM',
+    src: '/logos/ibm-logo.svg',
+    width: 54,
+    height: 20,
   },
   {
     id: 'siteminder',
@@ -52,11 +70,11 @@ export const LOGO_STRIP: {
     height: 21,
   },
   {
-    id: 'ibm',
-    label: 'IBM',
-    src: '/logos/ibm-logo.svg',
-    width: 54,
-    height: 20,
+    id: 'summ',
+    label: 'SUMM',
+    src: '/logos/summ-logo.svg',
+    width: 104,
+    height: 19,
   },
 ];
 
@@ -64,9 +82,10 @@ export const ERAS: Era[] = [
   {
     id: 'vivant-2016',
     yearLabel: '2016',
+    yearLabelShort: '’16',
     year: 2016,
     company: 'Vivant',
-    logoId: null,
+    logoId: 'vivant',
     headline: 'Remi is a product designer at Vivant.',
     card: {
       // TODO: confirm whether Superb was done at Vivant (era inferred in Figma).
@@ -80,13 +99,14 @@ export const ERAS: Era[] = [
   {
     id: 'ibm-2017',
     yearLabel: '2017',
+    yearLabelShort: '’17',
     year: 2017,
     company: 'IBM',
     logoId: 'ibm',
     headline: 'Remi is a senior product designer at IBM.',
     card: {
       // TODO: confirm the IBM project name and one-liner.
-      meta: 'IBM · 2017 — 2019',
+      meta: 'IBM · 2017–2019',
       title: 'Senior Product Designer',
       oneLiner: 'Banking dashboards',
       image: '/images/eras/ibm.jpg',
@@ -96,12 +116,13 @@ export const ERAS: Era[] = [
   {
     id: 'siteminder-2019',
     yearLabel: '2019',
+    yearLabelShort: '’19',
     year: 2019,
     company: 'SiteMinder',
     logoId: 'siteminder',
     headline: 'Remi is a senior product designer at SiteMinder.',
     card: {
-      meta: 'SiteMinder · 2019 — 2022',
+      meta: 'SiteMinder · 2019–2022',
       title: 'SiteMinder Pay',
       oneLiner: 'Payments inside the booking workflow.',
       image: '/images/eras/pay.jpg',
@@ -112,13 +133,14 @@ export const ERAS: Era[] = [
   {
     id: 'summ-2022',
     yearLabel: '2022',
+    yearLabelShort: '’22',
     year: 2022,
     company: 'Summ',
     logoId: 'summ',
     headline: 'Remi is the lead product designer at Summ.',
     card: {
       // TODO: confirm the Summ design system start year (placeholder 2022).
-      meta: 'Summ · 2022 — ongoing',
+      meta: 'Summ · 2022–ongoing',
       title: 'Design system',
       oneLiner: 'Multi-theme, tokenised white-label system.',
       image: '/images/eras/design-system.jpg',
@@ -129,6 +151,7 @@ export const ERAS: Era[] = [
   {
     id: 'summ-2025',
     yearLabel: '2025',
+    yearLabelShort: '’25',
     year: 2025,
     company: 'Summ',
     logoId: 'summ',
@@ -146,12 +169,13 @@ export const ERAS: Era[] = [
   {
     id: 'now-2026',
     yearLabel: 'Now',
+    yearLabelShort: 'Now',
     year: 2026,
     company: 'Summ',
     logoId: 'summ',
     headline: 'Remi is a product designer who loves building.',
     card: {
-      meta: 'Summ · 2022 — now',
+      meta: 'Summ · 2022–now',
       title: 'Version History',
       oneLiner: 'Understand changes and safely restore work.',
       image: '/images/eras/version-history.jpg',

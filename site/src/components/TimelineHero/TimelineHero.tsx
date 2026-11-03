@@ -139,24 +139,31 @@ export default function TimelineHero() {
     return best;
   }, []);
 
+  // Only move DOM focus after keyboard nav — mouse/pointer must not leave a ring.
+  const pendingKeyboardFocus = useRef(false);
+
   const onKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
     switch (event.key) {
       case 'ArrowRight':
       case 'ArrowDown':
         event.preventDefault();
+        pendingKeyboardFocus.current = true;
         moveBy(1);
         break;
       case 'ArrowLeft':
       case 'ArrowUp':
         event.preventDefault();
+        pendingKeyboardFocus.current = true;
         moveBy(-1);
         break;
       case 'Home':
         event.preventDefault();
+        pendingKeyboardFocus.current = true;
         selectIndex(0);
         break;
       case 'End':
         event.preventDefault();
+        pendingKeyboardFocus.current = true;
         selectIndex(ERAS.length - 1);
         break;
       case 'Escape':
@@ -195,8 +202,9 @@ export default function TimelineHero() {
   };
 
   useEffect(() => {
-    // Keep focus on the checked radio after keyboard moves.
-    if (index === null) return;
+    // Keep focus on the checked radio after keyboard moves only.
+    if (index === null || !pendingKeyboardFocus.current) return;
+    pendingKeyboardFocus.current = false;
     const root = groupRef.current;
     const el = root?.querySelector<HTMLElement>(
       `[data-era-index="${index}"]`,
@@ -224,18 +232,25 @@ export default function TimelineHero() {
                 <span
                   key={logo.id}
                   className={styles.logoItem}
+                  data-logo={logo.id}
                   data-dimmed={dimmed ? 'true' : 'false'}
                 >
-                  <Image
-                    className={styles.logoImg}
-                    src={logo.src}
-                    alt=""
-                    width={logo.width}
-                    height={logo.height}
-                  />
-                  {logo.id === 'siteminder' ? (
-                    <span className={styles.logoWord}>{logo.label}</span>
-                  ) : null}
+                  {'wordmark' in logo ? (
+                    <span className={styles.logoWordmark}>{logo.label}</span>
+                  ) : (
+                    <>
+                      <Image
+                        className={styles.logoImg}
+                        src={logo.src}
+                        alt=""
+                        width={logo.width}
+                        height={logo.height}
+                      />
+                      {logo.id === 'siteminder' ? (
+                        <span className={styles.logoWord}>{logo.label}</span>
+                      ) : null}
+                    </>
+                  )}
                 </span>
               );
             })}
@@ -275,7 +290,10 @@ export default function TimelineHero() {
                   }
                   onClick={() => selectIndex(i)}
                 >
-                  {era.yearLabel}
+                  <span className={styles.stopFull}>{era.yearLabel}</span>
+                  <span className={styles.stopShort} aria-hidden="true">
+                    {era.yearLabelShort}
+                  </span>
                 </button>
               );
             })}
