@@ -62,15 +62,15 @@ export default function SiteMinderPayPage() {
         stackMetaOnPhone
         left={
           <>
-            <MetaGroup label="Role:">
+            <MetaGroup label="Role">
               Product design &amp; research, with Heidi Egger
             </MetaGroup>
-            <MetaGroup label="When:">2019</MetaGroup>
+            <MetaGroup label="When">2019</MetaGroup>
           </>
         }
         right={
           <>
-            <MetaGroup label="What:" wide>
+            <MetaGroup label="What" wide>
               Take and track a booking payment without leaving Channel
               Manager
             </MetaGroup>

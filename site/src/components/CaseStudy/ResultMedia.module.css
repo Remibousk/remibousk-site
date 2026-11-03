@@ -25,7 +25,7 @@
   align-items: center;
   justify-content: center;
   padding: 12px 16px;
-  border-radius: 16px;
+  border-radius: var(--radius-sm);
   border: 1px solid rgba(0, 0, 0, 0.05);
   /* CardButton Variant 2 (`zkreKWejS`) is a flat --bg-3 fill with a --border
      inset highlight — not Variant 1's gradient + rgb(51,51,51) shadow. */
@@ -77,7 +77,7 @@
   display: block;
   width: 100%;
   height: auto;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   opacity: 0.4;
   /* whileHover on the thumbnail: opacity 0.6, spring bounce .2 duration .4. */
   transition: opacity 0.4s cubic-bezier(0.22, 1.1, 0.36, 1);
@@ -108,7 +108,7 @@
   max-height: 90vh;
   overflow: auto;
   border: 2px solid var(--border);
-  border-radius: 16px;
+  border-radius: var(--radius-sm);
 }
 
 /* Second card (framer-1krh77y): 1px --surface border, fixed 1.19287 aspect

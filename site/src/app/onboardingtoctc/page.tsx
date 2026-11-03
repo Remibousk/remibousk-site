@@ -22,13 +22,13 @@ export default function OnboardingToCtcPage() {
         tags={['Web design', 'Visual design', 'Copywriting', 'UX', 'Mobile']}
         left={
           <>
-            <MetaGroup label="Role:">Lead Designer</MetaGroup>
-            <MetaGroup label="When:">Q4 2023</MetaGroup>
+            <MetaGroup label="Role">Lead Designer</MetaGroup>
+            <MetaGroup label="When">Q4 2023</MetaGroup>
           </>
         }
         right={
           <>
-            <MetaGroup label="What:" wide>
+            <MetaGroup label="What" wide>
               Onboarding re-design
             </MetaGroup>
             <MetaGroup label="Outcome" wide>

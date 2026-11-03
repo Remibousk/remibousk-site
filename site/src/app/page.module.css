@@ -30,11 +30,13 @@
   flex: 1 0 0;
   width: 1px;
   min-width: 0;
-  max-width: 1200px;
+  max-width: var(--content-max);
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 200px;
+  /* Keep the existing tight gutter next to the sticky nav; page-margin
+     applies on case studies and as the mobile edge inset below. */
   padding: 4px 4px 204px;
 }
 
@@ -48,6 +50,6 @@
     flex: none;
     width: 100%;
     gap: 120px;
-    padding: 16px 16px 136px;
+    padding: 16px var(--page-margin) 136px;
   }
 }

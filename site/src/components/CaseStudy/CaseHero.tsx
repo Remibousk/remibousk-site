@@ -38,7 +38,8 @@ export function MetaGroup({
  * `left` / `right` are the two meta columns; `tightLeft` reproduces the
  * 10px column gap used on /ctc (others use 20px). `stackMetaOnPhone`
  * stacks those columns below 810px so longer What/Outcome copy can wrap
- * instead of clipping — used by /siteminder-pay.
+ * instead of clipping — used by /siteminder-pay. Below 600px every case
+ * study stacks Overview under a side-by-side Role/When row.
  */
 export default function CaseHero({
   client,

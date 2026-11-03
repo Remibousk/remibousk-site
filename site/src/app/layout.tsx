@@ -1,8 +1,19 @@
 import type { Metadata } from 'next';
+import { Figtree } from 'next/font/google';
 import '@/styles/tokens.css';
 import '@/styles/fonts.css';
 import '@/styles/type.css';
 import '@/styles/globals.css';
+
+const figtree = Figtree({
+  subsets: ['latin'],
+  weight: ['400', '600'],
+  variable: '--font-figtree-face',
+  display: 'swap',
+  // Metric-adjusted local fallback when Figtree is blocked / still loading.
+  adjustFontFallback: true,
+  fallback: ['Segoe UI', 'Helvetica Neue', 'Arial', 'sans-serif'],
+});
 
 const SITE_URL = 'https://remibousk.com';
 const OG_IMAGE = '/images/9sFnJYCbSWOEMtc6kSRQadieHHY.png';
@@ -41,7 +52,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={figtree.variable}>
       <body>{children}</body>
     </html>
   );

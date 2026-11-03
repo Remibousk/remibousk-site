@@ -11,30 +11,30 @@
 }
 
 .heading {
-  font-family: var(--font-gt-walsheim-bold);
-  font-weight: 700;
-  font-size: 72px;
+  font-family: var(--font-sans);
+  font-weight: var(--type-heading-weight);
+  font-size: var(--type-display-size);
   line-height: 1.2;
   color: var(--text-heading);
 }
 
 .blurb {
-  font-family: var(--font-gt-walsheim-regular);
-  font-size: 18px;
+  font-family: var(--font-sans);
+  font-size: var(--type-body-size);
   line-height: 1.2;
-  color: var(--text-secondary);
+  color: var(--ink);
 }
 
 .homeLink {
   margin-top: 12px;
-  font-family: var(--font-gt-walsheim-bold);
-  font-weight: 700;
+  font-family: var(--font-sans);
+  font-weight: var(--type-heading-weight);
   font-size: 16px;
   line-height: 1.2;
   color: var(--text-primary);
   padding: 12px 20px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
+  border: none;
+  border-radius: var(--radius-pill);
   background: var(--bg-2);
   transition: background-color 0.15s ease-out;
 }

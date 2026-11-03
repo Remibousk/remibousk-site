@@ -11,9 +11,9 @@
    11zvyrz): bg #1c1924, border #231f2d, radius 8. */
 .panel {
   width: 100%;
-  background-color: var(--bg-1);
+  background-color: var(--surface);
   border: 1px solid var(--bg-4);
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   position: relative;
   overflow: hidden;
 }
@@ -31,7 +31,7 @@
   left: 2.29%;
   bottom: -47.58%;
   width: 66.32%;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   border: 1px solid var(--bg-4);
   overflow: hidden;
 }
@@ -49,7 +49,7 @@
   width: 19.08%;
   border: 1px solid var(--bg-4);
   border-bottom: none;
-  border-radius: 8px 8px 0 0;
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
   overflow: hidden;
 }
 
@@ -72,9 +72,9 @@
 .videoPanel {
   flex: 1 0 0;
   min-width: 0;
-  background-color: var(--bg-1);
+  background-color: var(--surface);
   border: 1px solid var(--bg-4);
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   padding: 16px;
   display: flex;
   position: relative;
@@ -94,16 +94,16 @@
   height: 100%;
   object-fit: cover;
   object-position: 50% 50%;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
 }
 
 /* Right: Learn hub + compliance strip (framer-1hikolm, padding 16, gap 16) */
 .duoPanel {
   flex: 1 0 0;
   min-width: 0;
-  background-color: var(--bg-1);
+  background-color: var(--surface);
   border: 1px solid var(--bg-4);
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   padding: 16px;
   display: flex;
   flex-direction: column;
@@ -118,7 +118,7 @@
 .eduImage {
   width: 100%;
   border: 1px solid var(--bg-4);
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   overflow: hidden;
 }
 
@@ -126,7 +126,7 @@
 .complianceImage {
   width: 100%;
   border: 1px solid var(--bg-4);
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   overflow: hidden;
 }
 
@@ -148,7 +148,7 @@
 .bentoImage {
   width: 100%;
   border: 1px solid var(--bg-4);
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   overflow: hidden;
 }
 
@@ -171,7 +171,7 @@
   width: 100%;
   max-width: 1024px;
   border: 1px solid var(--bg-4);
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   overflow: hidden;
 }
 

@@ -17,9 +17,9 @@
 /* Phone screenshot card (framer-11n35j5): bg #1e1b27, border #2a2537,
    radius 16, padding 8; image 486px wide, radius 12 */
 .phoneCard {
-  background-color: var(--bg-2);
-  border: 1px solid var(--surface);
-  border-radius: 16px;
+  background-color: var(--surface);
+  border: 1px solid var(--dim);
+  border-radius: var(--radius-sm);
   padding: 8px;
   flex: none;
   max-width: 100%;
@@ -30,7 +30,7 @@
   width: 486px;
   max-width: 100%;
   height: auto;
-  border-radius: 12px;
+  border-radius: var(--radius-md);
 }
 
 /* Right text column (framer-tisb8l): gap 116 */
@@ -48,9 +48,9 @@
    image/video + caption (gap 10). */
 .mediaStrip {
   width: 100%;
-  background-color: var(--bg-2);
-  border: 1px solid var(--surface);
-  border-radius: 16px;
+  background-color: var(--surface);
+  border: 1px solid var(--dim);
+  border-radius: var(--radius-sm);
   padding: 8px;
   display: flex;
   flex-direction: row;
@@ -73,7 +73,7 @@
   display: block;
   width: 100%;
   height: auto;
-  border-radius: 12px;
+  border-radius: var(--radius-md);
 }
 
 /* Screen-recording columns (framer-8is9z5-container...): aspect .45922 */
@@ -88,13 +88,13 @@
   height: 100%;
   object-fit: cover;
   object-position: 50% 50%;
-  border-radius: 12px;
+  border-radius: var(--radius-md);
 }
 
 /* Caption (preset irt79h) */
 .caption {
-  font-family: var(--font-gt-walsheim-medium);
-  font-weight: 500;
+  font-family: var(--font-sans);
+  font-weight: 400;
   font-size: 13px;
   line-height: 1.1;
   letter-spacing: -0.01em;
@@ -105,9 +105,9 @@
 /* Impact cards (framer-zz9x0n / framer-16r4te9): bg #231f2d, radius 10,
    padding 20 (14 on tablet), gap 20 */
 .impactCard {
-  background-color: var(--bg-4);
-  border: 1px solid var(--bg-4);
-  border-radius: 10px;
+  background-color: var(--soft);
+  border: none;
+  border-radius: var(--radius);
   padding: 20px;
   display: flex;
   flex-direction: column;
