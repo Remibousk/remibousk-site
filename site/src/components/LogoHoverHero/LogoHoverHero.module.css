@@ -11,12 +11,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* Bias up so headline + logos + open card fit short folds (1280×720)
-     with ≥32px bottom spare; closed block sits slightly above true centre. */
-  justify-content: flex-start;
+  /* Flex-centre the hero group (headline + logos + reserved card slot). */
+  justify-content: center;
   width: 100%;
-  min-height: 100svh;
-  padding: clamp(48px, 9.5vh, 88px) 24px 40px;
+  /* Fill the fold under the column’s 4px top pad so viewport spares match. */
+  min-height: calc(100svh - 4px);
+  /* ≥32px spare at top and bottom of the fold */
+  padding: 32px 24px;
   border-radius: var(--radius);
   overflow: clip;
   background-color: var(--bg);
@@ -37,7 +38,6 @@
   gap: 28px;
   width: min(860px, 100%);
   text-align: center;
-  /* Absolute desktop preview must not shift this block. */
 }
 
 .headline {
@@ -141,26 +141,39 @@
   color: var(--ink);
 }
 
-/* Desktop hover card — positioned under the row, aligned to logo. */
-.previewLayer {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
+/*
+ * Reserves the tallest open-card height (Vivant 880×674 at ≤400px wide)
+ * so flex-centring the group splits spare space evenly above and below.
+ * Absolute preview sits inside — opening it does not shift headline/logos.
+ */
+.previewReserve {
+  /* Card outer width; media is inset by 8px pad on each side. */
+  --preview-w: min(400px, calc(100vw - 48px));
+  --preview-media-w: calc(var(--preview-w) - 16px);
+  position: relative;
+  width: 100%;
+  /* 16px under logos (main gap 28 − 12) */
+  margin-top: -12px;
+  /* Tallest open card (Vivant 880×674): pad + media + caption + pad */
+  height: calc(
+    8px + (var(--preview-media-w) * 674 / 880) + 8px +
+      (var(--type-small-size) * var(--type-small-leading)) + 8px
+  );
+  flex: none;
   pointer-events: none;
-  z-index: 4;
 }
 
 .previewCard {
   position: absolute;
-  width: min(400px, calc(100vw - 48px));
+  top: 0;
+  width: var(--preview-w);
   padding: 8px;
   background: var(--surface);
   border-radius: var(--radius); /* 16px */
   box-shadow: var(--shadow-float);
   text-align: left;
-  pointer-events: none;
+  /* Reserve is pointer-events:none; card catches hover so it stays open. */
+  pointer-events: auto;
 }
 
 .previewMedia {
@@ -190,7 +203,7 @@
   color: var(--grey-text);
 }
 
-/* Touch / narrow — in-flow preview under the logo row. */
+/* Touch / narrow — in-flow; no empty reserve. */
 .inlinePreview {
   display: none;
   width: 100%;
@@ -239,7 +252,6 @@
     min-height: 28px;
   }
 
-  /* ~18px optical on phone; keep one row at 375/390. */
   .logoImg {
     height: 16px;
   }
@@ -269,7 +281,8 @@
     padding: 6px;
   }
 
-  .previewLayer {
+  /* Mobile: no reserved empty card height — toggle grows in flow. */
+  .previewReserve {
     display: none;
   }
 
@@ -278,7 +291,6 @@
   }
 }
 
-/* Fine phones */
 @media (max-width: 400px) {
   .logoRow {
     gap: 12px;
@@ -293,9 +305,8 @@
   }
 }
 
-/* Coarse / no-hover: force inline preview even on wider screens. */
 @media (hover: none) {
-  .previewLayer {
+  .previewReserve {
     display: none;
   }
 

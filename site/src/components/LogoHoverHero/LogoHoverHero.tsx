@@ -151,10 +151,8 @@ export default function LogoHoverHero() {
   const reduceMotion = useReducedMotion() ?? false;
   const mode = usePreviewMode();
   const [activeId, setActiveId] = useState<HeroLogoId | null>(null);
-  const [cardPos, setCardPos] = useState<{ left: number; top: number } | null>(
-    null,
-  );
-  const rowRef = useRef<HTMLDivElement>(null);
+  const [cardLeft, setCardLeft] = useState<number | null>(null);
+  const reserveRef = useRef<HTMLDivElement>(null);
   const logoRefs = useRef<Map<HeroLogoId, HTMLButtonElement>>(new Map());
   const leaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -170,21 +168,24 @@ export default function LogoHoverHero() {
     }
   };
 
+  /** Horizontal only — vertical slot is reserved in CSS so open never shifts. */
   const placeCard = useCallback((id: HeroLogoId) => {
     const btn = logoRefs.current.get(id);
-    const row = rowRef.current;
-    if (!btn || !row) return;
-    const stage = row.closest(`.${styles.stage}`) as HTMLElement | null;
+    const reserve = reserveRef.current;
+    if (!btn || !reserve) return;
+    const stage = reserve.closest(`.${styles.stage}`) as HTMLElement | null;
     if (!stage) return;
     const stageBox = stage.getBoundingClientRect();
+    const reserveBox = reserve.getBoundingClientRect();
     const btnBox = btn.getBoundingClientRect();
-    const rowBox = row.getBoundingClientRect();
     const cardW = Math.min(CARD_MAX, stageBox.width - GUTTER * 2);
     // Align card centre to logo centre, then clamp into stage gutters.
-    let left = btnBox.left + btnBox.width / 2 - cardW / 2 - stageBox.left;
-    left = Math.max(GUTTER, Math.min(left, stageBox.width - GUTTER - cardW));
-    const top = rowBox.bottom - stageBox.top + 16;
-    setCardPos({ left, top });
+    let left = btnBox.left + btnBox.width / 2 - cardW / 2 - reserveBox.left;
+    const minLeft = GUTTER - (reserveBox.left - stageBox.left);
+    const maxLeft =
+      stageBox.width - GUTTER - cardW - (reserveBox.left - stageBox.left);
+    left = Math.max(minLeft, Math.min(left, maxLeft));
+    setCardLeft(left);
   }, []);
 
   const open = useCallback(
@@ -273,7 +274,6 @@ export default function LogoHoverHero() {
           <h1 className={styles.headline}>{HERO_HEADLINE}</h1>
 
           <div
-            ref={rowRef}
             className={styles.logoRow}
             role="group"
             aria-labelledby={labelId}
@@ -321,6 +321,57 @@ export default function LogoHoverHero() {
             })}
           </div>
 
+          {/*
+            Desktop: reserved open-card height so flex-centring splits spare
+            space evenly. Absolute preview sits inside — no layout shift.
+          */}
+          <div
+            ref={reserveRef}
+            className={styles.previewReserve}
+            onMouseEnter={clearLeaveTimer}
+            onMouseLeave={() => {
+              if (mode === 'hover') scheduleClose();
+            }}
+          >
+            <AnimatePresence>
+              {mode === 'hover' && activeLogo && cardLeft !== null ? (
+                <motion.div
+                  key="hover-preview"
+                  id="hero-logo-preview"
+                  className={styles.previewCard}
+                  role="region"
+                  aria-label={activeLogo.caption}
+                  initial={
+                    reduceMotion ? { opacity: 0 } : { opacity: 0, y: 8 }
+                  }
+                  animate={{
+                    opacity: 1,
+                    y: 0,
+                    left: cardLeft,
+                    transition: {
+                      duration: reduceMotion ? 0 : ENTER_MS,
+                      ease: EASE_OUT,
+                    },
+                  }}
+                  exit={{
+                    opacity: 0,
+                    y: reduceMotion ? 0 : 8,
+                    transition: {
+                      duration: reduceMotion ? 0 : EXIT_MS,
+                      ease: EASE_OUT,
+                    },
+                  }}
+                >
+                  <PreviewBody
+                    logo={activeLogo}
+                    reduceMotion={reduceMotion}
+                    active
+                  />
+                </motion.div>
+              ) : null}
+            </AnimatePresence>
+          </div>
+
           {/* Touch / narrow: in-flow preview — one shell; swap media in place. */}
           <div className={styles.inlinePreview}>
             <AnimatePresence initial={false}>
@@ -360,54 +411,6 @@ export default function LogoHoverHero() {
               ) : null}
             </AnimatePresence>
           </div>
-        </div>
-
-        {/* Desktop hover layer — one shell; move + swap without re-enter. */}
-        <div
-          className={styles.previewLayer}
-          onMouseEnter={clearLeaveTimer}
-          onMouseLeave={() => {
-            if (mode === 'hover') scheduleClose();
-          }}
-        >
-          <AnimatePresence>
-            {mode === 'hover' && activeLogo && cardPos ? (
-              <motion.div
-                key="hover-preview"
-                id="hero-logo-preview"
-                className={styles.previewCard}
-                role="region"
-                aria-label={activeLogo.caption}
-                initial={
-                  reduceMotion ? { opacity: 0 } : { opacity: 0, y: 8 }
-                }
-                animate={{
-                  opacity: 1,
-                  y: 0,
-                  left: cardPos.left,
-                  top: cardPos.top,
-                  transition: {
-                    duration: reduceMotion ? 0 : ENTER_MS,
-                    ease: EASE_OUT,
-                  },
-                }}
-                exit={{
-                  opacity: 0,
-                  y: reduceMotion ? 0 : 8,
-                  transition: {
-                    duration: reduceMotion ? 0 : EXIT_MS,
-                    ease: EASE_OUT,
-                  },
-                }}
-              >
-                <PreviewBody
-                  logo={activeLogo}
-                  reduceMotion={reduceMotion}
-                  active
-                />
-              </motion.div>
-            ) : null}
-          </AnimatePresence>
         </div>
       </div>
     </section>
