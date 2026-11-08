@@ -42,10 +42,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 16px;
+  border-radius: var(--radius-pill);
   border: 1px solid var(--btn-glass-border);
   background: var(--btn-glass-bg);
-  box-shadow: var(--btn-glass-shadow);
+  box-shadow: none;
   color: var(--text-glass);
   cursor: pointer;
   transition:

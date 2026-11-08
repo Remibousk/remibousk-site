@@ -36,11 +36,12 @@
 }
 
 .title {
-  font-family: var(--font-gt-walsheim-bold);
-  font-weight: 700;
-  font-size: 72px;
-  line-height: 1.2em;
-  color: var(--text-heading);
+  font-family: var(--type-display-family);
+  font-weight: var(--type-display-weight);
+  font-size: var(--type-display-size);
+  line-height: var(--type-display-leading);
+  letter-spacing: var(--type-display-tracking);
+  color: var(--ink);
 }
 
 .subheadRow {
@@ -52,11 +53,11 @@
 }
 
 .subhead {
-  font-family: var(--font-gt-walsheim-regular);
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 1.1em;
-  color: var(--text-secondary);
+  font-family: var(--font-sans);
+  font-weight: var(--type-body-weight);
+  font-size: var(--type-lead-size);
+  line-height: var(--type-lead-leading);
+  color: var(--ink);
 }
 
 /* Clickthrough hero + recordings: 24px between the two, not the section's 40px. */
@@ -81,10 +82,11 @@
   min-width: 0;
   margin: 0;
   aspect-ratio: 3 / 2;
-  border: 1px solid var(--surface);
-  border-radius: 12px;
+  border: 1px solid var(--dim);
+  border-radius: var(--radius-md);
   overflow: hidden;
-  background-color: var(--bg-1);
+  background-color: var(--surface);
+  box-shadow: var(--shadow-soft);
 }
 
 .heroFrame {
@@ -119,25 +121,26 @@
   flex: 1 0 0;
   width: 1px; /* flex-basis trick so the cards stay equal width */
   padding: 12px;
-  background-color: var(--bg-1);
-  border: 1px solid var(--surface);
-  border-radius: 16px;
+  background-color: var(--surface);
+  border: none;
+  border-radius: var(--radius);
+  box-shadow: none;
   text-decoration: none;
-  /* Inverted from the original `ha` hover: rest is --bg-1, hover fills
-     --surface. Same spring-like settle on background-color. */
+  /* Hover softens into --soft (tone step; no border/shadow). */
   transition: background-color 0.45s cubic-bezier(0.22, 1.2, 0.36, 1);
 }
 
 .card:hover,
 .card:focus-visible {
-  background-color: var(--surface);
+  background-color: var(--soft);
 }
 
 .mediaFrame {
   position: relative;
   width: 100%;
   aspect-ratio: 1.6 / 1;
-  border-radius: 8px;
+  /* Nested inside .card (16px) → inner nesting radius */
+  border-radius: var(--radius-inner);
   overflow: hidden;
   background-color: var(--bg-1);
   flex: none;
@@ -162,11 +165,11 @@
 
 .featuredLabel {
   margin: 0;
-  font-family: var(--font-gt-walsheim-bold);
-  font-weight: 700;
-  font-size: 28px;
-  line-height: 1.2em;
-  color: var(--text-eyebrow);
+  font-family: var(--font-sans);
+  font-weight: var(--type-heading-weight);
+  font-size: var(--type-h3-size);
+  line-height: var(--type-h3-leading);
+  color: var(--ink);
 }
 
 .featuredBanners {
@@ -186,30 +189,26 @@
 }
 
 .cardTitle {
-  font-family: var(--font-gt-walsheim-bold);
-  font-weight: 700;
-  font-size: 28px;
-  line-height: 1.2em;
-  color: var(--text-eyebrow);
+  font-family: var(--font-sans);
+  font-weight: var(--type-heading-weight);
+  font-size: var(--type-h3-size);
+  line-height: var(--type-h3-leading);
+  color: var(--ink);
 }
 
 .cardSubtitle {
-  font-family: var(--font-gt-walsheim-regular);
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 1.1em;
-  color: var(--text-secondary);
+  font-family: var(--font-sans);
+  font-weight: var(--type-body-weight);
+  font-size: var(--type-lead-size);
+  line-height: var(--type-lead-leading);
+  color: var(--ink);
 }
 
 /* ---------- Tablet (810px - 1199px): stack cards, keep subhead row ---------- */
 @media (max-width: 1199px) and (min-width: 810px) {
-  .title {
-    font-size: 58px;
-  }
-
   .subhead,
   .cardSubtitle {
-    font-size: 18px;
+    font-size: var(--type-body-size);
   }
 
   .grid {
@@ -223,10 +222,6 @@
 
 /* ---------- Mobile (<=809px) ---------- */
 @media (max-width: 809px) {
-  .title {
-    font-size: 58px;
-  }
-
   .subheadRow {
     flex-direction: column;
     align-items: flex-start;
@@ -235,7 +230,7 @@
 
   .subhead,
   .cardSubtitle {
-    font-size: 16px;
+    font-size: var(--type-body-size);
   }
 
   .videoRow {

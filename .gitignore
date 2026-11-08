@@ -7,3 +7,8 @@
 node_modules/
 .DS_Store
 .vercel
+
+# Self-hosted Framer font dumps — unused; Figtree/DM Mono via next/font/google.
+/site/public/fonts/
+
+/artifacts/

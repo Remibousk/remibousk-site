@@ -27,13 +27,13 @@ export default function SummDesignSystemPage() {
         tagsWrap
         left={
           <>
-            <MetaGroup label="Role:">Lead Designer</MetaGroup>
-            <MetaGroup label="When:">Ongoing</MetaGroup>
+            <MetaGroup label="Role">Lead Designer</MetaGroup>
+            <MetaGroup label="When">Ongoing</MetaGroup>
           </>
         }
         right={
           <>
-            <MetaGroup label="What:" wide>
+            <MetaGroup label="What" wide>
               Designing and building design systems and processes from scratch
             </MetaGroup>
             <MetaGroup label="Outcome" wide>

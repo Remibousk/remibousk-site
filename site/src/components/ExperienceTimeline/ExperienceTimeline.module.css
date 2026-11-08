@@ -15,9 +15,9 @@
 }
 
 .heading {
-  font-family: var(--font-gt-walsheim-bold);
-  font-weight: 700;
-  font-size: 28px;
+  font-family: var(--font-sans);
+  font-weight: var(--type-heading-weight);
+  font-size: var(--type-h3-size);
   line-height: 1.2;
   color: var(--text-primary);
   padding: 4px 0;
@@ -104,7 +104,7 @@
   display: block;
   height: auto;
   max-width: min(90vw, 100%);
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
 }
 
 .roleGroup {
@@ -130,11 +130,11 @@
 .role,
 .title,
 .dates {
-  font-family: var(--font-gt-walsheim-medium);
-  font-weight: 500;
+  font-family: var(--font-sans);
+  font-weight: 400;
   font-size: 19px;
   line-height: 1.2;
-  color: var(--text-muted);
+  color: var(--ink);
   margin: 0;
   transition: color 0.4s cubic-bezier(0.22, 1.1, 0.36, 1);
 }
@@ -150,6 +150,7 @@
 .dates {
   flex: none;
   white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
 
 .hiddenNote {

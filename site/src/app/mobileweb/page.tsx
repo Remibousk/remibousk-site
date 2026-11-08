@@ -27,13 +27,13 @@ export default function MobileWebPage() {
         ]}
         left={
           <>
-            <MetaGroup label="Role:">Lead Designer</MetaGroup>
-            <MetaGroup label="When:">Q1 2025</MetaGroup>
+            <MetaGroup label="Role">Lead Designer</MetaGroup>
+            <MetaGroup label="When">Q1 2025</MetaGroup>
           </>
         }
         right={
           <>
-            <MetaGroup label="What:" wide>
+            <MetaGroup label="What" wide>
               Optimising the end-to-end mobile journey for conversion.
             </MetaGroup>
             <MetaGroup label="Outcome" wide>

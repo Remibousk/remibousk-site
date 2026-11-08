@@ -36,11 +36,12 @@
   flex-direction: column;
   gap: 8px;
   width: 160px;
-  padding: 8px;
+  /* Match mobile dropdown: 16px padding clears the 16px radius */
+  padding: 16px;
   background-color: var(--nav-bg);
-  border: 1px solid var(--nav-border);
-  border-radius: 8px;
-  box-shadow: var(--nav-shadow);
+  border: none;
+  border-radius: var(--radius);
+  box-shadow: none;
 }
 
 .logoLink {
@@ -57,11 +58,9 @@
   color: var(--logo);
 }
 
+/* Dividers removed — tone / spacing only separates nav groups. */
 .divider {
-  flex: none;
-  width: 100%;
-  height: 1px;
-  background-color: var(--nav-divider);
+  display: none;
 }
 
 .links {
@@ -77,13 +76,14 @@
   width: 100%;
   padding: 4px;
   cursor: pointer;
-  font-family: var(--font-gt-walsheim-black-oblique);
-  font-style: italic;
-  font-weight: 800;
-  font-size: 15px;
-  line-height: 1.2em;
-  color: var(--text-low);
-  border-radius: 8px;
+  font-family: var(--font-sans);
+  font-style: normal;
+  font-weight: 400;
+  font-size: var(--type-small-size);
+  line-height: var(--type-small-leading);
+  letter-spacing: var(--type-small-tracking);
+  color: var(--grey-text);
+  border-radius: var(--radius-sm);
   overflow: hidden;
   transition: color 0.4s cubic-bezier(0.22, 1.1, 0.36, 1);
 }
@@ -91,7 +91,7 @@
 .navLink:hover,
 .navLink:focus-visible,
 .navLink[data-inview] {
-  color: var(--text-high);
+  color: var(--ink);
 }
 
 .navLabel {
@@ -103,7 +103,7 @@
   flex: none;
   width: 12px;
   height: 12px;
-  border-radius: 6px;
+  border-radius: var(--radius-pill);
   background-color: var(--nav-dot);
   transition: background-color 0.4s cubic-bezier(0.22, 1.1, 0.36, 1);
 }
@@ -122,16 +122,19 @@
 .smallLink {
   display: block;
   width: 100%;
-  font-family: var(--font-gt-walsheim-regular);
-  font-size: 13px;
-  letter-spacing: -0.01em;
-  line-height: 20px;
-  color: var(--text-muted);
+  font-family: var(--font-sans);
+  font-style: normal;
+  font-weight: 400;
+  font-size: var(--type-small-size);
+  letter-spacing: var(--type-small-tracking);
+  line-height: var(--type-small-leading);
+  /* --grey-text ≈ 5.2:1 on --surface — AA for secondary links. */
+  color: var(--grey-text);
 }
 
 .smallLink:hover,
 .smallLink:focus-visible {
-  color: var(--text-primary);
+  color: var(--ink);
 }
 
 .mobileBar {
@@ -173,10 +176,10 @@
     height: 40px;
     padding: 8px;
     background-color: var(--nav-bg);
-    border: 1px solid var(--nav-border);
-    border-radius: 8px;
-    box-shadow: var(--nav-shadow);
-    color: var(--text-secondary);
+    border: none;
+    border-radius: var(--radius);
+    box-shadow: none;
+    color: var(--ink);
   }
 
   .hamburgerIcon {
@@ -192,11 +195,12 @@
     flex-direction: column;
     gap: 8px;
     width: 160px;
-    padding: 8px;
+    /* Match the 16px card radius so logo/links clear the curve */
+    padding: 16px;
     background-color: var(--nav-bg);
-    border: 1px solid var(--nav-border);
-    border-radius: 8px;
-    box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.35);
+    border: none;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-float);
   }
 }
 

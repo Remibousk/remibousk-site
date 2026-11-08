@@ -55,16 +55,16 @@
   margin: 0;
   max-width: 624px;
   width: 100%;
-  font-family: var(--font-gt-walsheim-medium);
-  font-weight: 500;
-  font-size: 24px;
-  line-height: 1.2;
-  color: var(--text-secondary);
+  font-family: var(--font-sans);
+  font-weight: var(--type-heading-weight);
+  font-size: var(--type-h3-size);
+  line-height: var(--type-h3-leading);
+  color: var(--ink);
 }
 
 @media (max-width: 809px) {
   .blurb {
-    font-size: 15px;
+    font-size: var(--type-small-size);
   }
 }
 
@@ -82,15 +82,15 @@
   justify-content: center;
   gap: 10px;
   padding: 18px;
-  border-radius: 16px;
+  border-radius: var(--radius-pill);
   border: 1px solid var(--btn-glass-border);
   background: var(--btn-glass-bg);
-  box-shadow: var(--btn-glass-shadow);
-  font-family: var(--font-gt-walsheim-bold);
-  font-weight: 700;
-  font-size: 28px;
-  line-height: 1.2;
-  color: var(--text-glass);
+  box-shadow: none;
+  font-family: var(--font-sans);
+  font-weight: var(--type-heading-weight);
+  font-size: var(--type-h3-size);
+  line-height: var(--type-h3-leading);
+  color: var(--ink);
   transition:
     background 0.1s cubic-bezier(1, -0.13, 0.3, 1.35),
     box-shadow 0.1s cubic-bezier(1, -0.13, 0.3, 1.35),
@@ -112,16 +112,16 @@
 
 .smallLink,
 .copyButton {
-  font-family: var(--font-gt-walsheim-regular);
+  font-family: var(--font-sans);
   font-weight: 400;
   font-size: 13px;
   letter-spacing: -0.01em;
   line-height: 1em;
-  color: var(--text-muted); /* rgb(118, 114, 130) */
+  color: var(--grey-text);
 }
 
 /*
- * Both go to #f4f4f6 on hover with no transition: the Linkedin link inherits
+ * Both go to #f4f4f6 on hover with no transition: the LinkedIn link inherits
  * the `framer-styles-preset-1ks6grl` rule (--framer-link-hover-text-color:
  * #f4f4f6, plain CSS :hover), and the Clipboard component's `hoverOptions`
  * are `{color: rgb(244,244,246), transition: {type:'tween', duration: 0}}`.

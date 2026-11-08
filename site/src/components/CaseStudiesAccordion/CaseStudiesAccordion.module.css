@@ -20,11 +20,11 @@
   align-items: center;
   gap: 8px;
   padding: 0;
-  font-family: var(--font-gt-walsheim-bold);
-  font-weight: 700;
-  font-size: 28px;
-  line-height: 1.2em;
-  color: var(--text-eyebrow);
+  font-family: var(--font-sans);
+  font-weight: var(--type-heading-weight);
+  font-size: var(--type-h3-size);
+  line-height: var(--type-h3-leading);
+  color: var(--ink);
   text-align: left;
   transition: color 0.45s cubic-bezier(0.22, 1.2, 0.36, 1);
 }
@@ -35,9 +35,10 @@
 }
 
 .trigger:focus-visible {
-  outline: 1px solid var(--border-focus);
+  /* Text trigger — ring follows the inline control, not the card radius */
+  outline: var(--focus-ring);
   outline-offset: 4px;
-  border-radius: 4px;
+  border-radius: var(--radius-pill);
 }
 
 .chevron {

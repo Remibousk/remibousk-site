@@ -80,7 +80,7 @@ const PHOTOS = [
  *   border-radius 8px, height 348px (desktop), flex column, gap 16px.
  * - Label "Camera roll": p, color var(--text-muted), Inter Regular 16px
  *   (confirmed via live computed styles — a different family/size than the
- *   GT Walsheim 13px "Linkedin" / "copy email" row in ContactSection).
+ *   GT Walsheim 13px "LinkedIn" / "copy email" row in ContactSection).
  */
 export default function CameraRoll() {
   return (
@@ -92,7 +92,7 @@ export default function CameraRoll() {
           frameClassName={styles.frame}
           ariaLabel="Camera roll photos"
           gap={10}
-          borderRadius={8}
+          borderRadius="var(--radius-inner)"
           autoPlaySeconds={5}
           dots
           dotsClassName={styles.dots}

@@ -27,7 +27,7 @@
   margin: 0 auto;
   padding: 40px 60px 60px;
   border: 1px solid var(--surface);
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   overflow: hidden;
 }
 
@@ -82,7 +82,7 @@
   width: 40px;
   height: 40px;
   padding: 8px;
-  border-radius: 8px;
+  border-radius: var(--radius-pill);
   border-style: solid;
   border-width: 1px;
   cursor: pointer;
@@ -128,7 +128,7 @@
   height: 24px;
   padding: 4px;
   border: none;
-  border-radius: 30px;
+  border-radius: var(--radius-pill);
   background-color: rgb(53, 60, 105); /* "Off" / night */
   cursor: pointer;
   overflow: hidden;
@@ -148,7 +148,7 @@
   width: 16px;
   height: 16px;
   flex: none;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   background-color: #fff;
   border: 0.5px solid #ededed;
   box-shadow:
