@@ -1,0 +1,50 @@
+/*
+ * Intro hero — headline centred in the full viewport window.
+ * Stage is full-bleed (no radius / no content-max inset); shell side-fr
+ * gutters let the band reach both edges on wide screens.
+ */
+
+.section {
+  width: 100%;
+}
+
+.stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 100svh;
+  min-height: 100dvh;
+  padding: clamp(24px, 6vh, 64px) clamp(20px, 4vw, 48px);
+  box-sizing: border-box;
+  /* Edge-to-edge on wide viewports — radius would read as an inset panel. */
+  border-radius: 0;
+  overflow: clip;
+  background-color: var(--bg);
+  background-image: radial-gradient(
+    circle at center,
+    var(--dot-grid-color) 1px,
+    transparent 1px
+  );
+  background-size: var(--dot-grid-size) var(--dot-grid-size);
+}
+
+.headline {
+  margin: 0;
+  max-width: 16ch;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  /* Large but wraps comfortably; scales down on short / narrow viewports. */
+  font-size: clamp(32px, 6.2vw, 64px);
+  line-height: 1.1;
+  letter-spacing: var(--type-h1-tracking);
+  color: var(--ink);
+  text-wrap: balance;
+  text-align: center;
+}
+
+@media (max-height: 560px) {
+  .headline {
+    font-size: clamp(28px, 7vh, 48px);
+  }
+}

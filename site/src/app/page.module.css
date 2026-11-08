@@ -1,34 +1,46 @@
 /*
  * Homepage layout — measured from reference/mirror/home.html:
  *
- * .framer-1lxwdiy ("Content"): flex row, justify-content center,
- *   align-items flex-start, width 100%; column direction at <=809px.
- * .framer-4cct6m-container (nav): sticky flex item (see SidebarNav).
- * .framer-1uexi1g ("Section"): flex 1 0 0 (width 1px trick), max-width
- *   1200px, column, gap 200px, padding 4px; at <=809px flex none,
- *   width 100%, gap 120px, padding 16px.
+ * Sticky nav is a grid item inside `.aboveFooter` / `.shell`. Contact is a
+ * sibling *below* that shell, so the sidebar leaves with its container before
+ * the footer (historic sticky containment — not viewport-fixed forever).
  *
- * Resulting content offsets (verified against hero-*.png):
- *   1440: nav at x=48, main column starts at x=192
- *    834: nav at x=0,  main column starts at x=144
+ * Desktop shell columns: [1fr | 164px nav | content-max | 1fr]. Hero spans
+ * all four tracks (full-bleed). Nav is track 2; main is track 3. Side `1fr`
+ * gutters replace the old two-column `justify-content:center` grid that
+ * clipped the hero to 164+1200.
  *
- * The original keeps a trailing zero-height element after the last
- * section, so the last-section -> footer distance is gap (200/120) +
- * section padding (4/16); replicated via the column's padding-bottom.
+ * Below 810px the shell becomes a column flex: hamburger overlays the hero,
+ * main is full width beneath.
  */
 
-.content {
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: flex-start;
+.aboveFooter {
+  width: 100%;
+  /* Contain any rare child overflow without creating a page-level scrollbar. */
+  overflow-x: clip;
+}
+
+.shell {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr)
+    164px
+    minmax(0, var(--content-max))
+    minmax(0, 1fr);
+  align-items: start;
   width: 100%;
 }
 
+.heroBand {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  width: 100%;
+  min-width: 0;
+}
+
 .column {
-  flex: 1 0 0;
-  width: 1px;
+  grid-column: 3;
+  grid-row: 2;
   min-width: 0;
   max-width: var(--content-max);
   display: flex;
@@ -41,14 +53,19 @@
 }
 
 @media (max-width: 809px) {
-  .content {
+  .shell {
+    display: flex;
     flex-direction: column;
     align-items: stretch;
   }
 
-  .column {
-    flex: none;
+  .heroBand {
     width: 100%;
+  }
+
+  .column {
+    width: 100%;
+    max-width: none;
     gap: 120px;
     padding: 16px var(--page-margin) 136px;
   }

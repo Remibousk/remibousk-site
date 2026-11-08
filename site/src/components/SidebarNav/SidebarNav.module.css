@@ -21,15 +21,66 @@
  */
 
 .nav {
+  /*
+   * Sticky inside `.aboveFooter` / `.shell` (see page.module.css). Spans all
+   * shell rows so containment = full pre-contact height; leaves before footer.
+   * Desktop shell columns: [fr | 164 nav | content-max | fr] — nav is track 2.
+   */
   position: sticky;
   top: 0;
   z-index: 100;
-  flex: none;
+  grid-column: 2;
+  grid-row: 1 / -1;
+  align-self: start;
   width: 164px;
   padding: 4px 0 0 2px;
+  pointer-events: none;
+}
+
+.nav > * {
+  pointer-events: auto;
 }
 
 /* ---------- Desktop / tablet (>809px) ---------- */
+
+/* Visually hidden until focused/activated — reveals the desktop card. */
+.revealControl {
+  position: absolute;
+  top: 4px;
+  left: 2px;
+  z-index: 101;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+  background: var(--nav-bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--type-small-size);
+  line-height: var(--type-small-leading);
+  /* Keyboard-only until focused — don’t steal clicks over the hero. */
+  pointer-events: none;
+}
+
+.revealControl:focus,
+.revealControl:focus-visible {
+  clip: auto;
+  clip-path: none;
+  width: auto;
+  height: auto;
+  padding: 10px 12px;
+  overflow: visible;
+  white-space: normal;
+  border-radius: var(--radius);
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+  pointer-events: auto;
+}
 
 .card {
   display: flex;
@@ -42,6 +93,17 @@
   border: none;
   border-radius: var(--radius);
   box-shadow: none;
+}
+
+/* Homepage desktop: scroll-linked fade (driven by --nav-fade 0–1). */
+.card[data-fading='true'] {
+  opacity: var(--nav-fade, 0);
+  transition: none;
+  pointer-events: auto;
+}
+
+.card[data-fading='true'][data-hidden='true'] {
+  pointer-events: none;
 }
 
 .logoLink {
@@ -144,15 +206,22 @@
 /* ---------- Mobile (<=809px): collapse to a top bar ---------- */
 
 @media (max-width: 809px) {
-  /* Original mobile variant: the sticky container is order 0 in the page
-     column with top:2px, the hamburger sits ~6px from the top / ~11px from
-     the left (measured from hero-mobile.png), and stays sticky while the
-     page scrolls. The expanded menu overlays content (absolute) rather than
-     pushing it down. */
+  /* Mobile: sticky hamburger overlays the hero without consuming layout
+     height (margin-bottom pull-up), still contained by `.aboveFooter`. */
   .nav {
-    width: 100%;
+    width: auto;
     top: 2px;
     padding: 6px 0 0 11px;
+    grid-column: auto;
+    grid-row: auto;
+    align-self: flex-start;
+    /* Collapse in-flow height so the hero stays full-viewport centred. */
+    margin-bottom: -52px;
+  }
+
+  /* Desktop-only reveal + fade — mobile keeps the hamburger always usable. */
+  .revealControl {
+    display: none;
   }
 
   .card {

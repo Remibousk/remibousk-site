@@ -28,7 +28,16 @@ export default function IbmSection() {
   return (
     <section className={styles.section} aria-label="IBM — Senior product designer">
       <div className={styles.header}>
-        <h2 className={styles.title}>IBM</h2>
+        <h2 className={styles.title}>
+          <Image
+            className={styles.titleLogo}
+            src="/logos/ibm-logo.svg"
+            alt="IBM"
+            width={1075}
+            height={401}
+            priority
+          />
+        </h2>
         <p className={styles.role}>Senior product designer</p>
       </div>
 

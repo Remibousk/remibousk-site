@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import type { ReactElement } from 'react';
 import CaseStudiesAccordion from '@/components/CaseStudiesAccordion/CaseStudiesAccordion';
@@ -91,7 +92,14 @@ export default function CaseCards() {
     <section className={styles.section} aria-labelledby="summ-heading">
       <div className={styles.heading}>
         <h1 id="summ-heading" className={styles.title}>
-          SUMM
+          <Image
+            className={styles.titleLogo}
+            src="/logos/summ-logo.svg"
+            alt="SUMM"
+            width={729}
+            height={133}
+            priority
+          />
         </h1>
         <div className={styles.subheadRow}>
           <h5 className={styles.subhead}>Formerly Crypto Tax Calculator</h5>

@@ -70,7 +70,19 @@ export default function SiteMinderTile() {
   return (
     <section className={styles.section} aria-label="SiteMinder — Senior product designer">
       <div className={styles.header}>
-        <h2 className={styles.title}>SiteMinder</h2>
+        <h2 className={styles.title}>
+          <span className={styles.titleLogo}>
+            <Image
+              className={styles.titleMark}
+              src="/logos/siteminder-mark.svg"
+              alt=""
+              width={194}
+              height={262}
+              aria-hidden="true"
+            />
+            <span className={styles.titleWord}>SiteMinder</span>
+          </span>
+        </h2>
         <p className={styles.role}>Senior product designer</p>
       </div>
 

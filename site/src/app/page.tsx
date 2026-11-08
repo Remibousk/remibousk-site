@@ -1,4 +1,4 @@
-import Hero from '@/components/Hero/Hero';
+import LogoHoverHero from '@/components/LogoHoverHero/LogoHoverHero';
 import LogoRow from '@/components/LogoRow/LogoRow';
 import CaseCards from '@/components/CaseCards/CaseCards';
 import SiteMinderTile from '@/components/SiteMinderTile/SiteMinderTile';
@@ -10,33 +10,33 @@ import SidebarNav from '@/components/SidebarNav/SidebarNav';
 import styles from './page.module.css';
 
 /**
- * Homepage — mirrors the original's structure exactly
- * (reference/mirror/home.html):
- *
- *   .framer-1lxwdiy "Content"  -> .content  (row, centered, items at top)
- *     .framer-4cct6m-container -> SidebarNav (sticky flex item, ~164px)
- *     .framer-1uexi1g "Section"-> <main .column> (flex 1, max-width 1200px,
- *                                  gap 200px / 120px mobile, padding 4/16px)
- *   .framer-1ug5js3 (footer)   -> ContactSection (full-bleed, outside the row)
- *
- * Section order: work, cases, side projects, experience. LogoRow carries
- * id="work", SideProjects carries id="side-projects", ExperienceTimeline
- * carries id="experience".
+ * Homepage. Intro headline is a full-viewport band (PR 2); sticky nav lives
+ * inside `.aboveFooter` so it leaves before Contact (footer containment).
+ * LogoRow carries id="work", SideProjects id="side-projects",
+ * ExperienceTimeline id="experience".
  */
 export default function HomePage() {
   return (
     <>
-      <div className={styles.content}>
-        <SidebarNav />
-        <main className={styles.column}>
-          <Hero />
-          <LogoRow />
-          <CaseCards />
-          <SiteMinderTile />
-          <IbmSection />
-          <SideProjects />
-          <ExperienceTimeline />
-        </main>
+      {/*
+        Sticky nav is contained by this shell — Contact is a sibling below,
+        so the sidebar exits before the footer at any viewport / contact height.
+      */}
+      <div className={styles.aboveFooter}>
+        <div className={styles.shell}>
+          <SidebarNav />
+          <div className={styles.heroBand}>
+            <LogoHoverHero />
+          </div>
+          <main className={styles.column}>
+            <LogoRow />
+            <CaseCards />
+            <SiteMinderTile />
+            <IbmSection />
+            <SideProjects />
+            <ExperienceTimeline />
+          </main>
+        </div>
       </div>
       <ContactSection />
     </>
