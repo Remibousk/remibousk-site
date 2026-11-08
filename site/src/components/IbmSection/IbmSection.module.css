@@ -31,12 +31,15 @@
 
 .title {
   margin: 0;
-  font-family: var(--type-display-family);
-  font-size: var(--type-display-size);
-  font-weight: var(--type-display-weight);
-  line-height: var(--type-display-leading);
-  letter-spacing: var(--type-display-tracking);
+  display: flex;
+  align-items: center;
   color: var(--ink);
+}
+
+.titleLogo {
+  display: block;
+  width: auto;
+  height: clamp(40px, 6vw, 72px);
 }
 
 .role {

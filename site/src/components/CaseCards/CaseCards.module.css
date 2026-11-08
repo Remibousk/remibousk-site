@@ -36,12 +36,16 @@
 }
 
 .title {
-  font-family: var(--type-display-family);
-  font-weight: var(--type-display-weight);
-  font-size: var(--type-display-size);
-  line-height: var(--type-display-leading);
-  letter-spacing: var(--type-display-tracking);
+  margin: 0;
+  display: flex;
+  align-items: center;
   color: var(--ink);
+}
+
+.titleLogo {
+  display: block;
+  width: auto;
+  height: clamp(36px, 5.5vw, 64px);
 }
 
 .subheadRow {

@@ -21,15 +21,62 @@
  */
 
 .nav {
-  position: sticky;
+  /* Overlay the full-viewport hero; spacer in page.module.css keeps column offset. */
+  position: fixed;
   top: 0;
+  /* Match historic left inset of the centered [nav + column] row. */
+  left: max(0px, calc((100vw - (164px + var(--content-max))) / 2));
   z-index: 100;
   flex: none;
   width: 164px;
   padding: 4px 0 0 2px;
+  pointer-events: none;
+}
+
+.nav > * {
+  pointer-events: auto;
 }
 
 /* ---------- Desktop / tablet (>809px) ---------- */
+
+/* Visually hidden until focused/activated — reveals the desktop card. */
+.revealControl {
+  position: absolute;
+  top: 4px;
+  left: 2px;
+  z-index: 101;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+  background: var(--nav-bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--type-small-size);
+  line-height: var(--type-small-leading);
+  /* Keyboard-only until focused — don’t steal clicks over the hero. */
+  pointer-events: none;
+}
+
+.revealControl:focus,
+.revealControl:focus-visible {
+  clip: auto;
+  clip-path: none;
+  width: auto;
+  height: auto;
+  padding: 10px 12px;
+  overflow: visible;
+  white-space: normal;
+  border-radius: var(--radius);
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+  pointer-events: auto;
+}
 
 .card {
   display: flex;
@@ -42,6 +89,17 @@
   border: none;
   border-radius: var(--radius);
   box-shadow: none;
+}
+
+/* Homepage desktop: scroll-linked fade (driven by --nav-fade 0–1). */
+.card[data-fading='true'] {
+  opacity: var(--nav-fade, 0);
+  transition: none;
+  pointer-events: auto;
+}
+
+.card[data-fading='true'][data-hidden='true'] {
+  pointer-events: none;
 }
 
 .logoLink {
@@ -150,9 +208,15 @@
      page scrolls. The expanded menu overlays content (absolute) rather than
      pushing it down. */
   .nav {
-    width: 100%;
+    width: auto;
+    left: 0;
     top: 2px;
     padding: 6px 0 0 11px;
+  }
+
+  /* Desktop-only reveal + fade — mobile keeps the hamburger always usable. */
+  .revealControl {
+    display: none;
   }
 
   .card {

@@ -46,12 +46,27 @@
 
 .title {
   margin: 0;
-  font-family: var(--type-display-family);
-  font-size: var(--type-display-size);
-  font-weight: var(--type-display-weight);
-  line-height: var(--type-display-leading);
-  letter-spacing: var(--type-display-tracking);
   color: var(--ink);
+}
+
+.titleLogo {
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(10px, 1.2vw, 16px);
+}
+
+.titleMark {
+  display: block;
+  width: auto;
+  height: clamp(36px, 5.2vw, 56px);
+}
+
+.titleWord {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: clamp(36px, 5.5vw, 64px);
+  line-height: 1.1;
+  letter-spacing: var(--type-display-tracking);
 }
 
 .role {

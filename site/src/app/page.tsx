@@ -10,18 +10,20 @@ import SidebarNav from '@/components/SidebarNav/SidebarNav';
 import styles from './page.module.css';
 
 /**
- * Homepage. First screen is the logo-hover hero (PR 2). Remaining sections
- * keep the prior structure: work, cases, side projects, experience.
- * LogoRow carries id="work", SideProjects id="side-projects",
+ * Homepage. Intro headline is a full-viewport band (PR 2); nav overlays it.
+ * Remaining sections keep the prior structure: work, cases, side projects,
+ * experience. LogoRow carries id="work", SideProjects id="side-projects",
  * ExperienceTimeline id="experience".
  */
 export default function HomePage() {
   return (
     <>
+      <SidebarNav />
+      <LogoHoverHero />
       <div className={styles.content}>
-        <SidebarNav />
+        {/* Matches the fixed nav rail width so work sections keep their offset. */}
+        <div className={styles.navRail} aria-hidden="true" />
         <main className={styles.column}>
-          <LogoHoverHero />
           <LogoRow />
           <CaseCards />
           <SiteMinderTile />

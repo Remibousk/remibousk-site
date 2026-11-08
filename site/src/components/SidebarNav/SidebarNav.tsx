@@ -1,6 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import {
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  type CSSProperties,
+  type FocusEvent,
+} from 'react';
 import { usePathname } from 'next/navigation';
 import styles from './SidebarNav.module.css';
 
@@ -83,6 +90,9 @@ function useAnchorHref(isHome: boolean) {
 
 const SECTION_IDS = ['work', 'side-projects', 'experience'] as const;
 type SectionId = (typeof SECTION_IDS)[number];
+
+/** Scroll distance (px) over which the desktop card fades 0 → 1. */
+const FADE_RANGE = 130;
 
 /**
  * Homepage section anchors. Each link maps to an id; the active item is
@@ -171,20 +181,38 @@ function SmallLinks({ onNavigate }: { onNavigate?: () => void }) {
   );
 }
 
+function usePrefersReducedMotion(): boolean {
+  const [reduced, setReduced] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const sync = () => setReduced(mq.matches);
+    sync();
+    mq.addEventListener('change', sync);
+    return () => mq.removeEventListener('change', sync);
+  }, []);
+  return reduced;
+}
+
 /**
  * Primary site navigation. Desktop/tablet (>809px): a floating card in the
  * top-left corner with the "remi." wordmark, Work / Side Projects /
  * Experience anchors, then smaller LinkedIn/Email/Resume links.
  *
- * Mobile (<=809px): collapses to a small top-left icon button that expands a
- * dropdown panel with the same content (see BUILD_SPEC.md breakpoints) —
- * matching the original, whose Nav switches to Variant 3 below 810px.
+ * On the homepage at desktop, the card starts hidden and gently fades in
+ * over the first ~130px of scroll (and out again when returning to top).
+ * A focusable “Site navigation” control reveals it for keyboard users.
+ * Mobile (<=809px) keeps the always-available hamburger — not scroll-hidden.
  */
 export default function SidebarNav() {
   const pathname = usePathname();
   const isHome = pathname === '/';
+  const reduceMotion = usePrefersReducedMotion();
+  const revealId = useId();
+  const cardRef = useRef<HTMLDivElement>(null);
   const [activeId, setActiveId] = useState<SectionId | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [forceShow, setForceShow] = useState(false);
 
   useEffect(() => {
     if (!isHome) {
@@ -203,6 +231,11 @@ export default function SidebarNav() {
         if (section.getBoundingClientRect().top <= line) next = id;
       }
       setActiveId((prev) => (prev === next ? prev : next));
+
+      const progress = Math.min(1, Math.max(0, window.scrollY / FADE_RANGE));
+      setScrollProgress((prev) =>
+        Math.abs(prev - progress) < 0.001 ? prev : progress,
+      );
     };
 
     const onScroll = () => {
@@ -220,12 +253,76 @@ export default function SidebarNav() {
     };
   }, [isHome]);
 
+  // Non-home routes always show the desktop card (case studies still need nav).
+  const fadeProgress = isHome ? scrollProgress : 1;
+  const visualProgress = forceShow
+    ? 1
+    : reduceMotion
+      ? fadeProgress >= 0.5
+        ? 1
+        : 0
+      : fadeProgress;
+  const desktopHidden = isHome && !forceShow && visualProgress < 0.02;
+
+  useEffect(() => {
+    const el = cardRef.current;
+    if (!el) return;
+    if (desktopHidden) el.setAttribute('inert', '');
+    else el.removeAttribute('inert');
+  }, [desktopHidden]);
+
   const closeMobile = () => setMobileOpen(false);
+
+  const onCardBlur = (event: FocusEvent<HTMLDivElement>) => {
+    const next = event.relatedTarget as Node | null;
+    if (next && event.currentTarget.contains(next)) return;
+    // Drop forced show once focus leaves; scroll position decides visibility.
+    setForceShow(false);
+  };
 
   return (
     <nav className={styles.nav} aria-label="Primary">
+      {/*
+        Keyboard affordance: always in tab order on desktop homepage.
+        Focusing or activating it reveals the card even at scrollY ≈ 0.
+      */}
+      {isHome ? (
+        <button
+          type="button"
+          id={revealId}
+          className={styles.revealControl}
+          onFocus={() => setForceShow(true)}
+          onClick={() => {
+            setForceShow(true);
+            // Move focus into the card so Tab continues through links.
+            requestAnimationFrame(() => {
+              cardRef.current
+                ?.querySelector<HTMLElement>('a, button')
+                ?.focus();
+            });
+          }}
+        >
+          Site navigation
+        </button>
+      ) : null}
+
       {/* Desktop / tablet: >809px */}
-      <div className={styles.card}>
+      <div
+        ref={cardRef}
+        className={styles.card}
+        data-fading={isHome ? 'true' : undefined}
+        data-hidden={desktopHidden ? 'true' : undefined}
+        style={
+          isHome
+            ? ({
+                '--nav-fade': String(visualProgress),
+              } as CSSProperties)
+            : undefined
+        }
+        onFocusCapture={() => setForceShow(true)}
+        onBlur={onCardBlur}
+        aria-hidden={desktopHidden ? true : undefined}
+      >
         <a href="/" className={styles.logoLink} aria-label="remi. — home">
           <RemiLogo />
         </a>
@@ -237,7 +334,7 @@ export default function SidebarNav() {
         <SmallLinks />
       </div>
 
-      {/* Mobile: <=809px, collapses to a top bar with an expandable menu */}
+      {/* Mobile: <=809px — always available hamburger; not scroll-hidden. */}
       <div className={styles.mobileBar}>
         <button
           type="button"

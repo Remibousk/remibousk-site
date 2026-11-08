@@ -1,5 +1,6 @@
 /*
- * Logo-hover hero — static headline + logo row with hover/focus preview.
+ * Intro hero — headline centred in the full viewport window.
+ * Sits outside the sidebar rail so centering is not skewed.
  */
 
 .section {
@@ -7,17 +8,14 @@
 }
 
 .stage {
-  position: relative;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  /* Flex-centre the hero group (headline + logos + reserved card slot). */
   justify-content: center;
   width: 100%;
-  /* Fill the fold under the column’s 4px top pad so viewport spares match. */
-  min-height: calc(100svh - 4px);
-  /* ≥32px spare at top and bottom of the fold */
-  padding: 32px 24px;
+  min-height: 100svh;
+  min-height: 100dvh;
+  padding: clamp(24px, 6vh, 64px) clamp(20px, 4vw, 48px);
+  box-sizing: border-box;
   border-radius: var(--radius);
   overflow: clip;
   background-color: var(--bg);
@@ -29,23 +27,13 @@
   background-size: var(--dot-grid-size) var(--dot-grid-size);
 }
 
-.main {
-  position: relative;
-  z-index: 3;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 28px;
-  width: min(860px, 100%);
-  text-align: center;
-}
-
 .headline {
   margin: 0;
-  max-width: 18ch;
+  max-width: 16ch;
   font-family: var(--font-sans);
   font-weight: 600;
-  font-size: clamp(36px, 5.2vw, 56px);
+  /* Large but wraps comfortably; scales down on short / narrow viewports. */
+  font-size: clamp(32px, 6.2vw, 64px);
   line-height: 1.1;
   letter-spacing: var(--type-h1-tracking);
   color: var(--ink);
@@ -53,264 +41,8 @@
   text-align: center;
 }
 
-.logoRow {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  align-items: center;
-  justify-content: center;
-  gap: 40px;
-  min-height: 32px;
-  width: 100%;
-}
-
-.logoButton {
-  appearance: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin: 0;
-  padding: 8px;
-  border: none;
-  border-radius: var(--radius-inner);
-  background: transparent;
-  color: var(--ink);
-  cursor: pointer;
-  flex: none;
-  opacity: 1;
-  transform: translateY(0);
-  transition:
-    opacity 160ms ease,
-    transform 150ms ease;
-}
-
-.logoButton[data-dimmed='true'] {
-  opacity: 0.4;
-}
-
-.logoButton:hover,
-.logoButton:focus-visible,
-.logoButton[data-active='true'] {
-  transform: translateY(-2px);
-}
-
-.logoButton:focus {
-  outline: none;
-}
-
-.logoButton:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
-}
-
-/* Optical sizes — ~22–24px desktop; SUMM reads heavy so slightly smaller. */
-.logoImg {
-  display: block;
-  height: 22px;
-  width: auto;
-  object-fit: contain;
-}
-
-.logoButton[data-logo='ibm'] .logoImg {
-  height: 24px;
-}
-
-.logoButton[data-logo='siteminder'] .logoImg {
-  height: 24px;
-}
-
-.logoButton[data-logo='summ'] .logoImg {
-  height: 18px;
-}
-
-.logoWord {
-  font-family: var(--font-sans);
-  font-weight: 600;
-  font-size: 20px;
-  line-height: 1.2;
-  letter-spacing: 0;
-  color: var(--ink);
-}
-
-.logoWordmark {
-  font-family: var(--font-sans);
-  font-weight: 600;
-  font-size: 22px;
-  line-height: 1.1;
-  letter-spacing: -0.01em;
-  color: var(--ink);
-}
-
-/*
- * Reserves the tallest open-card height (Vivant 880×674 at ≤400px wide)
- * so flex-centring the group splits spare space evenly above and below.
- * Absolute preview sits inside — opening it does not shift headline/logos.
- */
-.previewReserve {
-  /* Card outer width; media is inset by 8px pad on each side. */
-  --preview-w: min(400px, calc(100vw - 48px));
-  --preview-media-w: calc(var(--preview-w) - 16px);
-  position: relative;
-  width: 100%;
-  /* 16px under logos (main gap 28 − 12) */
-  margin-top: -12px;
-  /* Tallest open card (Vivant 880×674): pad + media + caption + pad */
-  height: calc(
-    8px + (var(--preview-media-w) * 674 / 880) + 8px +
-      (var(--type-small-size) * var(--type-small-leading)) + 8px
-  );
-  flex: none;
-  pointer-events: none;
-}
-
-.previewCard {
-  position: absolute;
-  top: 0;
-  width: var(--preview-w);
-  padding: 8px;
-  background: var(--surface);
-  border-radius: var(--radius); /* 16px */
-  box-shadow: var(--shadow-float);
-  text-align: left;
-  /* Reserve is pointer-events:none; card catches hover so it stays open. */
-  pointer-events: auto;
-}
-
-.previewMedia {
-  display: block;
-  width: 100%;
-  border-radius: var(--radius-inner);
-  overflow: hidden;
-  background: var(--soft);
-}
-
-.previewVideo,
-.previewPoster {
-  display: block;
-  width: 100%;
-  height: auto;
-  border-radius: var(--radius-inner);
-}
-
-.previewCaption {
-  margin: 0;
-  padding: 8px 4px 0;
-  font-family: var(--font-sans);
-  font-weight: 400;
-  font-size: var(--type-small-size);
-  line-height: var(--type-small-leading);
-  letter-spacing: 0;
-  color: var(--grey-text);
-}
-
-/* Touch / narrow — in-flow; no empty reserve. */
-.inlinePreview {
-  display: none;
-  width: 100%;
-}
-
-.inlineCard {
-  width: 100%;
-  padding: 8px;
-  background: var(--surface);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-float);
-  text-align: left;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .logoButton {
-    transition: opacity 160ms ease;
-  }
-
-  .logoButton:hover,
-  .logoButton:focus-visible,
-  .logoButton[data-active='true'] {
-    transform: none;
-  }
-}
-
-@media (max-width: 600px) {
-  .stage {
-    justify-content: flex-start;
-    min-height: 100svh;
-    padding: 72px 20px 64px;
-  }
-
-  .main {
-    gap: 22px;
-    width: 100%;
-  }
-
+@media (max-height: 560px) {
   .headline {
-    max-width: 14ch;
-    font-size: clamp(32px, 9vw, 40px);
-  }
-
-  .logoRow {
-    gap: 18px;
-    min-height: 28px;
-  }
-
-  .logoImg {
-    height: 16px;
-  }
-
-  .logoButton[data-logo='ibm'] .logoImg {
-    height: 18px;
-  }
-
-  .logoButton[data-logo='siteminder'] .logoImg {
-    height: 18px;
-  }
-
-  .logoButton[data-logo='summ'] .logoImg {
-    height: 13px;
-  }
-
-  .logoWord {
-    font-size: 15px;
-  }
-
-  .logoWordmark {
-    font-size: 17px;
-  }
-
-  .logoButton {
-    gap: 5px;
-    padding: 6px;
-  }
-
-  /* Mobile: no reserved empty card height — toggle grows in flow. */
-  .previewReserve {
-    display: none;
-  }
-
-  .inlinePreview {
-    display: block;
-  }
-}
-
-@media (max-width: 400px) {
-  .logoRow {
-    gap: 12px;
-  }
-
-  .logoWordmark {
-    font-size: 16px;
-  }
-
-  .logoWord {
-    font-size: 14px;
-  }
-}
-
-@media (hover: none) {
-  .previewReserve {
-    display: none;
-  }
-
-  .inlinePreview {
-    display: block;
+    font-size: clamp(28px, 7vh, 48px);
   }
 }
