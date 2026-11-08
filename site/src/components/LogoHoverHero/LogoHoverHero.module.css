@@ -1,6 +1,7 @@
 /*
  * Intro hero — headline centred in the full viewport window.
- * Sits outside the sidebar rail so centering is not skewed.
+ * Stage is full-bleed (no radius / no content-max inset); shell side-fr
+ * gutters let the band reach both edges on wide screens.
  */
 
 .section {
@@ -16,7 +17,8 @@
   min-height: 100dvh;
   padding: clamp(24px, 6vh, 64px) clamp(20px, 4vw, 48px);
   box-sizing: border-box;
-  border-radius: var(--radius);
+  /* Edge-to-edge on wide viewports — radius would read as an inset panel. */
+  border-radius: 0;
   overflow: clip;
   background-color: var(--bg);
   background-image: radial-gradient(

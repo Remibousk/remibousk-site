@@ -24,11 +24,12 @@
   /*
    * Sticky inside `.aboveFooter` / `.shell` (see page.module.css). Spans all
    * shell rows so containment = full pre-contact height; leaves before footer.
+   * Desktop shell columns: [fr | 164 nav | content-max | fr] — nav is track 2.
    */
   position: sticky;
   top: 0;
   z-index: 100;
-  grid-column: 1;
+  grid-column: 2;
   grid-row: 1 / -1;
   align-self: start;
   width: 164px;
