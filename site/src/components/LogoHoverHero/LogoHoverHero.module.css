@@ -31,7 +31,7 @@
   margin: 0;
   max-width: 16ch;
   font-family: var(--font-sans);
-  font-weight: 600;
+  font-weight: 700;
   /* Large but wraps comfortably; scales down on short / narrow viewports. */
   font-size: clamp(32px, 6.2vw, 64px);
   line-height: 1.1;
