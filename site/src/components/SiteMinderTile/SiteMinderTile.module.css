@@ -195,7 +195,6 @@
   flex: 1 0 0;
   width: 1px;
   max-width: calc((100% - 40px) / 3);
-  min-height: 100%;
   padding: 12px;
   background-color: var(--surface);
   border: none;

@@ -126,7 +126,6 @@
   gap: 10px;
   flex: 1 0 0;
   width: 1px; /* flex-basis trick so the cards stay equal width */
-  min-height: 100%;
   padding: 12px;
   background-color: var(--surface);
   border: none;

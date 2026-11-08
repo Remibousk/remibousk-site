@@ -5,13 +5,13 @@
  * sibling *below* that shell, so the sidebar leaves with its container before
  * the footer (historic sticky containment — not viewport-fixed forever).
  *
- * Shell uses side `1fr` gutters around the 164px rail + content-max track so
- * the hero can span the full viewport while nav/main stay centred. (A two-
- * column `justify-content:center` grid clipped the hero to 164+1200.)
+ * Desktop shell columns: [1fr | 164px nav | content-max | 1fr]. Hero spans
+ * all four tracks (full-bleed). Nav is track 2; main is track 3. Side `1fr`
+ * gutters replace the old two-column `justify-content:center` grid that
+ * clipped the hero to 164+1200.
  *
- * Resulting content offsets (verified against hero-*.png):
- *   1440: nav after the left fr gutter, main in the content track
- *    834: nav at x=0, main column full width below
+ * Below 810px the shell becomes a column flex: hamburger overlays the hero,
+ * main is full width beneath.
  */
 
 .aboveFooter {
