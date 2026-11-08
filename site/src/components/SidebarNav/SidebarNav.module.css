@@ -21,13 +21,16 @@
  */
 
 .nav {
-  /* Overlay the full-viewport hero; spacer in page.module.css keeps column offset. */
-  position: fixed;
+  /*
+   * Sticky inside `.aboveFooter` / `.shell` (see page.module.css). Spans all
+   * shell rows so containment = full pre-contact height; leaves before footer.
+   */
+  position: sticky;
   top: 0;
-  /* Match historic left inset of the centered [nav + column] row. */
-  left: max(0px, calc((100vw - (164px + var(--content-max))) / 2));
   z-index: 100;
-  flex: none;
+  grid-column: 1;
+  grid-row: 1 / -1;
+  align-self: start;
   width: 164px;
   padding: 4px 0 0 2px;
   pointer-events: none;
@@ -202,16 +205,17 @@
 /* ---------- Mobile (<=809px): collapse to a top bar ---------- */
 
 @media (max-width: 809px) {
-  /* Original mobile variant: the sticky container is order 0 in the page
-     column with top:2px, the hamburger sits ~6px from the top / ~11px from
-     the left (measured from hero-mobile.png), and stays sticky while the
-     page scrolls. The expanded menu overlays content (absolute) rather than
-     pushing it down. */
+  /* Mobile: sticky hamburger overlays the hero without consuming layout
+     height (margin-bottom pull-up), still contained by `.aboveFooter`. */
   .nav {
     width: auto;
-    left: 0;
     top: 2px;
     padding: 6px 0 0 11px;
+    grid-column: auto;
+    grid-row: auto;
+    align-self: flex-start;
+    /* Collapse in-flow height so the hero stays full-viewport centred. */
+    margin-bottom: -52px;
   }
 
   /* Desktop-only reveal + fade — mobile keeps the hamburger always usable. */

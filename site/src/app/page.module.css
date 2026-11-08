@@ -1,40 +1,40 @@
 /*
  * Homepage layout — measured from reference/mirror/home.html:
  *
- * Nav is position:fixed (overlays the full-viewport hero). A .navRail spacer
- * preserves the historic left offset for the work column.
- * .framer-1uexi1g ("Section"): flex 1 0 0 (width 1px trick), max-width
- *   1200px, column, gap 200px, padding 4px; at <=809px flex none,
- *   width 100%, gap 120px, padding 16px.
+ * Sticky nav is a grid item inside `.aboveFooter` / `.shell`. Contact is a
+ * sibling *below* that shell, so the sidebar leaves with its container before
+ * the footer (historic sticky containment — not viewport-fixed forever).
+ *
+ * Hero spans the full shell width so headline centering matches the viewport
+ * centre (shell is width:100% / justify-content:center).
  *
  * Resulting content offsets (verified against hero-*.png):
- *   1440: nav at x=48, main column starts at x=192
- *    834: nav at x=0,  main column starts at x=144
- *
- * The original keeps a trailing zero-height element after the last
- * section, so the last-section -> footer distance is gap (200/120) +
- * section padding (4/16); replicated via the column's padding-bottom.
+ *   1440: nav at x≈38–48, main column starts after the 164px rail
+ *    834: nav at x=0, main column full width below
  */
 
-.content {
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: flex-start;
+.aboveFooter {
   width: 100%;
 }
 
-.navRail {
-  flex: none;
-  width: 164px;
-  /* Invisible spacer — real nav is position:fixed. */
-  pointer-events: none;
+.shell {
+  display: grid;
+  grid-template-columns: 164px minmax(0, var(--content-max));
+  justify-content: center;
+  align-items: start;
+  width: 100%;
+}
+
+.heroBand {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  width: 100%;
+  min-width: 0;
 }
 
 .column {
-  flex: 1 0 0;
-  width: 1px;
+  grid-column: 2;
+  grid-row: 2;
   min-width: 0;
   max-width: var(--content-max);
   display: flex;
@@ -47,18 +47,19 @@
 }
 
 @media (max-width: 809px) {
-  .content {
+  .shell {
+    display: flex;
     flex-direction: column;
     align-items: stretch;
   }
 
-  .navRail {
-    display: none;
+  .heroBand {
+    width: 100%;
   }
 
   .column {
-    flex: none;
     width: 100%;
+    max-width: none;
     gap: 120px;
     padding: 16px var(--page-margin) 136px;
   }
